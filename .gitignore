@@ -9,3 +9,5 @@ venv/
 .env
 frontend/_qa-temp/
 frontend/_qa*.html
+
+.vercel
