@@ -1,87 +1,94 @@
 # SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling
 
-AI-powered **pre-adjudication audit** untuk klaim BPJS Kesehatan: deteksi fraud
-(Upcoding, Phantom Billing, Inflated/Non-Fornas, Cloning) sebelum dana cair.
+> *Detect Smarter. Protect JKN.*
 
-> Detect Smarter. Protect JKN.
+**SiKePo** adalah aplikasi audit klaim kesehatan yang membantu verifikator BPJS Kesehatan
+menyaring klaim bermasalah **sebelum dana cair** — bukan sesudahnya.
 
-## Menjalankan
+Coba langsung: **https://sikepo-app.vercel.app** (akun demo: `admin` / `admin`)
 
-**Cara tercepat:** klik dua kali `run_sikepo.bat` — menyalakan backend di port
-7721 dan membuka browser.
+Dibuat untuk **Healthkathon BPJS Kesehatan 2026** dengan tema
+*Detect Smarter, Protect JKN — Efisiensi Risiko Program JKN*.
 
-Manual:
+---
 
-```bash
-cd backend
-python main.py        # uvicorn di 0.0.0.0:7721
-```
+## Ini aplikasi apa sih?
 
-Lalu buka <http://127.0.0.1:7721/>. Butuh internet untuk CDN Tailwind & Google
-Fonts; semua data dan aset dilayani lokal.
+Setiap hari, fasilitas kesehatan di seluruh Indonesia mengajukan ribuan klaim ke BPJS Kesehatan.
+Sebagian kecil di antaranya bermasalah: tarif yang digelembungkan, layanan yang ditagih tapi
+tidak pernah diberikan, obat mahal di luar ketentuan, sampai resume medis yang dijiplak
+antar pasien.
 
-## Struktur
+Memeriksa semuanya secara manual itu lambat dan melelahkan. **SiKePo hadir sebagai asisten
+verifikator**: ia membaca setiap berkas klaim, menilai tingkat risikonya (skor 0–100),
+menjelaskan *kenapa* sebuah klaim dicurigai, lalu memberi rekomendasi — **setujui, tahan,
+atau tolak**. Keputusan final selalu di tangan manusia, SiKePo hanya memastikan tidak ada
+yang lolos dari perhatian.
 
-```
-backend/main.py        FastAPI + API audit (rules engine) + static mount /static
-data/claims_dataset.json   150 klaim sintetis (di-generate scripts/generate_data.py)
-frontend/
-  index.html           Landing + cockpit (SPA 2 view, tanpa build step)
-  css/theme.css        Design system: warna, komponen, animasi
-  js/app.js            Logika: fetch API, render tabel/inspector, count-up, scramble
-  js/app.backup-2026-09-07.js   Versi lama (cadangan sebelum rombak tema)
-  index.backup-2026-09-07.html  Versi lama (cadangan sebelum rombak tema)
-  img/hero-character.png   Ilustrasi 3D mesin audit (hero)
-  img/sikepo-logo.svg  Logo vektor (navy/green/cyan + white hub)
-run_sikepo.bat         Launcher Windows
-```
+---
 
-## API
+## Cara kerja aplikasinya
 
-| Endpoint | Fungsi |
+Setiap klaim melewati empat tahap yang sama, kurang dari dua detik:
+
+1. **Klaim masuk** — Data pengajuan dari sistem rumah sakit (diagnosa, obat, biaya yang
+   diajukan, dan tarif plafon INA-CBG) tercatat sebagai berkas digital.
+2. **Pemeriksaan aturan** — Sistem memeriksa otomatis: apakah biayanya melonjak jauh di atas
+   plafon? Apakah lama rawat inapnya wajar untuk diagnosa tersebut? Apakah ada obat
+   restriksi ketat tanpa justifikasi klinis?
+3. **Penilaian risiko AI** — Model kecerdasan buatan membandingkan klaim ini dengan pola
+   ratusan klaim lain, lalu memberi skor risiko beserta bukti-buktinya — bukan kotak hitam,
+   semua alasannya bisa dibaca dan diaudit.
+4. **Rekomendasi putusan** — Berkas berisiko rendah siap dibayar, berkas mencurigakan
+   ditahan untuk audit rekam medis, berkas berbahaya ditolak dan dieskalasi ke tim
+   anti-fraud. Verifikator yang menekan tombol final.
+
+Semakin sering verifikator memberi keputusan, semakin pintar sistemnya — setiap verdict
+menjadi pelajaran untuk penilaian berikutnya.
+
+---
+
+## Pola kecurangan yang dideteksi
+
+| Pola | Artinya dalam bahasa sehari-hari |
 |---|---|
-| `GET /api/stats/overview` | KPI: total klaim, dana tertahan, anomali, clean |
-| `GET /api/claims?limit&fraud_type&search` | Daftar klaim + filter |
-| `GET /api/claims/{id}` | Detail klaim |
-| `POST /api/claims/{id}/verdict` | Setujui / tahan / tolak (menulis balik ke dataset) |
-| `POST /api/audit/single` | Simulasi audit klaim manual (Live Sandbox) |
+| **Upcoding** | Diagnosa "digemukkan" agar masuk tarif yang lebih mahal |
+| **Phantom billing** | Nagih layanan yang sebenarnya tidak pernah diberikan ke pasien |
+| **Overpreskripsi / Inflated bills** | Obat mahal di luar formularium nasional tanpa alasan klinis |
+| **Cloning** | Resume medis di-copy-paste antar pasien berbeda untuk klaim massal |
 
-## Panduan modifikasi tema
+---
 
-- **Warna**: token `bpjs.*` di `<script> tailwind.config` di `index.html`
-  (navy `#002C5F`, green `#009B4C`, greenBright `#00C464`, cyan `#00ACC1`,
-  dark `#0A0F1C`, surface `#0D1526`, border `#1B2740`).
-- **Tipografi**: Inter (UI) + JetBrains Mono (telemetri) — link Google Fonts di
-  `<head>`; brief ops.txt mewajibkan kombinasi ini.
-- **Komponen/animasi** (kartu kaca, scan-beam, float, spectrum): `css/theme.css`.
-- **Salinan teks**: langsung di section `index.html` (hero, bento, spectrum,
-  fraud cards, footer).
-- **Kartu melayang hero**: blok `absolute top-… left-…` di dalam hero; posisi
-  memakai persen terhadap kontainer gambar mesin.
-- **Data sintetis**: `python scripts/generate_data.py` (menulis ulang dataset).
-- **Angka bento** (Rp M / jumlah): fallback statis via `data-count-to` di HTML;
-  saat backend hidup, `fetchStats()` menimpa dengan nilai live sebelum animasi
-  count-up jalan.
+## Yang bisa kamu lakukan di dalamnya
 
-## Arsitektur AI (narasi produk)
+- **Dashboard** — Angka ringkas: total klaim, dana yang berhasil dicegah, sebaran anomali,
+  dan rata-rata risiko per rumah sakit.
+- **Antrean klaim** — Daftar berkas beserta skor risikonya; klik satu berkas untuk melihat
+  detail lengkap, alasan audit, dan tombol putusan (Setujui / Tahan / Tolak).
+- **Sandbox simulasi** — Coba-coba audit klaim khayalan: isi diagnosa, biaya, dan obat,
+  lalu lihat bagaimana mesin audit menilainya — tanpa mengubah data asli.
+- **Data & tren** — Grafik perjalanan klaim harian, bulanan, tahunan, plus peta
+  persebaran anomali per fasilitas kesehatan.
+- **Simulasi intake** — Rasakan klaim "mengalir masuk" dari sistem rumah sakit secara
+  real-time, lengkap dengan nomor SEP otomatis.
 
-- **Deterministic rules engine** — validasi tarif plafon INA-CBGs, LOS kewajaran,
-  restriksi e-Fornas (transparan, bisa diaudit).
-- **Explainable AI scoring** — skor risiko 0–100 dengan alasan audit per klaim.
-- **Agentic AI orchestration** (peta jalan) — agen triage men distributed antrean,
-  agen investigator menggali temuan, agen adjudicator menyusun rekomendasi.
-- **ML continuous learning** (peta jalan) — verdict verifikator jadi label untuk
-  retraining berkala (feedback loop manusia-dalam-lingkaran).
+---
 
-## Role & akses
+## Dibuat untuk siapa?
 
-Login demo memilih profil: **Verifikator KC**, **Satgas Anti-Fraud Pusat**,
-**Dewan Juri/Auditor**. Role menentukan cakupan data di cockpit; keputusan
-final tetap di tangan verifikator manusia.
+- **Verifikator Kantor Cabang** — menyaring antrean klaim wilayahnya dan memberi putusan final.
+- **Satgas Anti-Fraud** — investigasi lintas fasilitas kesehatan, tanpa kewenangan putusan.
+- **Auditor / Dewan Juri** — akses transparan read-only untuk menilai dan mengawasi.
 
-## Catatan kualitas
+---
 
-- Responsif (390px–1440px+), `scrollWidth ≤ viewport` terverifikasi.
-- Kontras teks mengikuti WCAG AA untuk teks utama; `prefers-reduced-motion`
-  mematikan float/scan/count-up/scramble.
-- Tanpa console error; semua fetch punya fallback statis.
+## Catatan penting
+
+Seluruh data di aplikasi ini adalah **data sintetis untuk simulasi dan demo** — 150 klaim
+khayalan dari 8 rumah sakit fiktif. Bukan data operasional BPJS Kesehatan, bukan data
+pasien sungguhan. Dibuat agar cara kerja sistem bisa dilihat dan dicoba tanpa menyentuh
+data sensitif apa pun.
+
+---
+
+*SiKePo — Healthkathon BPJS Kesehatan 2026 · Prototype*
