@@ -1,94 +1,94 @@
-# SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling
+# SiKePo — Claim Eligibility Investigation & Overbilling Pattern System
 
 > *Detect Smarter. Protect JKN.*
 
-**SiKePo** adalah aplikasi audit klaim kesehatan yang membantu verifikator BPJS Kesehatan
-menyaring klaim bermasalah **sebelum dana cair** — bukan sesudahnya.
+**SiKePo** is a health-claim audit application that helps BPJS Kesehatan verifiers
+catch problematic claims **before funds are disbursed** — not after.
 
-Coba langsung: **https://sikepo-app.vercel.app** (akun demo: `admin` / `admin`)
+Try it live: **https://sikepo-app.vercel.app** (demo account: `admin` / `admin`)
 
-Dibuat untuk **Healthkathon BPJS Kesehatan 2026** dengan tema
-*Detect Smarter, Protect JKN — Efisiensi Risiko Program JKN*.
-
----
-
-## Ini aplikasi apa sih?
-
-Setiap hari, fasilitas kesehatan di seluruh Indonesia mengajukan ribuan klaim ke BPJS Kesehatan.
-Sebagian kecil di antaranya bermasalah: tarif yang digelembungkan, layanan yang ditagih tapi
-tidak pernah diberikan, obat mahal di luar ketentuan, sampai resume medis yang dijiplak
-antar pasien.
-
-Memeriksa semuanya secara manual itu lambat dan melelahkan. **SiKePo hadir sebagai asisten
-verifikator**: ia membaca setiap berkas klaim, menilai tingkat risikonya (skor 0–100),
-menjelaskan *kenapa* sebuah klaim dicurigai, lalu memberi rekomendasi — **setujui, tahan,
-atau tolak**. Keputusan final selalu di tangan manusia, SiKePo hanya memastikan tidak ada
-yang lolos dari perhatian.
+Built for **BPJS Kesehatan Healthkathon 2026**, themed
+*Detect Smarter, Protect JKN — JKN Program Risk Efficiency*.
 
 ---
 
-## Cara kerja aplikasinya
+## What is this application?
 
-Setiap klaim melewati empat tahap yang sama, kurang dari dua detik:
+Every day, healthcare facilities across Indonesia submit thousands of claims to BPJS Kesehatan.
+A small fraction of them are problematic: inflated tariffs, services billed but never
+delivered, expensive drugs outside the national formulary, even medical resumes copy-pasted
+between patients.
 
-1. **Klaim masuk** — Data pengajuan dari sistem rumah sakit (diagnosa, obat, biaya yang
-   diajukan, dan tarif plafon INA-CBG) tercatat sebagai berkas digital.
-2. **Pemeriksaan aturan** — Sistem memeriksa otomatis: apakah biayanya melonjak jauh di atas
-   plafon? Apakah lama rawat inapnya wajar untuk diagnosa tersebut? Apakah ada obat
-   restriksi ketat tanpa justifikasi klinis?
-3. **Penilaian risiko AI** — Model kecerdasan buatan membandingkan klaim ini dengan pola
-   ratusan klaim lain, lalu memberi skor risiko beserta bukti-buktinya — bukan kotak hitam,
-   semua alasannya bisa dibaca dan diaudit.
-4. **Rekomendasi putusan** — Berkas berisiko rendah siap dibayar, berkas mencurigakan
-   ditahan untuk audit rekam medis, berkas berbahaya ditolak dan dieskalasi ke tim
-   anti-fraud. Verifikator yang menekan tombol final.
-
-Semakin sering verifikator memberi keputusan, semakin pintar sistemnya — setiap verdict
-menjadi pelajaran untuk penilaian berikutnya.
+Reviewing all of that manually is slow and exhausting. **SiKePo acts as the verifier's
+assistant**: it reads every claim file, scores its risk level (0–100), explains *why* a
+claim looks suspicious, and recommends what to do — **approve, hold, or reject**.
+The final decision always belongs to a human; SiKePo just makes sure nothing slips
+through unnoticed.
 
 ---
 
-## Pola kecurangan yang dideteksi
+## How it works
 
-| Pola | Artinya dalam bahasa sehari-hari |
+Every claim passes through the same four stages in under two seconds:
+
+1. **Claim intake** — The hospital system's submission (diagnosis, medication, billed cost,
+   and the INA-CBG tariff ceiling) is recorded as a digital case file.
+2. **Rule screening** — The system checks automatically: did the cost spike far above the
+   ceiling? Is the length of stay reasonable for this diagnosis? Are there tightly
+   restricted drugs with no clinical justification?
+3. **AI risk scoring** — An artificial-intelligence model compares the claim against the
+   patterns of hundreds of others, then assigns a risk score with its evidence — no black
+   box, every reason is readable and auditable.
+4. **Verdict recommendation** — Low-risk files are cleared for payment, suspicious ones are
+   held for medical-record audit, dangerous ones are rejected and escalated to the
+   anti-fraud team. The verifier presses the final button.
+
+And the system learns on the job: every verdict a verifier gives becomes training feedback
+for smarter assessments next time.
+
+---
+
+## Fraud patterns detected
+
+| Pattern | In plain language |
 |---|---|
-| **Upcoding** | Diagnosa "digemukkan" agar masuk tarif yang lebih mahal |
-| **Phantom billing** | Nagih layanan yang sebenarnya tidak pernah diberikan ke pasien |
-| **Overpreskripsi / Inflated bills** | Obat mahal di luar formularium nasional tanpa alasan klinis |
-| **Cloning** | Resume medis di-copy-paste antar pasien berbeda untuk klaim massal |
+| **Upcoding** | Diagnosis "fattened up" to qualify for a more expensive tariff |
+| **Phantom billing** | Billing for services that were never actually given to the patient |
+| **Overprescription / Inflated bills** | Costly off-formulary drugs with no clinical justification |
+| **Cloning** | Medical resumes copy-pasted across different patients for mass claims |
 
 ---
 
-## Yang bisa kamu lakukan di dalamnya
+## What you can do inside
 
-- **Dashboard** — Angka ringkas: total klaim, dana yang berhasil dicegah, sebaran anomali,
-  dan rata-rata risiko per rumah sakit.
-- **Antrean klaim** — Daftar berkas beserta skor risikonya; klik satu berkas untuk melihat
-  detail lengkap, alasan audit, dan tombol putusan (Setujui / Tahan / Tolak).
-- **Sandbox simulasi** — Coba-coba audit klaim khayalan: isi diagnosa, biaya, dan obat,
-  lalu lihat bagaimana mesin audit menilainya — tanpa mengubah data asli.
-- **Data & tren** — Grafik perjalanan klaim harian, bulanan, tahunan, plus peta
-  persebaran anomali per fasilitas kesehatan.
-- **Simulasi intake** — Rasakan klaim "mengalir masuk" dari sistem rumah sakit secara
-  real-time, lengkap dengan nomor SEP otomatis.
-
----
-
-## Dibuat untuk siapa?
-
-- **Verifikator Kantor Cabang** — menyaring antrean klaim wilayahnya dan memberi putusan final.
-- **Satgas Anti-Fraud** — investigasi lintas fasilitas kesehatan, tanpa kewenangan putusan.
-- **Auditor / Dewan Juri** — akses transparan read-only untuk menilai dan mengawasi.
+- **Dashboard** — At-a-glance numbers: total claims, funds prevented from leaking, anomaly
+  breakdown, and average risk per hospital.
+- **Claim queue** — The case list with risk scores; click any file to see full details,
+  audit reasons, and the verdict buttons (Approve / Hold / Reject).
+- **Simulation sandbox** — Try auditing an imaginary claim: enter a diagnosis, cost, and
+  medication, then watch how the audit engine judges it — without touching real data.
+- **Data & trends** — Daily, monthly, and yearly claim trend charts, plus an anomaly
+  heatmap across healthcare facilities.
+- **Intake simulation** — Feel claims "flowing in" from hospital systems in real time,
+  complete with auto-generated SEP numbers.
 
 ---
 
-## Catatan penting
+## Who is it for?
 
-Seluruh data di aplikasi ini adalah **data sintetis untuk simulasi dan demo** — 150 klaim
-khayalan dari 8 rumah sakit fiktif. Bukan data operasional BPJS Kesehatan, bukan data
-pasien sungguhan. Dibuat agar cara kerja sistem bisa dilihat dan dicoba tanpa menyentuh
-data sensitif apa pun.
+- **Branch Verifiers** — screen their regional claim queue and give final verdicts.
+- **Anti-Fraud Task Force** — investigate across facilities, without verdict authority.
+- **Auditors / Jury Board** — transparent read-only access for evaluation and oversight.
 
 ---
 
-*SiKePo — Healthkathon BPJS Kesehatan 2026 · Prototype*
+## Important note
+
+Everything in this application is **synthetic data for simulation and demo purposes** —
+150 imaginary claims from 8 fictional hospitals. Not BPJS Kesehatan operational data, not
+real patient data. Built so the system can be seen and tried without touching anything
+sensitive.
+
+---
+
+*SiKePo — BPJS Kesehatan Healthkathon 2026 · Prototype*
