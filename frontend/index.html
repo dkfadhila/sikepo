@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling</title>
+  <meta name="description" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling. Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta property="og:title" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling">
+  <meta property="og:description" content="Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bpjs: { navy: '#002C5F', green: '#009B4C', greendark: '#007C3D', greensoft: '#E7F6EE', cyan: '#0284A8', ink: '#10243E', body: '#3E5165', muted: '#6B7A90', line: '#E4E9F1', bg: '#F5F7FA' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+          boxShadow: {
+            card: '0 1px 2px rgba(16,36,62,.05), 0 1px 3px rgba(16,36,62,.06)',
+            pop: '0 2px 4px rgba(16,36,62,.05), 0 12px 32px rgba(16,36,62,.10)'
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css?v=5">
+  <style>
+    .hero-bg {
+      background:
+        radial-gradient(56% 44% at 86% 8%, rgba(0, 155, 76, 0.07) 0%, transparent 60%),
+        radial-gradient(50% 42% at 8% 92%, rgba(0, 44, 95, 0.06) 0%, transparent 60%),
+        #FFFFFF;
+    }
+    /* Panel gelap untuk ilustrasi mesin (hero-character) */
+    .hero-stage { background: #0A0F1C; }
+    .hero-stage .grid-bg {
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+    .machine-blend { mix-blend-mode: screen; }
+    .glass {
+      background: rgba(13, 21, 38, 0.66);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(148, 163, 184, 0.13);
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+    .scan-beam {
+      position: absolute; left: 8%; right: 8%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(45, 212, 232, 0.75), transparent);
+      filter: drop-shadow(0 0 6px rgba(45, 212, 232, 0.5));
+      animation: scan 7s linear infinite; opacity: 0; pointer-events: none;
+    }
+    @keyframes scan {
+      0% { top: 5%; opacity: 0; }
+      8% { opacity: 0.55; }
+      88% { opacity: 0.55; }
+      100% { top: 93%; opacity: 0; }
+    }
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    .float-a { animation: floaty 6s ease-in-out infinite; }
+    .float-b { animation: floaty 6s ease-in-out 1.6s infinite; }
+    .float-c { animation: floaty 6s ease-in-out 3.2s infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .scan-beam, .float-a, .float-b, .float-c { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav class="site-nav">
+    <div class="max-w-[1180px] mx-auto px-5 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2.5 flex-none">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="h-8 w-auto">
+        <span class="font-bold text-bpjs-ink text-[16px] tracking-tight">SiKePo</span>
+        <span class="hidden lg:inline-block w-px h-4 bg-bpjs-line"></span>
+        <span class="hidden lg:block text-[10px] leading-tight text-bpjs-muted font-medium">Sistem Investigasi Kelayakan Klaim<br>&amp; Pola Overbilling</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7">
+        <a href="/pages/overview.html" class="nav-link">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Mesin Deteksi</a>
+        <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link">Peran</a>
+      </div>
+      <a href="/app" class="btn-primary px-4 py-2.5 text-[13.5px] flex-none">Buka Aplikasi</a>
+    </div>
+  </nav>
+
+  <main class="fade-in">
+
+    <!-- ── HERO ─────────────────────────────────────── -->
+    <section class="hero-bg pt-16">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center py-14 lg:py-20 min-h-[560px]">
+
+          <!-- Kiri: pesan -->
+          <div class="lg:col-span-6 space-y-7" data-hero-intro>
+            <p class="eyebrow">Audit Klaim BPJS Kesehatan</p>
+            <h1 class="text-[36px] sm:text-5xl xl:text-[54px] font-extrabold text-bpjs-navy leading-[1.06] tracking-[-0.02em]">
+              Deteksi klaim fraud<br>sebelum dana cair.
+            </h1>
+            <p class="text-lg text-bpjs-body leading-relaxed max-w-xl">
+              SiKePo membantu verifikator menyaring klaim mencurigakan dalam hitungan detik —
+              menggabungkan aturan audit deterministik dan penilaian risiko AI yang bisa dijelaskan,
+              bukan kotak hitam.
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <a href="/app" class="btn-primary px-6 py-3.5 text-[15px]">Coba Aplikasi
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/></svg>
+              </a>
+              <a href="/pages/how-it-works.html" class="btn-outline px-6 py-3.5 text-[15px]">Pelajari Cara Kerja</a>
+            </div>
+            <div class="flex items-center gap-5 pt-2 flex-wrap text-[12.5px] text-bpjs-muted">
+              <span class="inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-bpjs-green" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                Healthkathon BPJS Kesehatan 2026
+              </span>
+              <span class="inline-flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-bpjs-green" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                Transparan &amp; dapat diaudit
+              </span>
+            </div>
+          </div>
+
+          <!-- Kanan: ilustrasi mesin investigasi (panel gelap showcase) -->
+          <div class="lg:col-span-6">
+            <div class="hero-stage relative rounded-3xl overflow-hidden shadow-pop max-w-[560px] mx-auto lg:ml-auto lg:mr-0" data-hero-panel>
+              <div class="absolute inset-0 grid-bg opacity-70 pointer-events-none" aria-hidden="true"></div>
+              <div class="absolute inset-0 pointer-events-none" aria-hidden="true"
+                   style="background: radial-gradient(60% 55% at 72% 42%, rgba(0, 44, 95, 0.55) 0%, transparent 62%);"></div>
+
+              <div class="relative p-6 sm:p-8">
+                <img src="/static/img/hero-character.png" alt="Mesin investigasi klaim SiKePo"
+                     class="machine-blend relative z-10 w-full h-auto" width="1536" height="1024" loading="eager">
+                <div class="scan-beam z-20" aria-hidden="true"></div>
+
+                <!-- Floating data cards -->
+                <div class="absolute top-3 left-3 z-30 float-a">
+                  <div class="glass rounded-lg px-3.5 py-2.5" style="box-shadow: 0 0 32px rgba(239,68,68,0.10), 0 8px 28px rgba(0,0,0,0.4);">
+                    <div class="text-[9px] text-slate-500 uppercase tracking-[0.14em] font-mono">Risk Score</div>
+                    <div class="text-[26px] leading-none font-extrabold font-mono text-red-400 metric mt-1">92</div>
+                    <div class="w-full h-[3px] bg-white/10 rounded-full mt-2 overflow-hidden">
+                      <div class="h-full rounded-full" style="width:92%; background: linear-gradient(90deg, #EAB308, #EF4444);"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute top-[36%] left-1 z-30 float-b hidden md:block">
+                  <div class="glass rounded-md px-3 py-2 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span class="text-[10px] font-semibold text-amber-300 font-mono tracking-wider">UPCODING DETECTED</span>
+                  </div>
+                </div>
+                <div class="absolute bottom-[18%] left-2 z-30 float-c hidden sm:block">
+                  <div class="glass rounded-lg px-3.5 py-2.5">
+                    <div class="text-[9px] text-slate-500 uppercase tracking-[0.14em] font-mono">At Risk</div>
+                    <div class="text-base font-bold font-mono text-cyan-400 metric mt-0.5">Rp 18.4M</div>
+                  </div>
+                </div>
+                <div class="absolute top-4 right-3 z-30 float-b hidden sm:block">
+                  <div class="glass rounded-md px-3 py-2 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+                    <span class="text-[10px] font-semibold text-slate-300 font-mono tracking-wider">3 ANOMALIES</span>
+                  </div>
+                </div>
+                <div class="absolute bottom-4 right-4 z-30 float-a">
+                  <div class="glass rounded-md px-3 py-2 flex items-center gap-2">
+                    <svg class="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    <span class="text-[10px] font-medium text-emerald-400 font-mono tracking-wider">VERIFIED CLEAN</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── BAND STATISTIK ───────────────────────────── -->
+    <section class="stat-band">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8 py-12">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8" data-reveal-group>
+          <div>
+            <div class="stat-num text-[28px] sm:text-[34px] text-white" id="hero-stat-savings" data-count-prefix="Rp " data-count-suffix=" jt">Rp 0</div>
+            <div class="text-[13px] text-[#9FB8D4] mt-1">Dana yang dicegah dari klaim anomali</div>
+          </div>
+          <div>
+            <div class="stat-num text-[28px] sm:text-[34px] text-white" data-count-to="96.8" data-count-decimals="1" data-count-suffix="%">0%</div>
+            <div class="text-[13px] text-[#9FB8D4] mt-1">Akurasi deteksi pada dataset uji</div>
+          </div>
+          <div>
+            <div class="stat-num text-[28px] sm:text-[34px] text-white" id="hero-stat-fraud" data-count-to="47">0</div>
+            <div class="text-[13px] text-[#9FB8D4] mt-1">Klaim anomali tersaring sebelum cair</div>
+          </div>
+          <div>
+            <div class="stat-num text-[28px] sm:text-[34px] text-white"><span data-count-to="1.2" data-count-decimals="1" data-count-suffix="s">0.0s</span></div>
+            <div class="text-[13px] text-[#9FB8D4] mt-1">Waktu audit rata-rata per klaim</div>
+          </div>
+        </div>
+        <p class="text-[11px] text-[#7E9CBF] mt-8">* Angka dari simulasi dataset sintetis 150 klaim · 8 faskes — bukan data operasional BPJS Kesehatan.</p>
+      </div>
+    </section>
+
+    <!-- ── CARA KERJA ───────────────────────────────── -->
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <div class="max-w-2xl" data-reveal>
+          <p class="eyebrow">Cara kerja</p>
+          <h2 class="text-[26px] sm:text-4xl font-extrabold text-bpjs-ink tracking-tight mt-3">Empat tahap, kurang dari dua detik.</h2>
+          <p class="text-bpjs-body mt-3 leading-relaxed">Setiap klaim melewati pipeline yang sama. Verifikator selalu memegang keputusan akhir.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10" data-reveal-group>
+          <div class="card card-hover p-6">
+            <span class="step-num">1</span>
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-4">Klaim masuk</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Data SEP dari SIMRS: diagnosa ICD-10, obat, biaya diajukan, dan tarif plafon INA-CBG.</p>
+          </div>
+          <div class="card card-hover p-6">
+            <span class="step-num">2</span>
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-4">Pemeriksaan aturan</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Rasio tarif, lama rawat, dan daftar obat restriksi e-Fornas diperiksa otomatis.</p>
+          </div>
+          <div class="card card-hover p-6">
+            <span class="step-num">3</span>
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-4">Skor risiko AI</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Model ML membandingkan klaim dengan pola populasi, menghasilkan skor 0–100 beserta bukti.</p>
+          </div>
+          <div class="card card-hover p-6">
+            <span class="step-num">4</span>
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-4">Rekomendasi putusan</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Setujui, tahan, atau tolak — lengkap dengan alasan dalam Bahasa Indonesia. Verifikator yang memutuskan.</p>
+          </div>
+        </div>
+        <a href="/pages/how-it-works.html" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-green hover:text-bpjs-greendark mt-8">
+          Lihat detail pipeline
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── YANG DIDETEKSI ───────────────────────────── -->
+    <section class="py-16 lg:py-20 bg-white border-y border-bpjs-line">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <div class="max-w-2xl" data-reveal>
+          <p class="eyebrow">Pola yang dideteksi</p>
+          <h2 class="text-[26px] sm:text-4xl font-extrabold text-bpjs-ink tracking-tight mt-3">Empat modus fraud klaim JKN.</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-10" data-reveal-group>
+          <div class="card card-hover p-6 border-t-[3px] border-t-[#D97706]">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink">Upcoding</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Diagnosa digelembungkan agar tarif masuk kelas INA-CBG yang lebih mahal.</p>
+          </div>
+          <div class="card card-hover p-6 border-t-[3px] border-t-[#EA580C]">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink">Phantom billing</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Penagihan atas layanan yang tidak pernah diberikan kepada pasien.</p>
+          </div>
+          <div class="card card-hover p-6 border-t-[3px] border-t-[#0284A8]">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink">Overpreskripsi</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Obat di luar formularium nasional dengan harga tinggi tanpa justifikasi klinis.</p>
+          </div>
+          <div class="card card-hover p-6 border-t-[3px] border-t-[#D92D20]">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink">Cloning</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Resume medis dijiplak antar pasien berbeda untuk klaim massal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── JELAJAHI ─────────────────────────────────── -->
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <div class="max-w-2xl" data-reveal>
+          <p class="eyebrow">Jelajahi</p>
+          <h2 class="text-[26px] sm:text-4xl font-extrabold text-bpjs-ink tracking-tight mt-3">Penjelasan lengkap.</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10" data-reveal-group>
+          <a href="/pages/overview.html" class="card card-hover p-6 group block">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink group-hover:text-bpjs-green transition-colors">Apa itu SiKePo?</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Arsitektur sistem, metrik live, dan prinsip desainnya.</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-bpjs-green mt-4">Baca
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="/pages/detection-engine.html" class="card card-hover p-6 group block">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink group-hover:text-bpjs-green transition-colors">Mesin deteksi</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Tiga agen AI, model IsolationForest, dan heatmap faskes.</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-bpjs-green mt-4">Baca
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="/pages/public-data.html" class="card card-hover p-6 group block">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink group-hover:text-bpjs-green transition-colors">Data publik</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Register klaim transparan, tanpa login. Identitas pasien dianonimkan.</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-bpjs-green mt-4">Baca
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="/pages/roles.html" class="card card-hover p-6 group block">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink group-hover:text-bpjs-green transition-colors">Peran &amp; hak akses</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Verifikator, Satgas Anti-Fraud, dan Auditor — masing-masing terisolasi.</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-bpjs-green mt-4">Baca
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+          <a href="/app" class="card card-hover p-6 group block bg-bpjs-greensoft border-[#C6E8D5]">
+            <h3 class="text-[15.5px] font-bold text-bpjs-ink group-hover:text-bpjs-greendark transition-colors">Coba langsung</h3>
+            <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Buka cockpit, jalankan simulasi audit di Sandbox, lihat hasilnya.</p>
+            <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-bpjs-green mt-4">Buka aplikasi
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA AKHIR ────────────────────────────────── -->
+    <section class="pb-20">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <div class="stat-band rounded-2xl px-8 py-12 text-center" data-reveal>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Siap melihat cockpit-nya?</h2>
+          <p class="text-[#9FB8D4] mt-2.5 max-w-xl mx-auto">Masuk dengan akun demo dan coba seluruh alur audit — dari antrean klaim sampai verdict.</p>
+          <a href="/app" class="btn-primary px-7 py-3.5 text-[15px] mt-7" style="background:#fff;color:var(--navy);">Buka Aplikasi</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="site-footer">
+    <div class="max-w-[1180px] mx-auto px-5 lg:px-8 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/static/img/sikepo-logo.png" alt="" width="30" height="24" style="height:24px;" class="w-auto" aria-hidden="true">
+        <div>
+          <div class="text-white font-bold text-[14px]">SiKePo</div>
+          <div class="text-[11.5px] text-[#9FB8D4] mt-0.5">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling</div>
+        </div>
+      </div>
+      <div class="text-[12px] text-[#9FB8D4] sm:text-right">
+        <div>Healthkathon BPJS Kesehatan 2026 · Prototype</div>
+        <div class="mt-1">Detect Smarter. Protect JKN.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
+  <script src="/static/js/shared.js?v=5"></script>
+  <script src="/static/js/landing.js?v=5"></script>
+  <script src="/static/js/animations.js?v=5"></script>
+</body>
+</html>

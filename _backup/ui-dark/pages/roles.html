@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roles & Akses — SiKePo</title>
+  <meta name="theme-color" content="#0A0F1C">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { bpjs: { navy: '#002C5F', green: '#009B4C', greenBright: '#00C464', cyan: '#00ACC1', dark: '#0A0F1C', surface: '#0D1526', surfaceLight: '#16213A', border: '#1B2740' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      } }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body class="font-sans antialiased">
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="location.href='/'">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="flex-none h-7 w-auto" role="img">
+        <span class="font-semibold text-white text-[13px] tracking-tight">SiKePo</span>
+        <span class="hidden sm:inline-block w-px h-3 bg-white/10"></span>
+        <span class="hidden sm:block text-[9px] text-slate-500 font-mono tracking-[0.14em] uppercase leading-tight">Sistem Investigasi Kelayakan<br>Klaim &amp; Pola Overbilling</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/pages/overview.html" class="nav-link">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Detection Engine</a>
+        <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link font-bold text-white border-b border-bpjs-greenBright">Roles</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/app" class="px-4 py-2 text-[11px] font-semibold text-white bg-bpjs-green/90 hover:bg-bpjs-greenBright border border-bpjs-green/50 hover:border-bpjs-greenBright/60 rounded-md transition-all">Buka Aplikasi</a>
+      </div>
+    </div>
+  </nav>
+  <main class="pt-14 fade-in">
+
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide">
+        <p class="eyebrow scramble" data-text="ROLES DAN AKSES">ROLES DAN AKSES</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-white mt-4 tracking-tight">Isolasi Peran Ketat</h1>
+        <p class="text-[14px] text-slate-400 mt-4 max-w-2xl leading-relaxed">Satu platform, tiga peran terpisah. Tidak ada peran yang bisa mengambil alih peran lain. Semua keputusan final ada di tangan Verifikator Kantor Cabang.</p>
+
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="card p-5"><span class="w-1.5 h-1.5 rounded-full bg-bpjs-greenBright inline-block"></span><span class="text-[9.5px] font-mono font-bold text-bpjs-greenBright uppercase tracking-[0.16em] ml-2">Verifikator KC</span><h3 class="text-[13px] font-bold text-white mt-3 mb-2 tracking-tight">Audit Klaim Wilayah</h3><ul class="text-[11px] text-slate-500 space-y-1.5 leading-relaxed"><li>- Melihat & mengaudit klaim kantor cabangnya</li><li>- Memberi verdict: setujui / tahan / tolak</li><li>- Tidak dapat mengubah temuan Satgas Pusat</li></ul><div class="mt-4 pt-3 border-t border-white/[0.06]"><span class="text-[9px] font-mono text-bpjs-greenBright tracking-wider">VERDICT FINAL: YA - LINGKUP: FASKES CABANG</span></div></div>
+          <div class="card p-5"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span><span class="text-[9.5px] font-mono font-bold text-amber-400 uppercase tracking-[0.16em] ml-2">Satgas Anti-Fraud</span><h3 class="text-[13px] font-bold text-white mt-3 mb-2 tracking-tight">Investigasi Sistemik</h3><ul class="text-[11px] text-slate-500 space-y-1.5 leading-relaxed"><li>- Akses pola fraud lintas faskes & modus cloning</li><li>- Menandai berkas prioritas investigasi</li><li>- Tidak memberikan verdict pembayaran final</li></ul><div class="mt-4 pt-3 border-t border-white/[0.06]"><span class="text-[9px] font-mono text-amber-400 tracking-wider">VERDICT FINAL: TIDAK - LINGKUP: SEMUA FASKES</span></div></div>
+          <div class="card p-5"><span class="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></span><span class="text-[9.5px] font-mono font-bold text-cyan-400 uppercase tracking-[0.16em] ml-2">Dewan Juri / Auditor</span><h3 class="text-[13px] font-bold text-white mt-3 mb-2 tracking-tight">Transparansi Model</h3><ul class="text-[11px] text-slate-500 space-y-1.5 leading-relaxed"><li>- Mode baca-saja: seluruh data & keputusan terlihat</li><li>- Menguji Live Sandbox tanpa mengubah data</li><li>- Tidak dapat mengubah verdict siapa pun</li></ul><div class="mt-4 pt-3 border-t border-white/[0.06]"><span class="text-[9px] font-mono text-cyan-400 tracking-wider">VERDICT FINAL: TIDAK - BACA-SAJA</span></div></div>
+        </div>
+
+        <!-- Access matrix -->
+        <div class="mt-12 card overflow-hidden">
+          <div class="px-5 py-4 border-b border-white/[0.07]"><h3 class="font-mono font-bold text-[10px] uppercase tracking-[0.14em] text-slate-400">Matriks Hak Akses</h3></div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-[11px] border-collapse">
+              <thead class="bg-bpjs-surface/60 text-slate-500 border-b border-white/[0.07]">
+                <tr>
+                  <th class="px-4 py-2.5 font-mono font-semibold text-[9px] tracking-[0.12em]">FITUR</th>
+                  <th class="px-4 py-2.5 text-center font-mono font-semibold text-[9px] tracking-[0.12em]">VERIFIKATOR KC</th>
+                  <th class="px-4 py-2.5 text-center font-mono font-semibold text-[9px] tracking-[0.12em]">SATGAS AF</th>
+                  <th class="px-4 py-2.5 text-center font-mono font-semibold text-[9px] tracking-[0.12em]">JURI / AUDITOR</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/[0.05]">
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Lihat semua klaim</td><td class="px-4 py-2.5 text-center"><span class="text-amber-400 font-mono text-[10px]">CABANG</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td></tr>
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Jalankan investigasi AI</td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td></tr>
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Latih ulang ML model</td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td></tr>
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Verdict final</td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-red-400 font-mono text-[10px]">NO</span></td><td class="px-4 py-2.5 text-center"><span class="text-red-400 font-mono text-[10px]">NO</span></td></tr>
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Ubah data klaim</td><td class="px-4 py-2.5 text-center"><span class="text-amber-400 font-mono text-[10px]">VERDICT</span></td><td class="px-4 py-2.5 text-center"><span class="text-red-400 font-mono text-[10px]">NO</span></td><td class="px-4 py-2.5 text-center"><span class="text-red-400 font-mono text-[10px]">NO</span></td></tr>
+                <tr class="row-hover"><td class="px-4 py-2.5 text-slate-300">Live Sandbox</td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td><td class="px-4 py-2.5 text-center"><span class="text-emerald-400 font-mono text-[10px]">YES</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Login flow -->
+        <div class="mt-12 card p-6">
+          <p class="eyebrow mb-4" data-text="ALUR LOGIN">ALUR LOGIN</p>
+          <div class="flex flex-wrap items-center justify-center gap-4 text-[11px]">
+            <div class="card px-4 py-3 text-center"><div class="text-[10px] font-mono text-bpjs-greenBright mb-1">01</div><div class="text-white font-semibold">Klik "Buka Aplikasi"</div><div class="text-[10px] text-slate-500 mt-1">Dari landing page</div></div>
+            <span class="text-slate-600 font-mono">-></span>
+            <div class="card px-4 py-3 text-center"><div class="text-[10px] font-mono text-cyan-400 mb-1">02</div><div class="text-white font-semibold">Pilih Profil Peran</div><div class="text-[10px] text-slate-500 mt-1">One-click demo login</div></div>
+            <span class="text-slate-600 font-mono">-></span>
+            <div class="card px-4 py-3 text-center"><div class="text-[10px] font-mono text-amber-400 mb-1">03</div><div class="text-white font-semibold">Cockpit Terbuka</div><div class="text-[10px] text-slate-500 mt-1">Role scope ditampilkan</div></div>
+            <span class="text-slate-600 font-mono">-></span>
+            <div class="card px-4 py-3 text-center"><div class="text-[10px] font-mono text-red-400 mb-1">04</div><div class="text-white font-semibold">Audit & Verdict</div><div class="text-[10px] text-slate-500 mt-1">Hanya V-KC final</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="border-t border-white/[0.05] py-8">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="/static/img/sikepo-logo.png" alt="" width="28" height="22" class="h-5.5 w-auto opacity-80" style="height:22px;" aria-hidden="true">
+        <span class="text-[11px] text-slate-600">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling · Healthkathon BPJS Kesehatan 2026</span>
+      </div>
+      <span class="text-[10px] text-slate-600 font-mono tracking-wider">DETECT SMARTER. PROTECT JKN.</span>
+    </div>
+  </footer>
+  <script src="/static/js/shared.js"></script>
+  
+</body>
+</html>

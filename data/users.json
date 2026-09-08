@@ -1,0 +1,42 @@
+[
+  {
+    "id": "USR-001",
+    "username": "admin",
+    "password": "admin",
+    "fullname": "Administrator",
+    "role": "SA",
+    "faskes_scope": null,
+    "created_at": "2026-09-07",
+    "active": true
+  },
+  {
+    "id": "USR-002",
+    "username": "verifikator1",
+    "password": "pass123",
+    "fullname": "Budi Verifikator",
+    "role": "VK",
+    "faskes_scope": null,
+    "created_at": "2026-09-07",
+    "active": false
+  },
+  {
+    "id": "USR-003",
+    "username": "budi",
+    "password": "123",
+    "fullname": "Budi",
+    "role": "VK",
+    "faskes_scope": null,
+    "created_at": "2026-09-07",
+    "active": false
+  },
+  {
+    "id": "USR-004",
+    "username": "testmobile",
+    "password": "123",
+    "fullname": "Test Mobile",
+    "role": "VK",
+    "faskes_scope": null,
+    "created_at": "2026-09-07",
+    "active": false
+  }
+]

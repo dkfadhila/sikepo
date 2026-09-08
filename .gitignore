@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+_server.log
+.venv/
+venv/
+.vercel/
+.env
+frontend/_qa-temp/
+frontend/_qa*.html

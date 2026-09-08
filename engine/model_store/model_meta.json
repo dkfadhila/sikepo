@@ -1,0 +1,21 @@
+{
+  "trained": true,
+  "trained_at": "2026-09-07 22:01:23",
+  "n_samples": 150,
+  "n_fraud_samples": 61,
+  "model_version": "IF-200-202609072201",
+  "algorithm": "IsolationForest",
+  "features": [
+    "ratio_cbg",
+    "selisih_ratio",
+    "los_delta",
+    "los_ratio",
+    "n_restricted",
+    "n_drugs",
+    "usia"
+  ],
+  "threshold": -0.04064,
+  "precision_pct": 69.9,
+  "recall_pct": 83.6,
+  "f1_pct": 76.1
+}

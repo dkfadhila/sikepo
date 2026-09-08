@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Publik — SiKePo</title>
+  <meta name="theme-color" content="#0A0F1C">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { bpjs: { navy: '#002C5F', green: '#009B4C', greenBright: '#00C464', cyan: '#00ACC1', dark: '#0A0F1C', surface: '#0D1526', surfaceLight: '#16213A', border: '#1B2740' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      } }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body class="font-sans antialiased">
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="location.href='/'">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="flex-none h-7 w-auto" role="img">
+        <span class="font-semibold text-white text-[13px] tracking-tight">SiKePo</span>
+        <span class="hidden sm:inline-block w-px h-3 bg-white/10"></span>
+        <span class="hidden sm:block text-[9px] text-slate-500 font-mono tracking-[0.14em] uppercase leading-tight">Sistem Investigasi Kelayakan<br>Klaim &amp; Pola Overbilling</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/pages/overview.html" class="nav-link">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Detection Engine</a>
+        <a href="/pages/public-data.html" class="nav-link font-bold text-white border-b border-bpjs-greenBright">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link">Roles</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/app" class="px-4 py-2 text-[11px] font-semibold text-white bg-bpjs-green/90 hover:bg-bpjs-greenBright border border-bpjs-green/50 hover:border-bpjs-greenBright/60 rounded-md transition-all">Buka Aplikasi</a>
+      </div>
+    </div>
+  </nav>
+  <main class="pt-14 fade-in">
+
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide">
+        <p class="eyebrow scramble" data-text="DATA PUBLIK">DATA PUBLIK</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-white mt-4 tracking-tight">Register Klaim Transparan</h1>
+        <p class="text-[14px] text-slate-400 mt-4 max-w-2xl leading-relaxed">Semua berkas yang telah diproses mesin audit — baik sudah terverifikasi maupun dalam antrean — tersinkron otomatis. Data identitas pasien di-anonimkan.</p>
+
+        <div class="mt-8 card overflow-hidden">
+          <div class="px-4 py-3 border-b border-white/[0.07] flex items-center justify-between">
+            <h3 class="font-mono font-bold text-[10px] uppercase tracking-[0.14em] text-slate-400">Register Klaim Publik</h3>
+            <span class="flex items-center gap-1.5 text-[9.5px] font-mono text-bpjs-greenBright tracking-widest">
+              <span class="w-1.5 h-1.5 rounded-full bg-bpjs-greenBright animate-pulse"></span>SINKRON LANGSUNG
+            </span>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-[11px] border-collapse">
+              <thead class="bg-bpjs-surface/60 text-slate-500 border-b border-white/[0.07]">
+                <tr>
+                  <th class="px-4 py-2.5 font-mono font-semibold text-[9px] tracking-[0.12em]">NO SEP</th>
+                  <th class="px-4 py-2.5 font-mono font-semibold text-[9px] tracking-[0.12em]">FASKES</th>
+                  <th class="px-4 py-2.5 font-mono font-semibold text-[9px] tracking-[0.12em]">MODUS</th>
+                  <th class="px-4 py-2.5 text-center font-mono font-semibold text-[9px] tracking-[0.12em]">RISK</th>
+                  <th class="px-4 py-2.5 text-center font-mono font-semibold text-[9px] tracking-[0.12em]">STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="public-tbody" class="divide-y divide-white/[0.05]">
+                <tr><td colspan="5" class="p-8 text-center text-slate-600 text-[11px]">Memuat data publik...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-4 py-2.5 border-t border-white/[0.07] flex items-center justify-between">
+            <span class="text-[9.5px] font-mono text-slate-600" id="public-count">--</span>
+            <span class="text-[9px] font-mono text-slate-600 tracking-wider">SUMBER: /api/claims - ANONIM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="border-t border-white/[0.05] py-8">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="/static/img/sikepo-logo.png" alt="" width="28" height="22" class="h-5.5 w-auto opacity-80" style="height:22px;" aria-hidden="true">
+        <span class="text-[11px] text-slate-600">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling · Healthkathon BPJS Kesehatan 2026</span>
+      </div>
+      <span class="text-[10px] text-slate-600 font-mono tracking-wider">DETECT SMARTER. PROTECT JKN.</span>
+    </div>
+  </footer>
+  <script src="/static/js/shared.js"></script>
+  <script src="/static/js/pages.js"></script>
+</body>
+</html>

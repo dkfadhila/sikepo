@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apa itu SiKePo? — Overview</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: { bpjs: { navy: '#002C5F', green: '#009B4C', greendark: '#007C3D', greensoft: '#E7F6EE', cyan: '#0284A8', ink: '#10243E', body: '#3E5165', muted: '#6B7A90', line: '#E4E9F1', bg: '#F5F7FA' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+        boxShadow: { card: '0 1px 2px rgba(16,36,62,.05), 0 1px 3px rgba(16,36,62,.06)', pop: '0 2px 4px rgba(16,36,62,.05), 0 12px 32px rgba(16,36,62,.10)' }
+      } }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css?v=5">
+</head>
+<body class="font-sans antialiased">
+
+  <nav class="site-nav">
+    <div class="max-w-[1180px] mx-auto px-5 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2.5 flex-none">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="h-8 w-auto">
+        <span class="font-bold text-bpjs-ink text-[16px] tracking-tight">SiKePo</span>
+      </a>
+      <div class="hidden md:flex items-center gap-7">
+        <a href="/pages/overview.html" class="nav-link active">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Mesin Deteksi</a>
+        <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link">Peran</a>
+      </div>
+      <a href="/app" class="btn-primary px-4 py-2.5 text-[13.5px] flex-none">Buka Aplikasi</a>
+    </div>
+  </nav>
+
+  <main class="pt-16 fade-in">
+    <section class="py-14 lg:py-16 bg-white border-b border-bpjs-line">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
+        <p class="eyebrow">Overview</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-bpjs-navy tracking-tight mt-3">Apa itu SiKePo?</h1>
+        <p class="text-[15.5px] text-bpjs-body mt-4 max-w-3xl leading-relaxed">
+          <strong class="text-bpjs-ink">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling</strong> adalah
+          platform audit klaim pra-pembayaran untuk BPJS Kesehatan. Sistem menggabungkan
+          <strong class="text-bpjs-green">aturan audit deterministik</strong> dan
+          <strong class="text-bpjs-cyan">penilaian anomali berbasis ML</strong> untuk membantu verifikator
+          menemukan klaim fraud sebelum dana cair — transparan, bukan kotak hitam.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-14 lg:py-16">
+      <div class="max-w-[1180px] mx-auto px-5 lg:px-8 space-y-12" data-reveal-group>
+
+        <!-- Arsitektur -->
+        <div class="card p-6 sm:p-8">
+          <p class="eyebrow mb-6">Arsitektur sistem</p>
+          <div class="overflow-x-auto">
+            <svg viewBox="0 0 820 190" class="w-full min-w-[640px]" xmlns="http://www.w3.org/2000/svg">
+              <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#94A3B8"/></marker></defs>
+              <rect x="10" y="55" width="150" height="72" rx="12" fill="#F8FAFC" stroke="#D5DEE9"/>
+              <text x="85" y="83" fill="#6B7A90" font-size="10" font-family="Inter" font-weight="600" text-anchor="middle" letter-spacing="0.06em">INPUT</text>
+              <text x="85" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">SIMRS / Faskes</text>
+
+              <rect x="200" y="55" width="160" height="72" rx="12" fill="#E7F6EE" stroke="#009B4C"/>
+              <text x="280" y="83" fill="#007C3D" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A1 · TRIAGE</text>
+              <text x="280" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">Aturan deterministik</text>
+
+              <rect x="400" y="55" width="160" height="72" rx="12" fill="#FCF1E4" stroke="#D97706"/>
+              <text x="480" y="83" fill="#B54708" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A2 · INVESTIGATOR</text>
+              <text x="480" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">IsolationForest ML</text>
+
+              <rect x="600" y="55" width="160" height="72" rx="12" fill="#E9F0FB" stroke="#175CD3"/>
+              <text x="680" y="83" fill="#175CD3" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A3 · ADJUDICATOR</text>
+              <text x="680" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">LLM + verifikator</text>
+
+              <line x1="160" y1="91" x2="196" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line x1="360" y1="91" x2="396" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+              <line x1="560" y1="91" x2="596" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+              <text x="280" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Rasio tarif · LOS · e-Fornas</text>
+              <text x="480" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Skor anomali · Bukti temuan</text>
+              <text x="680" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Rekomendasi · Putusan akhir</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Metrik live -->
+        <div>
+          <p class="eyebrow mb-6">Metrik live</p>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Total klaim</span><div class="text-2xl font-bold font-mono text-bpjs-ink mt-1.5" id="ov-total">—</div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Anomali terdeteksi</span><div class="text-2xl font-bold font-mono text-[#D92D20] mt-1.5" id="ov-fraud">—</div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Klaim bersih</span><div class="text-2xl font-bold font-mono text-bpjs-green mt-1.5" id="ov-clean">—</div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Faskes aktif</span><div class="text-2xl font-bold font-mono text-bpjs-cyan mt-1.5" id="ov-faskes">—</div></div>
+          </div>
+        </div>
+
+        <!-- Breakdown modus -->
+        <div class="card p-6 sm:p-8">
+          <p class="eyebrow mb-5">Breakdown modus fraud</p>
+          <div id="ov-breakdown" class="space-y-0"><p class="text-[13px] text-bpjs-muted">Memuat data…</p></div>
+        </div>
+
+        <!-- Prinsip -->
+        <div>
+          <p class="eyebrow mb-6">Prinsip desain</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="card p-6">
+              <span class="badge badge-green">Dataset</span>
+              <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">150 klaim sintetis</h3>
+              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Data realistis dari 8 faskes — bersih, upcoding, phantom, cloning, dan overpreskripsi.</p>
+            </div>
+            <div class="card p-6">
+              <span class="badge badge-amber">Agentic</span>
+              <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">3 agen AI terisolasi</h3>
+              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Triage, Investigator (ML), dan Adjudicator (LLM) — masing-masing dengan peran terbatas.</p>
+            </div>
+            <div class="card p-6">
+              <span class="badge badge-blue">Explainable</span>
+              <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">Bukan kotak hitam</h3>
+              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Setiap keputusan disertai jejak audit yang bisa ditelusuri. Verifikator tetap memegang kendali.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer mt-8">
+    <div class="max-w-[1180px] mx-auto px-5 lg:px-8 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="/static/img/sikepo-logo.png" alt="" style="height:24px;" class="w-auto" aria-hidden="true">
+        <div>
+          <div class="text-white font-bold text-[14px]">SiKePo</div>
+          <div class="text-[11.5px] text-[#9FB8D4] mt-0.5">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling</div>
+        </div>
+      </div>
+      <div class="text-[12px] text-[#9FB8D4] sm:text-right">
+        <div>Healthkathon BPJS Kesehatan 2026 · Prototype</div>
+        <div class="mt-1">Detect Smarter. Protect JKN.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
+  <script src="/static/js/shared.js?v=5"></script>
+  <script src="/static/js/pages.js?v=5"></script>
+  <script src="/static/js/animations.js?v=5"></script>
+</body>
+</html>

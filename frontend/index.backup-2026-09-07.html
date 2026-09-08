@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiKePo — Detect Smarter. Protect JKN.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bpjs: { navy: '#002C5F', green: '#009B4C', cyan: '#00ACC1', dark: '#0A0F1C', surface: '#111827', surfaceLight: '#1A2332', border: '#1E293B', borderLight: '#334155' }
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0A0F1C; color: #E2E8F0; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 155, 76, 0.1); } 50% { box-shadow: 0 0 40px rgba(0, 155, 76, 0.2); } }
+    .float-card { animation: float 4s ease-in-out infinite; }
+    .float-card-delay { animation: float 4s ease-in-out infinite 1s; }
+    .float-card-delay2 { animation: float 4s ease-in-out infinite 2s; }
+    .glow-green { box-shadow: 0 0 30px rgba(0, 155, 76, 0.15), 0 0 60px rgba(0, 155, 76, 0.05); }
+    .glow-cyan { box-shadow: 0 0 30px rgba(0, 172, 193, 0.12); }
+    .gradient-text { background: linear-gradient(135deg, #ffffff 0%, #009B4C 50%, #00ACC1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-gradient { background: radial-gradient(ellipse at 70% 50%, rgba(0, 44, 95, 0.4) 0%, transparent 60%), radial-gradient(ellipse at 30% 80%, rgba(0, 155, 76, 0.08) 0%, transparent 50%), #0A0F1C; }
+    .card-glass { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(30, 41, 59, 0.8); }
+    .spectrum-bar { background: linear-gradient(90deg, #009B4C 0%, #00ACC1 25%, #EAB308 50%, #F97316 75%, #EF4444 100%); }
+    .nav-blur { background: rgba(10, 15, 28, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(30, 41, 59, 0.6); }
+    .bento-hover:hover { border-color: rgba(0, 155, 76, 0.4); transform: translateY(-2px); transition: all 0.3s ease; }
+    .fraud-card:hover { border-color: rgba(0, 172, 193, 0.5); background: rgba(17, 24, 39, 0.8); }
+    .cta-primary { background: linear-gradient(135deg, #009B4C 0%, #00795A 100%); }
+    .cta-primary:hover { background: linear-gradient(135deg, #00B35A 0%, #009B4C 100%); box-shadow: 0 8px 32px rgba(0, 155, 76, 0.3); }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="font-sans antialiased scrollbar-hide">
+
+  <!-- ═══════════ NAVIGATION ═══════════ -->
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('hero')">
+        <div class="w-8 h-8 rounded-md bg-bpjs-green/20 border border-bpjs-green/30 flex items-center justify-center">
+          <span class="text-bpjs-green font-bold text-sm font-mono">SK</span>
+        </div>
+        <span class="font-semibold text-white text-sm tracking-tight">SiKePo</span>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#overview" class="text-xs text-slate-400 hover:text-white transition font-medium tracking-wide uppercase">Overview</a>
+        <a href="#how-it-works" class="text-xs text-slate-400 hover:text-white transition font-medium tracking-wide uppercase">How It Works</a>
+        <a href="#detection" class="text-xs text-slate-400 hover:text-white transition font-medium tracking-wide uppercase">Detection Engine</a>
+        <a href="#" onclick="switchView('cockpit'); return false;" class="text-xs text-slate-400 hover:text-white transition font-medium tracking-wide uppercase">Audit</a>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <div id="user-badge" class="hidden items-center space-x-2 bg-bpjs-green/10 border border-bpjs-green/20 px-3 py-1.5 rounded-md text-xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-bpjs-green animate-pulse"></span>
+          <span id="user-role-label" class="text-bpjs-green font-medium">Verifikator</span>
+          <button onclick="logoutUser()" class="text-red-400 hover:text-red-300 font-semibold ml-2 text-[10px]">×</button>
+        </div>
+        <button id="btn-login-trigger" onclick="openLoginModal()" class="px-4 py-2 text-xs font-semibold text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition">
+          Verifier Login
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ VIEW 1: HERO LANDING ═══════════ -->
+  <main id="view-hero" class="fade-in">
+
+    <!-- HERO SECTION -->
+    <section class="hero-gradient min-h-screen pt-16 relative overflow-hidden" id="overview">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[calc(100vh-4rem)]">
+
+        <!-- LEFT: Messaging -->
+        <div class="space-y-8 py-12 lg:py-0 z-10 relative">
+          <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-bpjs-green/20 bg-bpjs-green/5">
+            <span class="w-1.5 h-1.5 rounded-full bg-bpjs-green animate-pulse"></span>
+            <span class="text-[11px] text-bpjs-green font-semibold tracking-widest uppercase">AI Pre-Adjudication Audit</span>
+          </div>
+
+          <div class="space-y-4">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.1] tracking-tight">
+              Detect Smarter.<br>
+              <span class="gradient-text">Protect JKN.</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-300 font-light leading-relaxed">
+              Intersepsi risiko klaim sebelum dana cair.
+            </p>
+            <p class="text-sm text-slate-500 leading-relaxed max-w-md">
+              SiKePo menggunakan deterministic audit rules & explainable AI risk scoring untuk mengidentifikasi klaim kesehatan mencurigakan secara real-time — transparan, bukan black-box.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button onclick="openLoginModal()" class="cta-primary px-6 py-3 rounded-lg text-sm font-semibold text-white transition-all duration-300">
+              Buka Cockpit →
+            </button>
+            <button onclick="quickGuestAccess()" class="px-6 py-3 rounded-lg text-sm font-medium text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition">
+              Live Sandbox
+            </button>
+          </div>
+
+          <div class="flex items-center space-x-6 pt-2">
+            <span class="text-[11px] text-slate-500 font-mono">150 Synthetic Claims</span>
+            <span class="w-px h-3 bg-slate-700"></span>
+            <span class="text-[11px] text-slate-500 font-mono">8 Faskes</span>
+            <span class="w-px h-3 bg-slate-700"></span>
+            <span class="text-[11px] text-slate-500 font-mono">Explainable Risk Engine</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Hero Character + Floating Cards -->
+        <div class="relative flex items-center justify-center lg:justify-end py-8 lg:py-0">
+          <!-- Character -->
+          <div class="relative">
+            <img src="/static/img/hero-character.png" alt="SiKePo AI Investigator" class="relative z-10 h-[420px] sm:h-[500px] lg:h-[580px] object-contain drop-shadow-2xl" style="filter: drop-shadow(0 0 40px rgba(0, 155, 76, 0.15)) drop-shadow(0 20px 60px rgba(0,0,0,0.5));">
+
+            <!-- Floating Data Cards -->
+            <div class="absolute top-8 -left-4 sm:-left-12 float-card z-20">
+              <div class="card-glass rounded-lg px-3 py-2.5 glow-green">
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider font-medium">Risk Score</div>
+                <div class="text-2xl font-black font-mono text-red-400 tabular-nums">92</div>
+                <div class="w-full h-1 bg-slate-700 rounded-full mt-1">
+                  <div class="h-1 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full" style="width:92%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute top-32 -left-8 sm:-left-16 float-card-delay z-20">
+              <div class="card-glass rounded-lg px-3 py-2 glow-cyan">
+                <div class="flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span class="text-[11px] font-semibold text-amber-300 font-mono">UPCODING DETECTED</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute bottom-32 -left-4 sm:-left-10 float-card-delay2 z-20">
+              <div class="card-glass rounded-lg px-3 py-2">
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider">At Risk</div>
+                <div class="text-lg font-bold font-mono text-bpjs-cyan tabular-nums">Rp 18.4M</div>
+              </div>
+            </div>
+
+            <div class="absolute top-20 -right-2 sm:-right-6 float-card-delay z-20">
+              <div class="card-glass rounded-lg px-3 py-2">
+                <div class="flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                  <span class="text-[11px] font-semibold text-slate-300 font-mono">3 ANOMALIES</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="absolute bottom-20 -right-2 sm:-right-8 float-card z-20">
+              <div class="card-glass rounded-lg px-3 py-2 glow-green">
+                <div class="flex items-center space-x-1.5">
+                  <svg class="w-3 h-3 text-bpjs-green" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                  <span class="text-[11px] font-medium text-bpjs-green font-mono">VERIFIED CLEAN</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ambient glow behind character -->
+            <div class="absolute inset-0 z-0">
+              <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-bpjs-navy/40 blur-[100px]"></div>
+              <div class="absolute bottom-1/4 left-1/3 w-40 h-40 rounded-full bg-bpjs-green/10 blur-[80px]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtle grid pattern -->
+      <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 64px 64px;"></div>
+    </section>
+
+    <!-- BENTO TELEMETRY -->
+    <section class="py-16 lg:py-24 relative" id="how-it-works">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="card-glass rounded-xl p-5 sm:p-6 bento-hover transition-all duration-300">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-8 h-8 rounded-md bg-bpjs-green/10 border border-bpjs-green/20 flex items-center justify-center">
+                <svg class="w-4 h-4 text-bpjs-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="w-12 h-6">
+                <div class="w-full h-full flex items-end space-x-0.5">
+                  <div class="w-1.5 bg-bpjs-green/30 rounded-sm" style="height:30%"></div>
+                  <div class="w-1.5 bg-bpjs-green/40 rounded-sm" style="height:50%"></div>
+                  <div class="w-1.5 bg-bpjs-green/50 rounded-sm" style="height:40%"></div>
+                  <div class="w-1.5 bg-bpjs-green/60 rounded-sm" style="height:70%"></div>
+                  <div class="w-1.5 bg-bpjs-green/80 rounded-sm" style="height:90%"></div>
+                  <div class="w-1.5 bg-bpjs-green rounded-sm" style="height:100%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-black font-mono text-white tabular-nums" id="hero-stat-savings">Rp 0</div>
+            <div class="text-[11px] text-slate-500 font-medium uppercase tracking-wider mt-1">Potential Funds Protected</div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 sm:p-6 bento-hover transition-all duration-300">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-8 h-8 rounded-md bg-bpjs-cyan/10 border border-bpjs-cyan/20 flex items-center justify-center">
+                <svg class="w-4 h-4 text-bpjs-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="w-10 h-10 relative">
+                <svg class="w-10 h-10 -rotate-90" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="rgba(30,41,59,0.5)" stroke-width="3"/><circle cx="18" cy="18" r="15" fill="none" stroke="#00ACC1" stroke-width="3" stroke-dasharray="91.4 100" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-black font-mono text-white">96.8%</div>
+            <div class="text-[11px] text-slate-500 font-medium uppercase tracking-wider mt-1">Detection Accuracy</div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 sm:p-6 bento-hover transition-all duration-300">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-8 h-8 rounded-md bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+              </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-black font-mono text-white tabular-nums" id="hero-stat-fraud">0</div>
+            <div class="text-[11px] text-slate-500 font-medium uppercase tracking-wider mt-1">Claims Intercepted</div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 sm:p-6 bento-hover transition-all duration-300">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-8 h-8 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+            </div>
+            <div class="text-2xl sm:text-3xl font-black font-mono text-white">&lt; 1.2s</div>
+            <div class="text-[11px] text-slate-500 font-medium uppercase tracking-wider mt-1">Average Audit Time</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRAUD SPECTRUM -->
+    <section class="pb-16 lg:pb-24" id="detection">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- Spectrum Bar -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-xs text-slate-500 font-semibold uppercase tracking-widest">Risk Spectrum</h2>
+          </div>
+          <div class="h-1 spectrum-bar rounded-full opacity-60"></div>
+          <div class="flex justify-between mt-2">
+            <span class="text-[10px] text-emerald-500 font-mono font-semibold">CLEAN</span>
+            <span class="text-[10px] text-cyan-400 font-mono font-semibold">REVIEW</span>
+            <span class="text-[10px] text-yellow-400 font-mono font-semibold">UPCODING</span>
+            <span class="text-[10px] text-orange-400 font-mono font-semibold">PHANTOM</span>
+            <span class="text-[10px] text-red-400 font-mono font-semibold">CLONING</span>
+          </div>
+        </div>
+
+        <!-- Fraud Detection Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-10">
+          <div class="card-glass rounded-xl p-5 fraud-card transition-all duration-300 cursor-default">
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+              <span class="text-[10px] font-mono font-bold text-yellow-400 uppercase tracking-widest">Upcoding</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Manipulasi Diagnosa & Prosedur</h3>
+            <p class="text-[11px] text-slate-500 leading-relaxed">Penggelembungan tingkat keparahan kode ICD-10 agar tarif grouping INA-CBGs naik ke tier yang lebih mahal.</p>
+            <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between">
+              <span class="text-[10px] font-mono text-slate-600">Coverage: Severitas, CBGs delta</span>
+            </div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 fraud-card transition-all duration-300 cursor-default">
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-2 h-2 rounded-full bg-orange-400"></div>
+              <span class="text-[10px] font-mono font-bold text-orange-400 uppercase tracking-widest">Phantom Billing</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Klaim Fiktif Layanan</h3>
+            <p class="text-[11px] text-slate-500 leading-relaxed">Penagihan atas layanan yang tidak pernah diberikan — pasien tidak pernah dirawat, atau dokter sedang off-duty.</p>
+            <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between">
+              <span class="text-[10px] font-mono text-slate-600">Coverage: Biometrik, jadwal SIMRS</span>
+            </div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 fraud-card transition-all duration-300 cursor-default">
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-2 h-2 rounded-full bg-rose-400"></div>
+              <span class="text-[10px] font-mono font-bold text-rose-400 uppercase tracking-widest">Inflated / Non-Fornas</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Overpreskripsi Obat</h3>
+            <p class="text-[11px] text-slate-500 leading-relaxed">Pemberian obat di luar Formularium Nasional dengan harga tinggi tanpa justifikasi klinis yang valid.</p>
+            <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between">
+              <span class="text-[10px] font-mono text-slate-600">Coverage: e-Fornas, drug flagging</span>
+            </div>
+          </div>
+
+          <div class="card-glass rounded-xl p-5 fraud-card transition-all duration-300 cursor-default">
+            <div class="flex items-center space-x-2 mb-4">
+              <div class="w-2 h-2 rounded-full bg-red-500"></div>
+              <span class="text-[10px] font-mono font-bold text-red-400 uppercase tracking-widest">Cloning</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-2">Resume Medis Duplikasi</h3>
+            <p class="text-[11px] text-slate-500 leading-relaxed">Penjiplakan resume medis antar pasien berbeda menggunakan copy-paste untuk mempercepat klaim massal.</p>
+            <div class="mt-4 pt-3 border-t border-slate-700/50 flex items-center justify-between">
+              <span class="text-[10px] font-mono text-slate-600">Coverage: Jaccard similarity 98%+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-bpjs-border py-8">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 rounded bg-bpjs-green/20 flex items-center justify-center">
+            <span class="text-bpjs-green font-bold text-[10px] font-mono">SK</span>
+          </div>
+          <span class="text-xs text-slate-600">SiKePo — Healthkathon BPJS Kesehatan 2026</span>
+        </div>
+        <span class="text-[11px] text-slate-600 font-mono">Detect Smarter. Protect JKN.</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ═══════════ VIEW 2: COCKPIT ═══════════ -->
+  <main id="view-cockpit" class="hidden fade-in pt-20 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Top KPI Bar -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        <div class="card-glass rounded-xl p-4 sm:p-5">
+          <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Dana Tertahan</span>
+          <div class="text-lg sm:text-xl font-bold font-mono text-bpjs-green mt-1 tabular-nums" id="cp-stat-savings">Rp 0</div>
+        </div>
+        <div class="card-glass rounded-xl p-4 sm:p-5">
+          <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Total Diinspeksi</span>
+          <div class="text-lg sm:text-xl font-bold font-mono text-white mt-1 tabular-nums" id="cp-stat-total">0</div>
+        </div>
+        <div class="card-glass rounded-xl p-4 sm:p-5">
+          <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Anomali / Fraud</span>
+          <div class="text-lg sm:text-xl font-bold font-mono text-red-400 mt-1 tabular-nums" id="cp-stat-fraud">0</div>
+        </div>
+        <div class="card-glass rounded-xl p-4 sm:p-5">
+          <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Clean</span>
+          <div class="text-lg sm:text-xl font-bold font-mono text-emerald-400 mt-1 tabular-nums" id="cp-stat-clean">0</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-bpjs-border mb-6 pb-2 gap-3">
+        <div class="flex space-x-1 overflow-x-auto">
+          <button onclick="switchTab('queue')" id="tab-btn-queue" class="px-4 py-2 text-xs font-semibold text-bpjs-green border-b-2 border-bpjs-green whitespace-nowrap rounded-t-md">
+            Antrean Berkas
+          </button>
+          <button onclick="switchTab('sandbox')" id="tab-btn-sandbox" class="px-4 py-2 text-xs font-semibold text-slate-500 hover:text-slate-300 border-b-2 border-transparent whitespace-nowrap rounded-t-md transition">
+            Live Sandbox
+          </button>
+        </div>
+        <div id="queue-filter-bar" class="flex flex-wrap items-center gap-2">
+          <input type="text" id="filter-search" oninput="debounceSearch()" placeholder="Cari RS, Pasien, No SEP..." class="text-xs px-3 py-2 bg-bpjs-surface border border-bpjs-border rounded-lg focus:outline-none focus:border-bpjs-green/50 text-slate-300 placeholder-slate-600 flex-1 sm:w-56">
+          <select id="filter-fraud-type" onchange="fetchClaims()" class="text-xs px-3 py-2 bg-bpjs-surface border border-bpjs-border rounded-lg focus:outline-none focus:border-bpjs-green/50 text-slate-300">
+            <option value="ALL">Semua Modus</option>
+            <option value="UPCODING">Upcoding</option>
+            <option value="PHANTOM_BILLING">Phantom Billing</option>
+            <option value="INFLATED_BILLS">Overpreskripsi</option>
+            <option value="CLONING">Cloning</option>
+            <option value="CLEAN">Clean</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TAB 1: QUEUE -->
+      <section id="tab-queue" class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-7 card-glass rounded-xl overflow-hidden flex flex-col">
+          <div class="p-4 border-b border-bpjs-border flex items-center justify-between">
+            <h3 class="font-bold text-[11px] uppercase tracking-wider text-slate-400">Daftar Pengajuan Berkas</h3>
+            <span class="text-[11px] text-slate-600 font-mono" id="table-count-label">Memuat...</span>
+          </div>
+          <div class="overflow-x-auto max-h-[560px] overflow-y-auto scrollbar-hide">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-bpjs-surface text-slate-500 font-medium border-b border-bpjs-border sticky top-0 z-10">
+                <tr>
+                  <th class="p-3 font-semibold">NO SEP & FASKES</th>
+                  <th class="p-3 font-semibold">DIAGNOSA</th>
+                  <th class="p-3 text-right font-semibold">BIAYA (IDR)</th>
+                  <th class="p-3 text-center font-semibold">RISK</th>
+                  <th class="p-3 text-center font-semibold">STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="claims-table-body" class="divide-y divide-bpjs-border">
+                <tr><td colspan="5" class="p-8 text-center text-slate-600">Memuat data klaim...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 card-glass rounded-xl p-5 flex flex-col justify-between" id="inspector-panel">
+          <div>
+            <div class="flex items-center justify-between border-b border-bpjs-border pb-3 mb-4">
+              <h3 class="font-bold text-xs text-white">Detail Investigasi</h3>
+              <span id="insp-risk-badge" class="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-bpjs-surface text-slate-500 border border-bpjs-border">Pilih Berkas</span>
+            </div>
+            <div id="inspector-content" class="space-y-4 text-xs">
+              <div class="text-center py-16 text-slate-600">
+                <p>Pilih salah satu baris klaim untuk melihat hasil inspeksi.</p>
+              </div>
+            </div>
+          </div>
+          <div id="inspector-actions" class="hidden pt-4 border-t border-bpjs-border mt-6 flex gap-2">
+            <button onclick="submitVerdict('APPROVE')" class="flex-1 py-2.5 bg-bpjs-green/20 hover:bg-bpjs-green/30 text-bpjs-green border border-bpjs-green/20 font-semibold rounded-lg text-xs transition">✓ Setujui</button>
+            <button onclick="submitVerdict('HOLD')" class="flex-1 py-2.5 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 border border-yellow-500/20 font-semibold rounded-lg text-xs transition">⏸ Tahan</button>
+            <button onclick="submitVerdict('REJECT')" class="flex-1 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-semibold rounded-lg text-xs transition">✕ Tolak</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: SANDBOX -->
+      <section id="tab-sandbox" class="hidden">
+        <div class="card-glass rounded-xl p-6 max-w-3xl mx-auto">
+          <div class="border-b border-bpjs-border pb-4 mb-6">
+            <h3 class="font-bold text-base text-white">Simulasi Audit Klaim Mandiri</h3>
+            <p class="text-[11px] text-slate-500 mt-1">Uji algoritma deteksi SiKePo dengan parameter klaim manual</p>
+          </div>
+          <form id="sandbox-form" onsubmit="runSandboxAudit(event)" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Nama Faskes / RS</label>
+                <input type="text" id="sb-faskes" value="RSUD Sehat Sentosa" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none">
+              </div>
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Hari Rawat (LOS)</label>
+                <input type="number" id="sb-los" value="8" min="1" max="60" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none font-mono">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Diagnosa ICD-10</label>
+                <input type="text" id="sb-icd" value="A01.0" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none font-mono">
+              </div>
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Nama Diagnosa</label>
+                <input type="text" id="sb-diagnosa" value="Demam Tifoid" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Tarif INA-CBGs Standar (IDR)</label>
+                <input type="number" id="sb-tarif-cbg" value="3800000" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none font-mono">
+              </div>
+              <div>
+                <label class="font-semibold text-slate-400 block mb-1">Biaya Diajukan RS (IDR)</label>
+                <input type="number" id="sb-biaya-rs" value="7900000" required class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none font-mono">
+              </div>
+            </div>
+            <div>
+              <label class="font-semibold text-slate-400 block mb-1">Daftar Obat & Alkes (pisahkan koma)</label>
+              <input type="text" id="sb-obat" value="Ceftriaxone, Paracetamol, Meropenem Inj 1g" class="w-full px-3 py-2.5 bg-bpjs-surface border border-bpjs-border rounded-lg text-slate-300 focus:border-bpjs-green/50 focus:outline-none">
+            </div>
+            <button type="submit" class="w-full py-3 cta-primary text-white font-semibold rounded-lg transition-all duration-300 text-sm">
+              Jalankan Analisis SiKePo →
+            </button>
+          </form>
+          <div id="sandbox-result" class="hidden mt-6 p-4 rounded-xl border border-bpjs-border bg-bpjs-surface">
+            <div class="flex items-center justify-between border-b border-bpjs-border pb-2 mb-3">
+              <span class="font-bold text-[11px] uppercase tracking-wider text-slate-400">Hasil Audit</span>
+              <span id="sb-res-badge" class="px-2.5 py-1 rounded text-xs font-bold font-mono bg-bpjs-surface text-slate-500">Score</span>
+            </div>
+            <div id="sb-res-details" class="space-y-2 text-xs"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ═══════════ LOGIN MODAL ═══════════ -->
+  <div id="login-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-bpjs-surface w-full max-w-md rounded-2xl border border-bpjs-border shadow-2xl overflow-hidden fade-in">
+      <div class="p-6 border-b border-bpjs-border">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <div class="w-7 h-7 rounded bg-bpjs-green/20 border border-bpjs-green/30 text-bpjs-green flex items-center justify-center font-bold text-[10px] font-mono">SK</div>
+            <span class="font-semibold text-white text-sm">Autentikasi Verifikator</span>
+          </div>
+          <button onclick="closeLoginModal()" class="text-slate-500 hover:text-slate-300 font-bold text-lg">×</button>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-1">Pilih profil kredensial untuk demo evaluasi</p>
+      </div>
+      <div class="p-5 space-y-2.5 text-xs">
+        <button onclick="loginAs('Verifikator BPJS KC Jakarta')" class="w-full p-3.5 text-left border border-bpjs-border rounded-xl hover:border-bpjs-green/40 hover:bg-bpjs-green/5 transition group flex items-center justify-between">
+          <div>
+            <div class="font-bold text-white group-hover:text-bpjs-green transition">Verifikator Kantor Cabang</div>
+            <p class="text-[11px] text-slate-600 mt-0.5">Audit klaim reguler & adjudication berkas</p>
+          </div>
+          <span class="text-slate-600 group-hover:text-bpjs-green font-mono">→</span>
+        </button>
+        <button onclick="loginAs('Satgas Anti-Fraud Pusat')" class="w-full p-3.5 text-left border border-bpjs-border rounded-xl hover:border-bpjs-green/40 hover:bg-bpjs-green/5 transition group flex items-center justify-between">
+          <div>
+            <div class="font-bold text-white group-hover:text-bpjs-green transition">Satuan Tugas Anti-Fraud</div>
+            <p class="text-[11px] text-slate-600 mt-0.5">Investigasi anomali sistemik & pola cloning</p>
+          </div>
+          <span class="text-slate-600 group-hover:text-bpjs-green font-mono">→</span>
+        </button>
+        <button onclick="loginAs('Dewan Juri / Auditor')" class="w-full p-3.5 text-left border border-bpjs-border rounded-xl hover:border-bpjs-green/40 hover:bg-bpjs-green/5 transition group flex items-center justify-between">
+          <div>
+            <div class="font-bold text-white group-hover:text-bpjs-green transition">Dewan Juri / Auditor Eksternal</div>
+            <p class="text-[11px] text-slate-600 mt-0.5">Pengujian sandbox & transparansi model</p>
+          </div>
+          <span class="text-slate-600 group-hover:text-bpjs-green font-mono">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

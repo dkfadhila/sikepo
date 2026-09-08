@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SiKePo — Cockpit</title>
+  <meta name="theme-color" content="#111827">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { brand: '#10B981', surface: { 800: '#1F2937', 900: '#111827', 950: '#030712' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      }}
+    }
+  </script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{background:#111827;color:#E5E7EB;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
+    ::selection{background:rgba(16,185,129,.3)}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-thumb{background:#374151;border-radius:3px}
+
+    /* ── NAV ── */
+    .topbar{background:rgba(17,24,39,.96);backdrop-filter:blur(10px);border-bottom:1px solid #1F2937;position:fixed;top:0;left:0;right:0;z-index:50;height:48px;display:flex;align-items:center;padding:0 12px}
+    .topbar-brand{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .topbar-brand img{height:22px;width:auto}
+    .topbar-brand span{font-weight:600;font-size:13px;color:#fff}
+    .topbar-nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .topbar-nav::-webkit-scrollbar{display:none}
+    .topbar-btn{padding:6px 10px;font-size:12px;font-weight:500;color:#9CA3AF;border:none;background:none;border-radius:4px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:all .12s}
+    .topbar-btn:hover{color:#E5E7EB;background:rgba(255,255,255,.04)}
+    .topbar-btn.active{color:#10B981;background:rgba(16,185,129,.08)}
+    .topbar-btn svg{width:14px;height:14px;flex-shrink:0}
+    .topbar-user{display:flex;align-items:center;gap:6px;margin-left:8px;flex-shrink:0}
+    .topbar-user-badge{display:none;align-items:center;gap:4px;padding:3px 8px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:4px;font-size:11px;color:#34D399}
+    .topbar-user-badge.show{display:flex}
+    .topbar-user-badge .dot{width:6px;height:6px;border-radius:50%;background:#10B981;animation:pulse 2s infinite}
+    .topbar-login{padding:5px 10px;font-size:11px;font-weight:600;color:#D1D5DB;background:#374151;border:none;border-radius:4px;cursor:pointer}
+    .topbar-login:hover{background:#4B5563}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+    /* Mobile bottom bar */
+    .bottombar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;height:56px;background:rgba(17,24,39,.98);border-top:1px solid #1F2937;align-items:center;justify-content:center;padding:0 16px}
+    .bottombar-inner{display:flex;align-items:center;gap:12px}
+    .bottombar-logo{display:flex;align-items:center;gap:8px;cursor:pointer}
+    .bottombar-logo img{height:28px;width:auto}
+    .bottombar-logo span{font-weight:600;font-size:14px;color:#fff}
+    .bottombar-user{display:flex;align-items:center;gap:6px;margin-left:auto}
+    .bottombar-user-badge{display:flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:5px;font-size:11px;color:#34D399}
+    .bottombar-user-badge .dot{width:6px;height:6px;border-radius:50%;background:#10B981;animation:pulse 2s infinite}
+
+    @media(max-width:767px){
+      .topbar-nav{display:none}
+      .topbar-user{display:none}
+      .bottombar{display:flex}
+      .page{padding-bottom:72px}
+    }
+
+    /* ── PAGE ── */
+    .page{padding:56px 12px 20px;max-width:1200px;margin:0 auto}
+    .page.hidden{display:none}
+
+    /* ── CARDS ── */
+    .card{background:#1F2937;border:1px solid #374151;border-radius:8px;overflow:hidden}
+    .card-h{padding:10px 12px;border-bottom:1px solid #374151;display:flex;align-items:center;justify-content:space-between}
+    .card-b{padding:12px}
+
+    /* ── KPI ── */
+    .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    @media(min-width:640px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+    .kpi{background:#1F2937;border:1px solid #374151;border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px}
+    .kpi-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .kpi-icon svg{width:16px;height:16px}
+    .kpi-val{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.2}
+    .kpi-lbl{font-size:10px;color:#9CA3AF;margin-top:1px}
+
+    /* ── CHART ── */
+    .chart-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
+    @media(min-width:640px){.chart-grid{grid-template-columns:2fr 1fr}}
+    @media(min-width:640px){.chart-row{grid-template-columns:1fr 1fr}}
+
+    /* ── TABLE ── */
+    .tbl{width:100%;border-collapse:collapse;font-size:12px}
+    .tbl th{text-align:left;padding:8px 10px;font-size:10px;font-weight:600;color:#9CA3AF;text-transform:uppercase;letter-spacing:.04em;background:#111827;border-bottom:1px solid #374151;position:sticky;top:0;z-index:1}
+    .tbl td{padding:8px 10px;border-bottom:1px solid #1F2937}
+    .tbl tr:hover td{background:rgba(255,255,255,.02)}
+    .tbl tr.sel td{background:rgba(16,185,129,.08);border-left:2px solid #10B981}
+
+    /* ── FORM ── */
+    .fg{margin-bottom:8px}
+    .fg label{font-size:11px;font-weight:500;color:#9CA3AF;margin-bottom:3px;display:block}
+    .fi{width:100%;padding:7px 10px;background:#111827;border:1px solid #374151;border-radius:5px;color:#E5E7EB;font-size:13px;transition:border .12s}
+    .fi:focus{outline:none;border-color:#10B981;box-shadow:0 0 0 2px rgba(16,185,129,.1)}
+    .fi::placeholder{color:#6B7280}
+    .fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%239CA3AF' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;padding-right:24px}
+
+    /* ── BTN ── */
+    .btn{padding:7px 14px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .12s;display:inline-flex;align-items:center;gap:5px}
+    .btn-p{background:#10B981;color:#fff}.btn-p:hover{background:#059669}
+    .btn-s{background:#374151;color:#E5E7EB}.btn-s:hover{background:#4B5563}
+    .btn-ok{background:rgba(16,185,129,.12);color:#34D399;border:1px solid rgba(16,185,129,.25)}.btn-ok:hover{background:rgba(16,185,129,.2)}
+    .btn-w{background:rgba(245,158,11,.12);color:#FBBF24;border:1px solid rgba(245,158,11,.25)}.btn-w:hover{background:rgba(245,158,11,.2)}
+    .btn-d{background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.25)}.btn-d:hover{background:rgba(239,68,68,.2)}
+
+    /* ── BADGE ── */
+    .b{padding:2px 6px;border-radius:3px;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace}
+    .b-g{background:rgba(16,185,129,.12);color:#34D399}
+    .b-r{background:rgba(239,68,68,.12);color:#F87171}
+    .b-y{background:rgba(245,158,11,.12);color:#FBBF24}
+    .b-b{background:rgba(59,130,246,.12);color:#60A5FA}
+    .b-x{background:rgba(107,114,128,.12);color:#9CA3AF}
+
+    /* ── LOGIN ── */
+    .login-wrap{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(ellipse at 50% 30%,rgba(16,185,129,.04) 0%,transparent 60%)}
+    .login-box{width:100%;max-width:360px;background:#1F2937;border:1px solid #374151;border-radius:10px;padding:24px}
+    .login-box img{height:44px;display:block;margin:0 auto 16px}
+    .login-box h1{font-size:16px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px}
+    .login-box p{font-size:11px;color:#6B7280;text-align:center;margin-bottom:20px}
+
+    /* ── FADE ── */
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .25s ease-out}
+
+    /* ── SECTION ── */
+    .sec-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .sec-title svg{width:14px;height:14px;color:#10B981}
+
+    /* ── RESULT CARD ── */
+    .res-card{background:#111827;border:1px solid #374151;border-radius:6px;padding:10px;margin-bottom:6px}
+    .res-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid #1F2937}
+    .res-row:last-child{border:none}
+    .res-lbl{color:#9CA3AF}
+    .res-val{color:#E5E7EB;font-weight:500}
+
+    /* ── MOBILE TABS ── */
+    .mobile-tabs{display:none;gap:4px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+    .mobile-tabs::-webkit-scrollbar{display:none}
+    .mt{padding:6px 12px;font-size:11px;font-weight:500;color:#9CA3AF;border:1px solid #374151;background:#1F2937;border-radius:5px;cursor:pointer;white-space:nowrap;transition:all .12s}
+    .mt:hover{color:#E5E7EB;border-color:#4B5563}
+    .mt.active{color:#10B981;border-color:#10B981;background:rgba(16,185,129,.08)}
+    @media(max-width:767px){.mobile-tabs{display:flex}}
+    @media(min-width:768px){.mobile-tabs{display:none!important}}
+
+    /* ── MOBILE NAV MENU ── */
+    @media(max-width:639px){
+      .topbar-brand span{display:none}
+      .topbar-btn span{display:none}
+      .topbar-btn{padding:8px}
+      .topbar-btn svg{width:18px;height:18px}
+    }
+  </style>
+</head>
+<body>
+  <!-- ═══ TOPBAR ═══ -->
+  <header class="topbar">
+    <div class="topbar-brand" onclick="location.href='/'">
+      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+      <span>SiKePo</span>
+    </div>
+    <nav class="topbar-nav" id="topbar-nav">
+      <button class="topbar-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="topbar-btn" data-tab="claims" onclick="switchTab('claims')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Klaim</span>
+      </button>
+      <button class="topbar-btn" data-tab="sandbox" onclick="switchTab('sandbox')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        <span>Sandbox</span>
+      </button>
+      <button class="topbar-btn" data-tab="data" onclick="switchTab('data')">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Data</span>
+      </button>
+      <button class="topbar-btn hidden" data-tab="users" onclick="switchTab('users')" id="nav-users">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span>Users</span>
+      </button>
+    </nav>
+    <div class="topbar-user">
+      <div class="topbar-user-badge" id="user-badge">
+        <span class="dot"></span>
+        <span id="user-role-label"></span>
+        <button onclick="logoutUser()" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:12px;padding:0 2px">&times;</button>
+      </div>
+      <button class="topbar-login" id="btn-login-trigger" onclick="document.getElementById('login-user').focus()">Login</button>
+    </div>
+  </header>
+
+  <!-- ═══ LOGIN ═══ -->
+  <div class="login-wrap" id="app-gate">
+    <div class="login-box">
+      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+      <h1>Masuk ke Cockpit</h1>
+      <p>Gunakan akun yang terdaftar</p>
+      <form id="login-form" onsubmit="attemptLogin(event)">
+        <div class="fg"><label>Username</label><input type="text" id="login-user" class="fi" required autofocus placeholder="Username"></div>
+        <div class="fg"><label>Password</label><input type="password" id="login-pass" class="fi" required placeholder="Password"></div>
+        <p id="login-error" style="font-size:12px;color:#F87171;margin:6px 0;display:none"></p>
+        <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;padding:9px">Masuk</button>
+      </form>
+      <p style="font-size:10px;color:#6B7280;text-align:center;margin-top:12px">Demo: admin / admin</p>
+    </div>
+  </div>
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div class="page" id="tab-dashboard">
+    <!-- Mobile tabs -->
+    <div class="mobile-tabs" id="mobile-tabs">
+      <button class="mt active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+      <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
+      <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
+      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
+      <button class="mt hidden" data-tab="users" onclick="switchTab('users')" id="mt-users">Users</button>
+    </div>
+
+    <div class="kpi-grid" id="kpi-row">
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(16,185,129,.12)"><svg fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:#10B981" id="cp-savings">Rp 0</div><div class="kpi-lbl">Dana Tertahan</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(59,130,246,.12)"><svg fill="none" stroke="#60A5FA" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div><div class="kpi-val text-white" id="cp-total">0</div><div class="kpi-lbl">Total Klaim</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(239,68,68,.12)"><svg fill="none" stroke="#F87171" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div><div class="kpi-val" style="color:#F87171" id="cp-fraud">0</div><div class="kpi-lbl">Anomali</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(16,185,129,.12)"><svg fill="none" stroke="#34D399" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:#34D399" id="cp-clean">0</div><div class="kpi-lbl">Clean</div></div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="card"><div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Inflow vs Outflow</span><span style="font-size:10px;color:#6B7280">Per Status</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-inflow"></canvas></div></div></div>
+      <div class="card"><div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Fraud Breakdown</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-fraud"></canvas></div></div></div>
+    </div>
+    <div class="chart-grid chart-row" style="margin-top:8px">
+      <div class="card"><div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Top Faskes</span></div><div class="card-b"><div style="height:150px"><canvas id="chart-faskes"></canvas></div></div></div>
+      <div class="card"><div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Risk Dist</span></div><div class="card-b"><div style="height:150px"><canvas id="chart-risk"></canvas></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ CLAIMS ═══ -->
+  <div class="page hidden" id="tab-claims">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;align-items:center">
+      <input type="text" id="filter-search" class="fi" style="flex:1;min-width:150px;max-width:280px" placeholder="Cari RS, Pasien, No SEP...">
+      <select id="filter-fraud-type" class="fi fs" style="width:auto;min-width:120px" onchange="fetchClaims()">
+        <option value="ALL">Semua</option><option value="UPCODING">Upcoding</option><option value="PHANTOM_BILLING">Phantom</option><option value="INFLATED_BILLS">Overpreskripsi</option><option value="CLONING">Cloning</option><option value="CLEAN">Clean</option>
+      </select>
+      <span style="font-size:11px;color:#6B7280;margin-left:auto" id="table-count-label">--</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:8px">
+      <div class="card" style="overflow:hidden"><div style="overflow:auto;max-height:45vh"><table class="tbl"><thead><tr><th>SEP</th><th>Faskes</th><th>Diag</th><th style="text-align:right">Biaya</th><th style="text-align:center">Risk</th><th style="text-align:center">Status</th></tr></thead><tbody id="claims-tbody"><tr><td colspan="6" style="text-align:center;padding:24px;color:#6B7280">Memuat...</td></tr></tbody></table></div></div>
+      <div class="card" id="inspector-card">
+        <div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Investigasi</span><span id="insp-risk-badge" class="b b-x">Pilih</span></div>
+        <div class="card-b"><div id="inspector-content"><p style="text-align:center;padding:20px;color:#6B7280;font-size:12px">Pilih klaim</p></div><div id="inspector-actions" style="display:none;margin-top:8px;padding-top:8px;border-top:1px solid #374151;display:none;gap:6px"><button onclick="submitVerdict('APPROVE')" class="btn btn-ok" style="flex:1;justify-content:center">Setujui</button><button onclick="submitVerdict('HOLD')" class="btn btn-w" style="flex:1;justify-content:center">Tahan</button><button onclick="submitVerdict('REJECT')" class="btn btn-d" style="flex:1;justify-content:center">Tolak</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SANDBOX ═══ -->
+  <div class="page hidden" id="tab-sandbox">
+    <div style="display:grid;grid-template-columns:1fr;gap:8px">
+      <div class="card">
+        <div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Simulasi Audit</span><span style="font-size:10px;color:#6B7280">Pipeline Agentic</span></div>
+        <div class="card-b">
+          <form id="sandbox-form" onsubmit="runSandboxAudit(event)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="fg"><label>Faskes</label><input type="text" id="sb-faskes" class="fi" value="RSUD Sehat Sentosa" required></div>
+              <div class="fg"><label>LOS</label><input type="number" id="sb-los" class="fi" value="8" min="1" max="60" required></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="fg"><label>ICD-10</label><input type="text" id="sb-icd" class="fi font-mono" value="A01.0" required></div>
+              <div class="fg"><label>Diagnosa</label><input type="text" id="sb-diagnosa" class="fi" value="Demam Tifoid" required></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="fg"><label>Tarif CBG</label><input type="number" id="sb-tarif-cbg" class="fi font-mono" value="3800000" required></div>
+              <div class="fg"><label>Biaya RS</label><input type="number" id="sb-biaya-rs" class="fi font-mono" value="7900000" required></div>
+            </div>
+            <div class="fg"><label>Obat (koma)</label><input type="text" id="sb-obat" class="fi" value="Ceftriaxone, Paracetamol, Meropenem Inj 1g"></div>
+            <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;padding:9px">Jalankan Pipeline</button>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Hasil</span><span id="sb-res-badge" class="b b-x">--</span></div>
+        <div class="card-b"><div id="sandbox-result" style="text-align:center;padding:20px;color:#6B7280;font-size:12px">Jalankan simulasi</div><div id="sb-res-details" style="display:none"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DATA VIEW ═══ -->
+  <div class="page hidden" id="tab-data">
+    <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="mt active" onclick="loadTimeline('daily')" id="dt-daily">Harian</button>
+      <button class="mt" onclick="loadTimeline('monthly')" id="dt-monthly">Bulanan</button>
+      <button class="mt" onclick="loadTimeline('yearly')" id="dt-yearly">Tahunan</button>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="kpi-grid" style="margin-bottom:12px">
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(59,130,246,.12)"><svg fill="none" stroke="#60A5FA" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div><div class="kpi-val text-white" id="dt-total">0</div><div class="kpi-lbl">Total Periode</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(239,68,68,.12)"><svg fill="none" stroke="#F87171" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div><div class="kpi-val" style="color:#F87171" id="dt-fraud">0</div><div class="kpi-lbl">Fraud</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(16,185,129,.12)"><svg fill="none" stroke="#10B981" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:#10B981" id="dt-savings">Rp 0</div><div class="kpi-lbl">Total Savings</div></div></div>
+      <div class="kpi"><div class="kpi-icon" style="background:rgba(107,114,128,.12)"><svg fill="none" stroke="#9CA3AF" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div><div><div class="kpi-val text-white" id="dt-avg-risk">0</div><div class="kpi-lbl">Avg Risk</div></div></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Trend Klaim</span><span style="font-size:10px;color:#6B7280" id="dt-period-label">Harian</span></div>
+      <div class="card-b"><div style="height:220px"><canvas id="chart-timeline"></canvas></div></div>
+    </div>
+
+    <!-- Table -->
+    <div class="card">
+      <div class="card-h"><span style="font-size:12px;font-weight:600;color:#fff">Detail Periode</span><span style="font-size:10px;color:#6B7280" id="dt-count">--</span></div>
+      <div style="overflow:auto;max-height:300px">
+        <table class="tbl">
+          <thead><tr><th>Periode</th><th style="text-align:right">Total</th><th style="text-align:right">Fraud</th><th style="text-align:right">Clean</th><th style="text-align:right">Savings</th><th style="text-align:right">Avg Risk</th></tr></thead>
+          <tbody id="dt-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:#6B7280">Memuat...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ USERS ═══ -->
+  <div class="page hidden" id="tab-users">
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-b">
+        <div style="font-size:12px;font-weight:600;color:#fff;margin-bottom:8px">Tambah User</div>
+        <form id="add-user-form" onsubmit="addUser(event)" style="display:flex;flex-wrap:wrap;gap:6px;align-items:end">
+          <div class="fg" style="flex:1;min-width:90px"><label>Username</label><input type="text" id="nu-username" class="fi" required></div>
+          <div class="fg" style="flex:1;min-width:90px"><label>Password</label><input type="password" id="nu-password" class="fi" required></div>
+          <div class="fg" style="flex:1;min-width:100px"><label>Nama</label><input type="text" id="nu-fullname" class="fi" required></div>
+          <div class="fg" style="width:110px"><label>Role</label><select id="nu-role" class="fi fs"><option value="VK">Verifikator</option><option value="ST">Satgas AF</option><option value="AU">Auditor</option><option value="SA">Super Admin</option></select></div>
+          <button type="submit" class="btn btn-p" style="margin-bottom:8px">Tambah</button>
+        </form>
+        <p id="add-user-note" style="font-size:11px;margin-top:4px;display:none"></p>
+      </div>
+    </div>
+    <div class="card"><div style="overflow:auto"><table class="tbl"><thead><tr><th>ID</th><th>User</th><th>Nama</th><th>Role</th><th>Status</th><th style="text-align:center">Aksi</th></tr></thead><tbody id="users-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:#6B7280">Memuat...</td></tr></tbody></table></div></div>
+  </div>
+
+  <!-- ═══ BOTTOM BAR (MOBILE) ═══ -->
+  <div class="bottombar" id="bottombar">
+    <div class="bottombar-inner">
+      <div class="bottombar-logo" onclick="location.href='/'">
+        <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+        <span>SiKePo</span>
+      </div>
+      <div class="bottombar-user" id="bottombar-user">
+        <div class="bottombar-user-badge" id="bottombar-badge">
+          <span class="dot"></span>
+          <span id="bottombar-role"></span>
+          <button onclick="logoutUser()" style="background:none;border:none;color:#9CA3AF;cursor:pointer;font-size:12px;padding:0 2px">&times;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/shared.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

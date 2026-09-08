@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overview — SiKePo</title>
+  <meta name="theme-color" content="#0A0F1C">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { bpjs: { navy: '#002C5F', green: '#009B4C', greenBright: '#00C464', cyan: '#00ACC1', dark: '#0A0F1C', surface: '#0D1526', surfaceLight: '#16213A', border: '#1B2740' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      } }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body class="font-sans antialiased">
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="location.href='/'">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="flex-none h-7 w-auto" role="img">
+        <span class="font-semibold text-white text-[13px] tracking-tight">SiKePo</span>
+        <span class="hidden sm:inline-block w-px h-3 bg-white/10"></span>
+        <span class="hidden sm:block text-[9px] text-slate-500 font-mono tracking-[0.14em] uppercase leading-tight">Sistem Investigasi Kelayakan<br>Klaim &amp; Pola Overbilling</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/pages/overview.html" class="nav-link font-bold text-white border-b border-bpjs-greenBright">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Detection Engine</a>
+        <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link">Roles</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/app" class="px-4 py-2 text-[11px] font-semibold text-white bg-bpjs-green/90 hover:bg-bpjs-greenBright border border-bpjs-green/50 hover:border-bpjs-greenBright/60 rounded-md transition-all">Buka Aplikasi</a>
+      </div>
+    </div>
+  </nav>
+  <main class="pt-14 fade-in">
+
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide">
+        <p class="eyebrow scramble" data-text="OVERVIEW">OVERVIEW</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-white mt-4 tracking-tight">Apa itu SiKePo?</h1>
+        <p class="text-[14px] text-slate-400 mt-4 max-w-2xl leading-relaxed">
+          <strong class="text-white">SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling</strong> adalah
+          platform AI pre-adjudication audit untuk klaim BPJS Kesehatan. Menggabungkan
+          <span class="text-bpjs-greenBright font-medium">aturan deterministik</span> dan
+          <span class="text-cyan-400 font-medium">scoring anomali ML</span> untuk mendeteksi klaim fraud
+          sebelum dana cair — transparan, bukan black-box.
+        </p>
+
+        <!-- Architecture diagram -->
+        <div class="mt-12 card p-6 overflow-x-auto">
+          <p class="eyebrow mb-4" data-text="ARSITEKTUR SISTEM">ARSITEKTUR SISTEM</p>
+          <svg viewBox="0 0 820 200" class="w-full min-w-[600px]" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#334155"/></marker></defs>
+            <rect x="10" y="70" width="140" height="60" rx="8" fill="rgba(13,21,38,0.9)" stroke="#1B2740"/>
+            <text x="80" y="95" fill="#94A3B8" font-size="9" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="0.12em">INPUT</text>
+            <text x="80" y="115" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">SIMRS / Faskes</text>
+            <rect x="200" y="70" width="140" height="60" rx="8" fill="rgba(13,21,38,0.9)" stroke="#009B4C"/>
+            <text x="270" y="95" fill="#00C464" font-size="9" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="0.12em">A1 · TRIAGE</text>
+            <text x="270" y="115" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">Deterministic Rules</text>
+            <rect x="390" y="70" width="140" height="60" rx="8" fill="rgba(13,21,38,0.9)" stroke="#EAB308"/>
+            <text x="460" y="95" fill="#F59E0B" font-size="9" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="0.12em">A2 · INVESTIGATOR</text>
+            <text x="460" y="115" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">IsolationForest ML</text>
+            <rect x="580" y="70" width="140" height="60" rx="8" fill="rgba(13,21,38,0.9)" stroke="#EF4444"/>
+            <text x="650" y="95" fill="#EF4444" font-size="9" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="0.12em">A3 · ADJUDICATOR</text>
+            <text x="650" y="115" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">LLM mimo-v2.5-free</text>
+            <rect x="760" y="70" width="60" height="60" rx="8" fill="rgba(0,155,76,0.15)" stroke="#009B4C"/>
+            <text x="790" y="105" fill="#00C464" font-size="10" font-family="JetBrains Mono" text-anchor="middle" font-weight="700">V</text>
+            <line x1="150" y1="100" x2="200" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="340" y1="100" x2="390" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="530" y1="100" x2="580" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="720" y1="100" x2="760" y2="100" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <text x="270" y="155" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Ratio tarif · LOS · e-Fornas</text>
+            <text x="460" y="155" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Anomaly score · Evidence</text>
+            <text x="650" y="155" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Rationale · Verdict</text>
+          </svg>
+        </div>
+
+        <!-- Live stats -->
+        <div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="card p-5"><span class="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Total Klaim</span><div class="text-xl font-bold font-mono text-white mt-1" id="ov-total">--</div></div>
+          <div class="card p-5"><span class="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Anomali / Fraud</span><div class="text-xl font-bold font-mono text-red-400 mt-1" id="ov-fraud">--</div></div>
+          <div class="card p-5"><span class="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Clean</span><div class="text-xl font-bold font-mono text-emerald-400 mt-1" id="ov-clean">--</div></div>
+          <div class="card p-5"><span class="text-[9px] font-mono text-slate-500 uppercase tracking-wider">Total Faskes</span><div class="text-xl font-bold font-mono text-cyan-400 mt-1" id="ov-faskes">--</div></div>
+        </div>
+
+        <!-- Fraud breakdown -->
+        <div class="mt-8 card p-6">
+          <p class="text-[9.5px] font-mono font-bold text-slate-400 uppercase tracking-[0.14em] mb-4">Breakdown Modus Fraud</p>
+          <div id="ov-breakdown" class="space-y-0"><p class="text-[11px] text-slate-600">Memuat data...</p></div>
+        </div>
+
+        <!-- Key features -->
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="card p-5"><span class="text-[9.5px] font-mono text-bpjs-greenBright font-bold uppercase tracking-wider">150+</span><h3 class="text-[13px] font-bold text-white mt-2">Dataset Sintetis</h3><p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">150 klaim BPJS realistis dari 8 faskes — bersih, upcoding, phantom, cloning, overpreskripsi.</p></div>
+          <div class="card p-5"><span class="text-[9.5px] font-mono text-cyan-400 font-bold uppercase tracking-wider">AGENTIC</span><h3 class="text-[13px] font-bold text-white mt-2">3 Agen AI</h3><p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Triage, Investigator (ML), Adjudicator (LLM). Setiap agen terisolasi dengan peran terbatas.</p></div>
+          <div class="card p-5"><span class="text-[9.5px] font-mono text-amber-400 font-bold uppercase tracking-wider">EXPLAINABLE</span><h3 class="text-[13px] font-bold text-white mt-2">Bukan Black-Box</h3><p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">Setiap keputusan disertai jejak audit yang bisa dilatih balik. Verifikator tetap pegang kendali.</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="border-t border-white/[0.05] py-8">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="/static/img/sikepo-logo.png" alt="" width="28" height="22" class="h-5.5 w-auto opacity-80" style="height:22px;" aria-hidden="true">
+        <span class="text-[11px] text-slate-600">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling · Healthkathon BPJS Kesehatan 2026</span>
+      </div>
+      <span class="text-[10px] text-slate-600 font-mono tracking-wider">DETECT SMARTER. PROTECT JKN.</span>
+    </div>
+  </footer>
+  <script src="/static/js/shared.js"></script>
+  <script src="/static/js/pages.js"></script>
+</body>
+</html>

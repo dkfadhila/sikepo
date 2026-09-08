@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cara Kerja — SiKePo</title>
+  <meta name="theme-color" content="#0A0F1C">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: { bpjs: { navy: '#002C5F', green: '#009B4C', greenBright: '#00C464', cyan: '#00ACC1', dark: '#0A0F1C', surface: '#0D1526', surfaceLight: '#16213A', border: '#1B2740' } },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      } }
+    }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css">
+</head>
+<body class="font-sans antialiased">
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="location.href='/'">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="flex-none h-7 w-auto" role="img">
+        <span class="font-semibold text-white text-[13px] tracking-tight">SiKePo</span>
+        <span class="hidden sm:inline-block w-px h-3 bg-white/10"></span>
+        <span class="hidden sm:block text-[9px] text-slate-500 font-mono tracking-[0.14em] uppercase leading-tight">Sistem Investigasi Kelayakan<br>Klaim &amp; Pola Overbilling</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/pages/overview.html" class="nav-link">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link font-bold text-white border-b border-bpjs-greenBright">Cara Kerja</a>
+        <a href="/pages/detection-engine.html" class="nav-link">Detection Engine</a>
+        <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
+        <a href="/pages/roles.html" class="nav-link">Roles</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/app" class="px-4 py-2 text-[11px] font-semibold text-white bg-bpjs-green/90 hover:bg-bpjs-greenBright border border-bpjs-green/50 hover:border-bpjs-greenBright/60 rounded-md transition-all">Buka Aplikasi</a>
+      </div>
+    </div>
+  </nav>
+  <main class="pt-14 fade-in">
+
+    <section class="py-16 lg:py-20">
+      <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide">
+        <p class="eyebrow scramble" data-text="CARA KERJA">CARA KERJA</p>
+        <h1 class="text-3xl sm:text-4xl font-black text-white mt-4 tracking-tight">Pipeline Audit 4 Tahap</h1>
+        <p class="text-[14px] text-slate-400 mt-4 max-w-2xl leading-relaxed">Setiap berkas klaim melewati pipeline 4 tahap — dari intake sampai rekomendasi. Waktu rata-rata: <strong class="text-white">&lt; 1.2 detik</strong> per klaim.</p>
+
+        <!-- Flow Diagram -->
+        <div class="mt-12 card p-6 overflow-x-auto">
+          <svg viewBox="0 0 820 280" class="w-full min-w-[600px]" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="a2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#334155"/></marker></defs>
+            <rect x="10" y="20" width="180" height="100" rx="8" fill="rgba(13,21,38,0.9)" stroke="#009B4C" stroke-width="1.5"/>
+            <rect x="10" y="20" width="180" height="28" rx="8" fill="rgba(0,155,76,0.1)"/>
+            <text x="100" y="39" fill="#00C464" font-size="9" font-family="JetBrains Mono" text-anchor="middle" font-weight="700" letter-spacing="0.12em">01 - INTAKE</text>
+            <text x="100" y="65" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">Klaim Masuk</text>
+            <text x="100" y="82" fill="#94A3B8" font-size="9" font-family="Inter" text-anchor="middle">SIMRS - antrean SEP</text>
+            <text x="100" y="100" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">ICD-10 + tarif + obat</text>
+
+            <rect x="220" y="20" width="180" height="100" rx="8" fill="rgba(13,21,38,0.9)" stroke="#00ACC1" stroke-width="1.5"/>
+            <rect x="220" y="20" width="180" height="28" rx="8" fill="rgba(0,172,193,0.1)"/>
+            <text x="310" y="39" fill="#00ACC1" font-size="9" font-family="JetBrains Mono" text-anchor="middle" font-weight="700" letter-spacing="0.12em">02 - RULES</text>
+            <text x="310" y="65" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">Deterministic Check</text>
+            <text x="310" y="82" fill="#94A3B8" font-size="9" font-family="Inter" text-anchor="middle">Tarif plafon - LOS - e-Fornas</text>
+            <text x="310" y="100" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Aturan klinis nasional</text>
+
+            <rect x="430" y="20" width="180" height="100" rx="8" fill="rgba(13,21,38,0.9)" stroke="#EAB308" stroke-width="1.5"/>
+            <rect x="430" y="20" width="180" height="28" rx="8" fill="rgba(234,179,8,0.1)"/>
+            <text x="520" y="39" fill="#F59E0B" font-size="9" font-family="JetBrains Mono" text-anchor="middle" font-weight="700" letter-spacing="0.12em">03 - AI SCORE</text>
+            <text x="520" y="65" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">IsolationForest ML</text>
+            <text x="520" y="82" fill="#94A3B8" font-size="9" font-family="Inter" text-anchor="middle">Anomaly scoring 0-100</text>
+            <text x="520" y="100" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">7 fitur: ratio, LOS, fornas</text>
+
+            <rect x="640" y="20" width="180" height="100" rx="8" fill="rgba(13,21,38,0.9)" stroke="#EF4444" stroke-width="1.5"/>
+            <rect x="640" y="20" width="180" height="28" rx="8" fill="rgba(239,68,68,0.1)"/>
+            <text x="730" y="39" fill="#EF4444" font-size="9" font-family="JetBrains Mono" text-anchor="middle" font-weight="700" letter-spacing="0.12em">04 - ADJUDIKASI</text>
+            <text x="730" y="65" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">LLM mimo</text>
+            <text x="730" y="82" fill="#94A3B8" font-size="9" font-family="Inter" text-anchor="middle">Rationale + Rekomendasi</text>
+            <text x="730" y="100" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">APPROVE/HOLD/REJECT</text>
+
+            <line x1="190" y1="70" x2="220" y2="70" stroke="#334155" stroke-width="1.5" marker-end="url(#a2)"/>
+            <line x1="400" y1="70" x2="430" y2="70" stroke="#334155" stroke-width="1.5" marker-end="url(#a2)"/>
+            <line x1="610" y1="70" x2="640" y2="70" stroke="#334155" stroke-width="1.5" marker-end="url(#a2)"/>
+
+            <rect x="280" y="160" width="260" height="100" rx="8" fill="rgba(0,155,76,0.08)" stroke="#009B4C" stroke-width="1" stroke-dasharray="4 2"/>
+            <text x="410" y="185" fill="#00C464" font-size="9" font-family="JetBrains Mono" text-anchor="middle" font-weight="700" letter-spacing="0.12em">OUTPUT</text>
+            <text x="410" y="205" fill="#E2E8F0" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">Rekomendasi Adjudikasi</text>
+            <text x="410" y="222" fill="#94A3B8" font-size="9" font-family="Inter" text-anchor="middle">Risk score - Fraud type - Alasan AI</text>
+            <text x="410" y="240" fill="#64748B" font-size="8" font-family="JetBrains Mono" text-anchor="middle">Verifikator tetap pegang kendali final</text>
+
+            <line x1="730" y1="120" x2="730" y2="170" stroke="#334155" stroke-width="1.5" marker-end="url(#a2)"/>
+            <line x1="730" y1="180" x2="540" y2="195" stroke="#334155" stroke-width="1.5" marker-end="url(#a2)"/>
+          </svg>
+        </div>
+
+        <!-- Step details -->
+        <div class="mt-12 space-y-4">
+          <div class="card p-6"><div class="flex items-center gap-3 mb-3"><span class="text-[10px] font-mono font-bold text-bpjs-greenBright bg-bpjs-green/10 border border-bpjs-green/25 rounded px-2 py-0.5">01</span><h3 class="text-[14px] font-bold text-white">Intake Berkas Klaim</h3></div><p class="text-[12px] text-slate-400 leading-relaxed">Klaim INA-CBGs masuk dari SIMRS via antrean SEP real-time. Setiap berkas terdiri dari: kode ICD-10 diagnosa, tindakan ICD-9-CM, rincian obat & alkes, biaya yang diajukan RS, dan tarif plafon INA-CBGs. Data dikuantifikasi ke dalam fitur numerik (7 dimensi) sebelum masuk pipeline.</p></div>
+          <div class="card p-6"><div class="flex items-center gap-3 mb-3"><span class="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/25 rounded px-2 py-0.5">02</span><h3 class="text-[14px] font-bold text-white">Deterministic Rules (A1 Triage)</h3></div><p class="text-[12px] text-slate-400 leading-relaxed">Validasi cepat menggunakan aturan klinis nasional: rasio tarif pengajuan vs plafon INA-CBGs (flag > 50%), Length of Stay (LOS) vs standar episod rawat, dan pemeriksaan e-Fornas (Formularium Nasional) untuk obat restriksi. Setiap pelanggaran menambah risk score dan menghasilkan flag bukti untuk A2.</p></div>
+          <div class="card p-6"><div class="flex items-center gap-3 mb-3"><span class="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/25 rounded px-2 py-0.5">03</span><h3 class="text-[14px] font-bold text-white">Explainable AI Score (A2 Investigator)</h3></div><p class="text-[12px] text-slate-400 leading-relaxed">Model IsolationForest mengevaluasi 7 fitur (ratio tarif, delta LOS, jumlah obat restriksi, dll) terhadap distribusi populasi klaim. Menghasilkan anomaly score 0-100 dengan threshold yang dikalibrasi via F1-score. Skor ML dan flag A1 difusi menjadi fused risk score akhir.</p></div>
+          <div class="card p-6"><div class="flex items-center gap-3 mb-3"><span class="text-[10px] font-mono font-bold text-red-400 bg-red-500/10 border border-red-500/25 rounded px-2 py-0.5">04</span><h3 class="text-[14px] font-bold text-white">Rekomendasi Adjudikasi (A3 Adjudicator)</h3></div><p class="text-[12px] text-slate-400 leading-relaxed">Model LLM mimo-v2.5-free (via opencode) menerima seluruh temuan investigasi dan menghasilkan putusan akhir: APPROVE, HOLD, atau REJECT — disertai alasan dalam Bahasa Indonesia. Verifikator tetap melakukan review final sebelum verdict disimpan. Jika LLM timeout, fallback ke template rule-based.</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="border-t border-white/[0.05] py-8">
+    <div class="max-w-[1200px] mx-auto px-6 lg:px-8 guide flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="/static/img/sikepo-logo.png" alt="" width="28" height="22" class="h-5.5 w-auto opacity-80" style="height:22px;" aria-hidden="true">
+        <span class="text-[11px] text-slate-600">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling · Healthkathon BPJS Kesehatan 2026</span>
+      </div>
+      <span class="text-[10px] text-slate-600 font-mono tracking-wider">DETECT SMARTER. PROTECT JKN.</span>
+    </div>
+  </footer>
+  <script src="/static/js/shared.js"></script>
+  
+</body>
+</html>

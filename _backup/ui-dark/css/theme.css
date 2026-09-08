@@ -1,0 +1,206 @@
+/* ═══════════════════════════════════════════════════════════
+   SiKePo Theme — Gov-Tech Command Center
+   Swiss editorial × premium AI SaaS × BPJS healthcare intelligence
+   ═══════════════════════════════════════════════════════════ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #0A0F1C;
+  color: #E2E8F0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(0, 155, 76, 0.35); color: #fff; }
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #1C2A44; border-radius: 4px; }
+*::-webkit-scrollbar-thumb:hover { background: #2A3B5C; }
+*::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Focus ring (a11y) ─────────────────────────────────── */
+:focus-visible { outline: 2px solid #00C464; outline-offset: 2px; border-radius: 4px; }
+
+/* ── Navigation ────────────────────────────────────────── */
+.nav-blur {
+  background: rgba(11, 17, 32, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.8);
+}
+.nav-link {
+  position: relative;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8B99B0;
+  transition: color 0.2s ease;
+  padding: 2px 0;
+}
+.nav-link:hover { color: #fff; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1px;
+  background: #00C464;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-link:hover::after { transform: scaleX(1); }
+
+/* Nav tabs (cockpit) */
+.nav-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748B;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.nav-tab:hover { color: #CBD5E1; }
+.nav-tab.active { color: #E2E8F0; border-bottom-color: #009B4C; }
+
+/* Cockpit tabs */
+.tab-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748B;
+  padding: 10px 16px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1px;
+}
+.tab-btn:hover { color: #94A3B8; }
+.tab-btn.active { color: #E2E8F0; border-bottom-color: #009B4C; }
+
+/* ── Surfaces ──────────────────────────────────────────── */
+.card {
+  background: rgba(13, 21, 38, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.10);
+  border-radius: 10px;
+}
+.glass {
+  background: rgba(13, 21, 38, 0.66);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+.card-hover { transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease; }
+.card-hover:hover { border-color: rgba(0, 196, 100, 0.38); transform: translateY(-2px); background: rgba(13, 21, 38, 0.88); }
+
+/* ── Hero background layers ────────────────────────────── */
+.hero-bg {
+  background:
+    radial-gradient(60% 55% at 72% 42%, rgba(0, 44, 95, 0.42) 0%, transparent 62%),
+    radial-gradient(38% 34% at 30% 78%, rgba(0, 155, 76, 0.07) 0%, transparent 55%),
+    #0A0F1C;
+}
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+/* Swiss vertical hairline guides at container edges */
+.guide { border-left: 1px solid rgba(148, 163, 184, 0.06); border-right: 1px solid rgba(148, 163, 184, 0.06); }
+
+/* ── Hero machine ──────────────────────────────────────── */
+.machine-blend { mix-blend-mode: screen; }
+.scan-beam {
+  position: absolute;
+  left: 8%; right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45, 212, 232, 0.75), transparent);
+  filter: drop-shadow(0 0 6px rgba(45, 212, 232, 0.5));
+  animation: scan 7s linear infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes scan {
+  0%   { top: 5%; opacity: 0; }
+  8%   { opacity: 0.55; }
+  88%  { opacity: 0.55; }
+  100% { top: 93%; opacity: 0; }
+}
+
+/* ── Floating data cards ───────────────────────────────── */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.float-a { animation: floaty 6s ease-in-out infinite; }
+.float-b { animation: floaty 6s ease-in-out 1.6s infinite; }
+.float-c { animation: floaty 6s ease-in-out 3.2s infinite; }
+
+/* ── Eyebrow / kicker labels ───────────────────────────── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #00C464;
+  text-transform: uppercase;
+}
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: #00C464; flex: none; }
+
+/* ── Metrics ───────────────────────────────────────────── */
+.metric { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* ── Risk spectrum segments ────────────────────────────── */
+.spectrum-seg { height: 6px; border-radius: 2px; transition: filter 0.2s ease, transform 0.2s ease; }
+.spectrum-seg:hover { filter: brightness(1.4); transform: scaleY(1.5); }
+
+/* ── Buttons ───────────────────────────────────────────── */
+.cta-primary {
+  background: linear-gradient(180deg, #00A854 0%, #009B4C 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s ease;
+}
+.cta-primary:hover {
+  background: linear-gradient(180deg, #00BD60 0%, #00A854 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 8px 28px rgba(0, 155, 76, 0.28);
+  transform: translateY(-1px);
+}
+.cta-ghost { transition: all 0.25s ease; }
+.cta-ghost:hover { border-color: rgba(0, 196, 100, 0.35); color: #fff; background: rgba(0, 155, 76, 0.06); }
+
+/* ── View transition ───────────────────────────────────── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.45s ease-out; }
+
+/* ── Table rows ────────────────────────────────────────── */
+.row-selected { background: rgba(0, 155, 76, 0.08); border-left: 2px solid #009B4C; }
+.row-hover:hover { background: rgba(255, 255, 255, 0.02); }
+
+/* ── Reduced motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .float-a, .float-b, .float-c, .scan-beam, .fade-in { animation: none !important; }
+  .card-hover, .cta-primary, .cta-ghost, .spectrum-seg { transition: none !important; }
+}

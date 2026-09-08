@@ -1,0 +1,170 @@
+/* ═══════════════════════════════════════════════════════════
+   SiKePo Theme v2 — Light, ramah pengguna, warna brand BPJS.
+   Dipakai oleh: index.html + pages/*.html (Cockpit /app punya
+   style sendiri di app.html).
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg: #F5F7FA;
+  --surface: #FFFFFF;
+  --line: #E4E9F1;
+  --line-soft: #EEF2F7;
+  --ink: #10243E;
+  --navy: #002C5F;
+  --body: #3E5165;
+  --muted: #6B7A90;
+  --green: #009B4C;
+  --green-dark: #007C3D;
+  --green-soft: #E7F6EE;
+  --cyan: #0284A8;
+  --cyan-soft: #E3F5FA;
+  --red: #D92D20;
+  --red-soft: #FDECEA;
+  --amber: #B54708;
+  --amber-soft: #FCF1E4;
+  --blue: #175CD3;
+  --blue-soft: #E9F0FB;
+  --shadow-sm: 0 1px 2px rgba(16, 36, 62, 0.05), 0 1px 3px rgba(16, 36, 62, 0.06);
+  --shadow-md: 0 2px 4px rgba(16, 36, 62, 0.05), 0 8px 24px rgba(16, 36, 62, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--body);
+  font-feature-settings: "cv02", "cv03";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(0, 155, 76, 0.18); color: var(--ink); }
+
+/* ── Scrollbar ─────────────────────────────────────────── */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 6px; border: 2px solid var(--bg); }
+*::-webkit-scrollbar-thumb:hover { background: #AEBDCE; }
+*::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Focus ring (a11y) ─────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 6px; }
+
+/* ── Navigasi ──────────────────────────────────────────── */
+.site-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-link {
+  font-size: 13.5px; font-weight: 500; color: var(--muted);
+  transition: color 0.15s ease; padding: 4px 0;
+}
+.nav-link:hover { color: var(--ink); }
+.nav-link.active { color: var(--green); font-weight: 600; }
+
+/* ── Tombol ────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--green); color: #fff;
+  font-weight: 600; border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 124, 61, 0.25);
+  transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 124, 61, 0.25); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--surface); color: var(--ink);
+  font-weight: 600; border: 1px solid var(--line); border-radius: 10px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.btn-outline:hover { border-color: #C4D0DE; background: #FBFCFE; }
+
+/* ── Permukaan ─────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.card-hover { transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease; }
+.card-hover:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: #D5DEE9; }
+
+/* ── Label kecil (kicker) ──────────────────────────────── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--green);
+}
+.eyebrow::before { content: ''; width: 20px; height: 2px; border-radius: 2px; background: var(--green); flex: none; }
+
+/* ── Angka & metrik ────────────────────────────────────── */
+.metric { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+/* ── Band statistik (navy) ─────────────────────────────── */
+.stat-band { background: linear-gradient(135deg, #002C5F 0%, #013A78 60%, #06457F 100%); }
+.stat-num { font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+/* ── Nomor langkah ─────────────────────────────────────── */
+.step-num {
+  width: 34px; height: 34px; border-radius: 10px; flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--green-soft); color: var(--green);
+  font-weight: 700; font-size: 13px;
+}
+
+/* ── Badge status (gaya shadcn: kotak, border halus) ───── */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 6px; border: 1px solid transparent;
+  font-size: 11px; font-weight: 600;
+}
+.badge-green  { background: var(--green-soft); color: #067647; border-color: #C6E8D5; }
+.badge-red    { background: var(--red-soft); color: var(--red); border-color: #F4CFCB; }
+.badge-amber  { background: var(--amber-soft); color: var(--amber); border-color: #F2DCC2; }
+.badge-blue   { background: var(--blue-soft); color: var(--blue); border-color: #C9DBF6; }
+.badge-cyan   { background: var(--cyan-soft); color: var(--cyan); border-color: #C4E7F0; }
+.badge-gray   { background: #F0F3F8; color: var(--muted); border-color: var(--line); }
+
+/* ── Tabel (halaman publik) ────────────────────────────── */
+.tbl-light { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl-light th {
+  text-align: left; padding: 10px 16px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); background: #F8FAFC; border-bottom: 1px solid var(--line);
+}
+.tbl-light td { padding: 10px 16px; border-bottom: 1px solid var(--line-soft); color: var(--body); }
+.tbl-light tbody tr:last-child td { border-bottom: none; }
+.row-hover:hover td { background: #F8FAFC; }
+
+/* ── Footer ────────────────────────────────────────────── */
+.site-footer { background: var(--navy); color: #B9C9DC; }
+.site-footer a { color: #DCE7F3; transition: color 0.15s ease; }
+.site-footer a:hover { color: #fff; }
+
+/* ── Transisi halaman ──────────────────────────────────── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.35s ease-out; }
+
+/* ── Motion reveal (progressive enhancement) ─────────────
+   Kelas anim-ready dipasang animations.js HANYA jika Motion
+   termuat & motion diizinkan — jadi tanpa JS/CDN, semua tetap
+   terlihat normal. */
+.anim-ready [data-reveal],
+.anim-ready [data-reveal-group] > * { opacity: 0; }
+.anim-ready [data-reveal].motion-in,
+.anim-ready [data-reveal-group] > .motion-in { opacity: 1; }
+
+/* ── Reduced motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-in, .card-hover, .btn-primary, .btn-outline { animation: none !important; transition: none !important; }
+}

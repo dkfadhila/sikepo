@@ -1,0 +1,8 @@
+_backup/
+_server.log
+frontend/*.backup-*.html
+frontend/*.backup-*.js
+frontend/_qa*.html
+frontend/_qa-temp/
+scripts/
+__pycache__/
