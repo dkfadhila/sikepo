@@ -21,28 +21,29 @@
       } }
     }
   </script>
-  <link rel="stylesheet" href="/static/css/theme.css?v=11">
+  <link rel="stylesheet" href="/static/css/theme.css?v=12">
 </head>
 <body class="font-sans antialiased">
 
   <nav class="site-nav">
-    <div class="max-w-[1180px] mx-auto px-5 lg:px-8 h-16 flex items-center justify-between gap-4">
-      <a href="/" class="flex items-center gap-2.5 flex-none">
-        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="h-8 w-auto">
-        <span class="font-bold text-bpjs-ink text-[16px] tracking-tight">SiKePo</span>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" class="h-7 w-auto">
+        <b>SiKePo</b>
       </a>
-      <div class="hidden md:flex items-center gap-7">
+      <div class="nav-links hidden md:flex">
         <a href="/pages/overview.html" class="nav-link">Overview</a>
         <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
         <a href="/pages/detection-engine.html" class="nav-link active">Mesin Deteksi</a>
         <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
         <a href="/pages/roles.html" class="nav-link">Peran</a>
       </div>
-      <a href="/app" class="btn-primary px-4 py-2.5 text-[13.5px] flex-none">Buka Aplikasi</a>
+      <a href="/app" class="nav-cta-mini">Buka Aplikasi</a>
+      <!-- Hamburger mobile di-inject oleh shared.js (initMobileNav) -->
     </div>
   </nav>
 
-  <main class="pt-16 fade-in">
+  <main class="fade-in" style="padding-top:104px">
     <section class="py-14 lg:py-16 bg-white border-b border-bpjs-line">
       <div class="max-w-[1180px] mx-auto px-5 lg:px-8">
         <p class="eyebrow">Mesin deteksi</p>
