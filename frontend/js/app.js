@@ -51,18 +51,15 @@ async function attemptLogin(e) {
 }
 
 function showCockpit() {
-  document.getElementById('app-gate').style.display = 'none';
+  document.getElementById('app-gate').classList.add('hidden');
   ['tab-dashboard','tab-claims','tab-sandbox','tab-data','tab-users'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('hidden'); });
-  document.getElementById('btn-login-trigger').style.display = 'none';
-  // Desktop badge
-  const badge = document.getElementById('user-badge');
-  badge.classList.add('show');
+  // Badge pengguna: sidebar (desktop/icon rail) + header (mobile)
+  document.getElementById('user-badge').classList.add('show');
   document.getElementById('user-role-label').textContent = `${currentUser.role_name || currentUser.role} · ${currentUser.username}`;
-  // Mobile badge
   const bb = document.getElementById('bottombar-badge');
   if (bb) {
     document.getElementById('bottombar-role').textContent = currentUser.username;
-    bb.style.display = 'flex';
+    bb.classList.add('show');
   }
   applyPerms();
   switchTab('dashboard');
@@ -73,8 +70,13 @@ function logoutUser() {
   authToken = null; currentUser = null; localStorage.removeItem('sikepo_token'); location.href = '/';
 }
 
+// 401 → drop session and land on the login form (PRD §6: logout + redirect login)
+function sessionExpired() {
+  authToken = null; currentUser = null; localStorage.removeItem('sikepo_token'); location.href = '/app';
+}
+
 function ah() { return authToken ? { 'X-Auth-Token': authToken } : {}; }
-async function af(url, o = {}) { o.headers = { ...(o.headers || {}), ...ah() }; const r = await fetch(url, o); if (r.status === 401) { logoutUser(); return null; } return r; }
+async function af(url, o = {}) { o.headers = { ...(o.headers || {}), ...ah() }; const r = await fetch(url, o); if (r.status === 401) { sessionExpired(); return null; } return r; }
 
 function applyPerms() {
   if (!currentUser) return;
@@ -275,7 +277,7 @@ async function loadHeatmap() {
 
 /* ── Stats ───────────────────────────────────────────────── */
 async function fetchStats() {
-  try { const r = await af('/api/stats/overview'); if (!r) return; const d = await r.json(); document.getElementById('cp-savings').textContent = formatCompactIDR(d.total_savings_idr); document.getElementById('cp-total').textContent = d.total_claims; document.getElementById('cp-fraud').textContent = d.anomalous_count; document.getElementById('cp-clean').textContent = d.clean_count; } catch {}
+  try { const r = await af('/api/stats/overview'); if (!r) return; const d = await r.json(); document.getElementById('cp-savings').textContent = formatCompactIDR(d.total_savings_idr); document.getElementById('cp-total').textContent = d.total_claims; document.getElementById('cp-fraud').textContent = d.anomalous_count; document.getElementById('cp-clean').textContent = d.clean_count; document.getElementById('cp-faskes').textContent = d.active_faskes_count ?? '—'; } catch {}
 }
 
 /* ── Claims: fetch + filter compose ──────────────────────── */
@@ -289,13 +291,13 @@ const STATUS_TEXT = { APPROVED: 'Disetujui', REJECTED: 'Ditolak', PENDING_AUDIT:
 function riskClass(r) { return r >= 70 ? 'risk-high' : r >= 30 ? 'risk-mid' : 'risk-low'; }
 
 async function fetchClaims() {
-  const q = document.getElementById('filter-search')?.value?.trim() || '';
   const status = document.getElementById('filter-status')?.value || 'ALL';
   const ft = document.getElementById('filter-fraud-type')?.value || 'ALL';
   let url = '/api/claims?limit=200';
   if (status !== 'ALL') url += `&status=${status}`;
   if (ft !== 'ALL') url += `&fraud_type=${ft}`;
-  if (q) url += `&search=${encodeURIComponent(q)}`;
+  // search stays client-side (applyClientFilters) so it can also match
+  // ICD-10, which the server-side search does not cover (PRD §3.2)
   try {
     const r = await af(url); if (!r) return;
     const d = await r.json();
@@ -308,16 +310,24 @@ async function fetchClaims() {
     document.getElementById('table-count-label').textContent = '--';
   }
 }
-function debounceSearch() { clearTimeout(debounceTimer); debounceTimer = setTimeout(fetchClaims, 250); }
+function debounceSearch() { clearTimeout(debounceTimer); debounceTimer = setTimeout(applyClientFilters, 250); }
 
-// Client-side filters the API does not expose: faskes + risk range
+// Client-side filters: text search (SEP/ID, faskes, pasien, diagnosa, ICD-10),
+// faskes dropdown, risk min/max — the API only exposes status/fraud_type/search
 function applyClientFilters() {
+  const q = (document.getElementById('filter-search')?.value || '').trim().toLowerCase();
   const faskes = document.getElementById('filter-faskes')?.value || 'ALL';
   const rMin = document.getElementById('filter-risk-min')?.value;
   const rMax = document.getElementById('filter-risk-max')?.value;
   const min = rMin === '' || isNaN(+rMin) ? null : +rMin;
   const max = rMax === '' || isNaN(+rMax) ? null : +rMax;
   filteredClaims = claimsData.filter(c =>
+    (!q ||
+      String(c.id).toLowerCase().includes(q) ||
+      String(c.faskes?.nama || '').toLowerCase().includes(q) ||
+      String(c.pasien?.nama || '').toLowerCase().includes(q) ||
+      String(c.diagnosa?.nama || '').toLowerCase().includes(q) ||
+      String(c.diagnosa?.icd10 || '').toLowerCase().includes(q)) &&
     (faskes === 'ALL' || c.faskes.nama === faskes) &&
     (min === null || c.risk_score >= min) &&
     (max === null || c.risk_score <= max)
@@ -381,7 +391,8 @@ function restrictedDrugs(obat) {
 }
 
 function pipelineStripHtml(c) {
-  const t = Array.isArray(c._trace) ? c._trace : null;
+  // _trace = hasil "Jalankan investigasi AI" sesi ini; agent_trace = trace tersimpan dari ingest
+  const t = Array.isArray(c._trace) ? c._trace : (Array.isArray(c.agent_trace) ? c.agent_trace : null);
   const a1 = t?.find(x => x.agent === 'A1'), a2 = t?.find(x => x.agent === 'A2'), a3 = t?.find(x => x.agent === 'A3');
   const stage = (code, done, val, sub) =>
     `<div class="pipe-stage ${done ? 'done' : ''}">
@@ -457,7 +468,8 @@ function renderInspector() {
     <div class="insp-block">
       <div class="insp-block-title">Pipeline A1 → A2 → A3</div>
       ${pipelineStripHtml(c)}
-      ${!c._trace ? `<button onclick="runAgentOnClaim('${c.id}')" id="btn-agent-run" class="btn btn-s" style="width:100%;justify-content:center;font-size:12px;margin-top:8px">⚡ Jalankan investigasi AI</button><div id="insp-ai-result"></div>` : `
+      ${!c._trace ? `<button onclick="runAgentOnClaim('${c.id}')" id="btn-agent-run" class="btn btn-s" style="width:100%;justify-content:center;font-size:12px;margin-top:8px">⚡ Jalankan investigasi AI</button><div id="insp-ai-result"></div>
+      ${c.rekomendasi ? `<div style="margin-top:8px;border:1px solid #C6E8D5;background:#F4FBF7;border-radius:9px;padding:8px 11px;font-size:11.5px;font-weight:600;color:#067647">Rekomendasi: ${c.rekomendasi}</div>` : ''}` : `
       ${c._alasan_ai ? `<div style="margin-top:8px;border:1px solid #C9DBF6;background:#F5F9FE;border-radius:9px;padding:9px 11px"><div style="font-size:10.5px;font-weight:700;color:#175CD3;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Alasan A3</div><p style="font-size:12px;color:#3E5165">${c._alasan_ai}</p></div>` : ''}
       ${c._rekomendasi ? `<div style="margin-top:6px;border:1px solid #C6E8D5;background:#F4FBF7;border-radius:9px;padding:8px 11px;font-size:11.5px;font-weight:600;color:#067647">Rekomendasi: ${c._rekomendasi}</div>` : ''}`}
     </div>
@@ -467,7 +479,14 @@ function renderInspector() {
         <summary>Alasan audit (${reasons.length})</summary>
         <ul class="audit-list">${reasons.map(r => `<li>· ${r}</li>`).join('') || '<li>Tidak ada catatan.</li>'}</ul>
       </details>
-    </div>`;
+    </div>
+    ${Array.isArray(c.verdict_history) && c.verdict_history.length ? `
+    <div class="insp-block">
+      <div class="insp-block-title">Riwayat keputusan (${c.verdict_history.length})</div>
+      <div style="border:1px solid var(--line);border-radius:9px;padding:4px 11px;background:#fff">
+        ${c.verdict_history.slice().reverse().map(v => `<div class="kv-row"><span class="kv-lbl mono-num">${String(v.at || '').replace('T', ' ').slice(0, 16) || '-'} · ${v.by || '-'}</span><span class="kv-val">${v.action || '-'}</span></div>`).join('')}
+      </div>
+    </div>` : ''}`;
 
   motionStagger(document.getElementById('inspector-content'));
 }
@@ -610,11 +629,49 @@ document.addEventListener('keydown', (e) => {
 
 /* ── Users ───────────────────────────────────────────────── */
 const RL = { SA: 'Super Admin', VK: 'Verifikator', ST: 'Satgas AF', AU: 'Auditor' }, RC = { SA: 'b-r', VK: 'b-g', ST: 'b-y', AU: 'b-b' };
+let editingUserId = null;
 async function fetchUsers() { try { const r = await af('/api/admin/users'); if (r) renderUsers((await r.json()).users); } catch {} }
 function renderUsers(users) {
   const tb = document.getElementById('users-tbody');
   if (!users.length) { tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:20px;color:#6B7A90">Belum ada pengguna.</td></tr>'; return; }
-  tb.innerHTML = users.map(u => `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B7A90">${u.id}</td><td style="font-weight:600;color:#10243E;font-size:12.5px">${u.username}</td><td style="color:#3E5165;font-size:12.5px">${u.fullname}</td><td><span class="b ${RC[u.role]}">${RL[u.role] || u.role}</span></td><td style="font-size:12px;font-weight:600;color:${u.active ? '#067647' : '#6B7A90'}">${u.active ? 'Aktif' : 'Nonaktif'}</td><td style="text-align:center">${u.username !== 'admin' ? `<button onclick="deleteUser('${u.id}')" style="font-size:12px;font-weight:600;color:#D92D20;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px">Nonaktifkan</button>` : '<span style="color:#9AA8B9">—</span>'}</td></tr>`).join('');
+  tb.innerHTML = users.map(u => {
+    if (editingUserId === u.id) return userEditRowHtml(u);
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B7A90">${u.id}</td><td style="font-weight:600;color:#10243E;font-size:12.5px">${u.username}</td><td style="color:#3E5165;font-size:12.5px">${u.fullname}</td><td><span class="b ${RC[u.role]}">${RL[u.role] || u.role}</span></td><td style="font-size:12px;font-weight:600;color:${u.active ? '#067647' : '#6B7A90'}">${u.active ? 'Aktif' : 'Nonaktif'}</td><td style="text-align:center;white-space:nowrap"><button onclick="editUser('${u.id}')" style="font-size:12px;font-weight:600;color:#175CD3;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px">Edit</button>${u.username !== 'admin' ? `<button onclick="deleteUser('${u.id}')" style="font-size:12px;font-weight:600;color:#D92D20;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px">Nonaktifkan</button>` : ''}</td></tr>`;
+  }).join('');
+}
+
+// Inline edit row (PUT /api/admin/users/{id}) — no modal maze (PRD §10)
+function userEditRowHtml(u) {
+  const roleOpts = Object.keys(RL).map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${RL[r]}</option>`).join('');
+  return `<tr>
+    <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B7A90">${u.id}</td>
+    <td style="font-weight:600;color:#10243E;font-size:12.5px">${u.username}</td>
+    <td><input type="text" id="eu-fullname" class="fi" value="${String(u.fullname || '').replace(/"/g, '&quot;')}" style="min-width:130px"></td>
+    <td><select id="eu-role" class="fi fs">${roleOpts}</select></td>
+    <td><label style="font-size:12px;font-weight:600;color:#3E5165;display:flex;align-items:center;gap:5px"><input type="checkbox" id="eu-active" ${u.active ? 'checked' : ''}> Aktif</label></td>
+    <td style="text-align:center;white-space:nowrap">
+      <input type="password" id="eu-password" class="fi" placeholder="Password baru (opsional)" style="width:150px;margin-right:6px">
+      <button onclick="saveUser('${u.id}')" class="btn btn-p" style="padding:5px 10px">Simpan</button>
+      <button onclick="cancelUserEdit()" class="btn btn-s" style="padding:5px 10px">Batal</button>
+    </td></tr>`;
+}
+function editUser(id) { editingUserId = id; fetchUsers(); }
+function cancelUserEdit() { editingUserId = null; fetchUsers(); }
+async function saveUser(id) {
+  const note = document.getElementById('add-user-note');
+  const body = {
+    fullname: document.getElementById('eu-fullname').value.trim(),
+    role: document.getElementById('eu-role').value,
+    active: document.getElementById('eu-active').checked
+  };
+  const pw = document.getElementById('eu-password').value;
+  if (pw) body.password = pw;
+  try {
+    const r = await af(`/api/admin/users/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (d.success) { editingUserId = null; if (note) { note.style.display = 'block'; note.textContent = `Pengguna ${d.user.username} diperbarui.`; note.style.color = '#067647'; } fetchUsers(); }
+    else { if (note) { note.style.display = 'block'; note.textContent = d.detail || 'Gagal memperbarui.'; note.style.color = '#D92D20'; } }
+  } catch { if (note) { note.style.display = 'block'; note.textContent = 'Terjadi kesalahan.'; note.style.color = '#D92D20'; } }
 }
 async function addUser(e) {
   e.preventDefault();

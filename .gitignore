@@ -11,3 +11,5 @@ frontend/_qa-temp/
 frontend/_qa*.html
 
 .vercel
+data/api_keys.json
+data/sessions.json

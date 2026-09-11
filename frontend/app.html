@@ -4,170 +4,187 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SiKePo — Cockpit</title>
-  <meta name="theme-color" content="#F5F7FA">
+  <meta name="theme-color" content="#F6F7F9">
   <link rel="icon" href="/static/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ═══ SiKePo Cockpit v3 — design system "Sortir" ═══
+       Token selaras dengan theme.css v3 (landing + pages). */
     :root {
-      --bg: #F5F7FA; --surface: #FFFFFF; --line: #E4E9F1; --line-soft: #EEF2F7;
-      --ink: #10243E; --navy: #002C5F; --body: #3E5165; --muted: #6B7A90;
+      --bg: #F6F7F9; --surface: #FFFFFF; --line: #E6E8EE; --line-soft: #EEF0F4;
+      --ink: #0C1B2E; --navy: #0A2540; --ink-band: #0A1B33; --body: #44546A; --muted: #7C8BA1;
       --green: #009B4C; --green-dark: #007C3D; --green-soft: #E7F6EE;
       --cyan: #0284A8; --cyan-soft: #E3F5FA;
       --red: #D92D20; --red-soft: #FDECEA;
       --amber: #B54708; --amber-soft: #FCF1E4;
       --blue: #175CD3; --blue-soft: #E9F0FB;
+      --font-display: 'Space Grotesk','Inter',sans-serif;
+      --font-mono: 'JetBrains Mono',monospace;
     }
     *{margin:0;padding:0;box-sizing:border-box}
     html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
     body{background:var(--bg);color:var(--body);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
-    ::selection{background:rgba(0,155,76,.18)}
+    ::selection{background:rgba(0,155,76,.16)}
     ::-webkit-scrollbar{width:8px;height:8px}
     ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:6px;border:2px solid var(--bg)}
     ::-webkit-scrollbar-track{background:transparent}
     :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:6px}
     .hidden{display:none!important}
-    .font-mono{font-family:'JetBrains Mono',monospace}
-    .text-white{color:#fff}
+    .font-mono,.mono-id,.mono-num{font-family:var(--font-mono)}
 
-    /* ── TOPBAR ── */
-    .topbar{background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:fixed;top:0;left:0;right:0;z-index:50;height:56px;display:flex;align-items:center;padding:0 16px;gap:8px}
-    .topbar-brand{display:flex;align-items:center;gap:8px;flex-shrink:0;cursor:pointer}
-    .topbar-brand img{height:26px;width:auto}
-    .topbar-brand span{font-weight:700;font-size:15px;color:var(--navy);letter-spacing:-.01em}
-    .topbar-nav{display:flex;gap:2px;margin-left:auto;background:#EDF1F6;border-radius:11px;padding:3px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-    .topbar-nav::-webkit-scrollbar{display:none}
-    .topbar-btn{padding:6px 11px;font-size:12.5px;font-weight:500;color:var(--muted);border:none;background:none;border-radius:8px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .15s}
-    .topbar-btn:hover{color:var(--ink)}
-    .topbar-btn.active{color:var(--ink);background:#fff;font-weight:600;box-shadow:0 1px 2px rgba(16,36,62,.1)}
-    .topbar-btn svg{width:15px;height:15px;flex-shrink:0}
-    .topbar-user{display:flex;align-items:center;gap:8px;margin-left:8px;flex-shrink:0}
-    .topbar-user-badge{display:none;align-items:center;gap:6px;padding:4px 10px;background:var(--green-soft);border:1px solid #C6E8D5;border-radius:8px;font-size:12px;font-weight:600;color:var(--green-dark)}
-    .topbar-user-badge.show{display:flex}
-    .topbar-user-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
-    .topbar-logout{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 4px;border-radius:4px}
-    .topbar-logout:hover{color:var(--red)}
-    .topbar-login{padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;cursor:pointer}
-    .topbar-login:hover{border-color:#C4D0DE;background:#FBFCFE}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+    /* ── SHELL: sidebar (desktop) + konten ── */
+    .shell{display:flex;min-height:100dvh}
+    .sbar{
+      position:fixed;top:0;bottom:0;left:0;z-index:60;width:232px;
+      background:var(--surface);border-right:1px solid var(--line);
+      display:flex;flex-direction:column;
+    }
+    .sbar-brand{display:flex;align-items:center;gap:10px;padding:18px 18px 16px;border-bottom:1px solid var(--line-soft)}
+    .sbar-brand img{height:28px;width:auto}
+    .sbar-brand b{font-family:var(--font-display);font-weight:700;font-size:16.5px;color:var(--navy);letter-spacing:-.01em}
+    .sbar-brand .sbar-sub{display:block;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:1px}
+    .sbar-nav{display:flex;flex-direction:column;gap:2px;padding:12px 10px;flex:1}
+    .sbar-link{display:flex;align-items:center;gap:10px;padding:9px 11px;border:none;background:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);text-align:left;transition:all .13s;position:relative}
+    .sbar-link:hover{color:var(--ink);background:#F6F8FA}
+    .sbar-link.active{color:var(--ink);background:#F1F3F6;font-weight:600}
+    .sbar-link.active::before{content:'';position:absolute;left:-10px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--green)}
+    .sbar-link svg{width:16px;height:16px;flex-shrink:0}
+    .sbar-link .sbar-key{margin-left:auto;font-family:var(--font-mono);font-size:9.5px;color:#B6C0CE;border:1px solid var(--line);border-radius:4px;padding:1px 4px}
+    .sbar-foot{border-top:1px solid var(--line-soft);padding:12px;display:flex;align-items:center;gap:10px}
+    .sbar-user{display:none;align-items:center;gap:9px;min-width:0;flex:1}
+    .sbar-user.show{display:flex}
+    .sbar-user .dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex:none;box-shadow:0 0 0 3px var(--green-soft)}
+    .sbar-user b{display:block;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sbar-user .sbar-user-sub{display:block;font-size:10.5px;color:var(--muted)}
+    .topbar-logout{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;font-weight:600;padding:5px 8px;border-radius:6px;flex:none}
+    .topbar-logout:hover{color:var(--red);background:var(--red-soft)}
 
-    /* Mobile bottom bar */
-    .bottombar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;height:60px;background:rgba(255,255,255,.98);border-top:1px solid var(--line);align-items:center;justify-content:center;padding:0 16px}
-    .bottombar-inner{display:flex;align-items:center;gap:12px;width:100%;max-width:560px}
-    .bottombar-logo{display:flex;align-items:center;gap:8px;cursor:pointer}
-    .bottombar-logo img{height:26px;width:auto}
-    .bottombar-logo span{font-weight:700;font-size:14px;color:var(--navy)}
-    .bottombar-user{display:flex;align-items:center;gap:6px;margin-left:auto}
-    .bottombar-user-badge{display:none;align-items:center;gap:6px;padding:5px 11px;background:var(--green-soft);border:1px solid #C6E8D5;border-radius:8px;font-size:12px;font-weight:600;color:var(--green-dark)}
-    .bottombar-user-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    .maincol{flex:1;min-width:0;margin-left:232px;display:flex;flex-direction:column}
+    .content{padding:26px 28px 40px;max-width:1240px;width:100%;margin:0 auto}
 
-    @media(max-width:767px){
-      .topbar-nav{display:none}
-      .topbar-user{display:none}
-      .bottombar{display:flex}
-      .page{padding-bottom:76px}
+    /* Icon rail 768–1023px */
+    @media(min-width:768px) and (max-width:1023px){
+      .sbar{width:64px}
+      .sbar-brand{padding:16px 0;justify-content:center}
+      .sbar-brand b,.sbar-brand .sbar-sub{display:none}
+      .sbar-link{justify-content:center;padding:10px}
+      .sbar-link span:not(.sbar-key){display:none}
+      .sbar-link .sbar-key{display:none}
+      .sbar-link.active::before{left:-6px}
+      .sbar-foot{justify-content:center;padding:10px 6px}
+      .sbar-user{display:none!important}
+      .maincol{margin-left:64px}
+      .content{padding:22px 20px 36px}
     }
 
-    /* ── PAGE ── */
-    .page{padding:72px 16px 24px;max-width:1180px;margin:0 auto}
+    /* ── MOBILE: top header + pill tabs ── */
+    .mtop{display:none;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:55}
+    .mtop-brand{display:flex;align-items:center;gap:8px;text-decoration:none}
+    .mtop-brand img{height:26px;width:auto}
+    .mtop-brand b{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--navy)}
+    .mtop-user{display:none;align-items:center;gap:7px;padding:5px 10px;background:var(--green-soft);border:1px solid #C6E8D5;border-radius:8px;font-size:12px;font-weight:600;color:#067647}
+    .mtop-user.show{display:flex}
+    .mtop-user .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+    .mobile-tabs{display:none;gap:6px;padding:12px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .mobile-tabs::-webkit-scrollbar{display:none}
+    .mt{padding:6px 13px;font-size:12.5px;font-weight:600;color:var(--muted);border:1px solid transparent;background:#EBEEF3;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .15s}
+    .mt:hover{color:var(--ink)}
+    .mt.active{color:var(--ink);background:#fff;border-color:var(--line);box-shadow:0 1px 2px rgba(12,27,46,.07)}
+    @media(max-width:767px){
+      .sbar{display:none}
+      .maincol{margin-left:0}
+      .mtop{display:flex}
+      .mobile-tabs{display:flex}
+      .content{padding:16px 16px 36px}
+    }
+    @media(min-width:768px){.mobile-tabs{display:none!important}}
+
+    /* ── PAGE HEAD ── */
+    .page-head{margin-bottom:18px}
+    .page-head h1{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .page-head p{font-size:12.5px;color:var(--muted);margin-top:3px}
 
     /* ── CARDS ── */
-    .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(16,36,62,.05);overflow:hidden}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(12,27,46,.04);overflow:hidden}
     .card-h{padding:12px 16px;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .card-b{padding:16px}
-    .card-title{font-size:13.5px;font-weight:700;color:var(--ink)}
+    .card-title{font-size:13px;font-weight:700;color:var(--ink)}
     .card-sub{font-size:11.5px;color:var(--muted)}
+    .card-b{padding:16px}
 
-    /* ── KPI ── */
+    /* ── STAT BLOCKS (KPI) ── */
     .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media(min-width:640px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
-    .kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 2px rgba(16,36,62,.05)}
-    .kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .kpi-icon svg{width:18px;height:18px}
-    .kpi-val{font-size:19px;font-weight:700;font-family:'JetBrains Mono',monospace;line-height:1.2;color:var(--ink)}
-    .kpi-lbl{font-size:11.5px;color:var(--muted);margin-top:2px}
+    @media(min-width:640px){.kpi-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}}
+    .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;position:relative;overflow:hidden}
+    .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--green))}
+    .stat-val{font-family:var(--font-mono);font-size:22px;font-weight:700;line-height:1.15;color:var(--ink);letter-spacing:-.01em}
+    .stat-lbl{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+    .kpi-icon,.kpi-val,.kpi-lbl{display:none} /* legacy hook: tak dipakai lagi */
 
     /* ── CHARTS ── */
     .chart-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
     @media(min-width:900px){.chart-grid{grid-template-columns:2fr 1fr}}
-    .chart-grid .chart-grid{margin-top:10px}
 
     /* ── TABLE ── */
     .tbl{width:100%;border-collapse:collapse;font-size:13px}
-    .tbl th{text-align:left;padding:9px 12px;font-size:10.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;background:#F8FAFC;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1}
+    .tbl th{text-align:left;padding:9px 12px;font-size:10.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;background:#F8F9FB;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:1}
     .tbl td{padding:9px 12px;border-bottom:1px solid var(--line-soft);color:var(--body)}
-    .tbl tr:hover td{background:#F8FAFC}
+    .tbl tr:hover td{background:#F8F9FB}
     .tbl tr.sel td{background:var(--green-soft)}
 
     /* ── FORM ── */
     .fg{margin-bottom:10px}
     .fg label{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px;display:block}
-    .fi{width:100%;padding:8px 11px;background:#fff;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-size:13.5px;transition:border .12s}
+    .fi{width:100%;padding:8px 11px;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13.5px;transition:border .12s}
     .fi:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,155,76,.12)}
     .fi::placeholder{color:#9AA8B9}
-    .fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236B7A90' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px}
+    .fs{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%237C8BA1' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px}
 
     /* ── BUTTONS ── */
-    .btn{padding:8px 15px;border-radius:9px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:all .12s;display:inline-flex;align-items:center;gap:6px}
+    .btn{padding:8px 14px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:all .12s;display:inline-flex;align-items:center;gap:6px}
     .btn-p{background:var(--green);color:#fff}.btn-p:hover{background:var(--green-dark)}
     .btn-p:disabled{background:#9AA8B9;cursor:not-allowed}
-    .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-s:hover{border-color:#C4D0DE;background:#FBFCFE}
+    .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn-s:hover{border-color:#C7CFDA;background:#FBFCFD}
     .btn-s:disabled{opacity:.55;cursor:not-allowed}
-    .btn-ok{background:var(--green-soft);color:var(--green-dark);border:1px solid #C6E8D5}.btn-ok:hover{background:#D9F0E3}
+    .btn-ok{background:var(--green-soft);color:#067647;border:1px solid #C6E8D5}.btn-ok:hover{background:#D9F0E3}
     .btn-w{background:var(--amber-soft);color:var(--amber);border:1px solid #F2DCC2}.btn-w:hover{background:#F8E7D0}
     .btn-d{background:var(--red-soft);color:var(--red);border:1px solid #F4CFCB}.btn-d:hover{background:#FADFDA}
 
-    /* ── BADGES (shadcn-style) ── */
+    /* ── BADGES ── */
     .b{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid transparent;white-space:nowrap}
-    .b-g{background:var(--green-soft);color:var(--green-dark);border-color:#C6E8D5}
+    .b-g{background:var(--green-soft);color:#067647;border-color:#C6E8D5}
     .b-r{background:var(--red-soft);color:#B42318;border-color:#F4CFCB}
     .b-y{background:var(--amber-soft);color:var(--amber);border-color:#F2DCC2}
     .b-b{background:var(--blue-soft);color:var(--blue);border-color:#C9DBF6}
     .b-x{background:#F0F3F8;color:var(--muted);border-color:var(--line)}
 
-    /* ── LOGIN ── */
-    .login-wrap{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(60% 50% at 50% 0%,rgba(0,155,76,.06) 0%,transparent 62%),radial-gradient(50% 42% at 85% 100%,rgba(0,44,95,.05) 0%,transparent 60%),var(--bg)}
-    .login-box{width:100%;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;box-shadow:0 2px 4px rgba(16,36,62,.05),0 12px 32px rgba(16,36,62,.08)}
-    .login-box img{height:46px;display:block;margin:0 auto 14px}
-    .login-box h1{font-size:17px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:3px}
-    .login-box p{font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:20px}
-    .login-hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px;background:#F8FAFC;border:1px solid var(--line-soft);border-radius:9px;padding:8px}
-    .login-hint code{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--body)}
+    /* ── LOGIN GATE ── */
+    .login-wrap{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(56% 46% at 50% -6%,rgba(2,132,168,.07) 0%,transparent 60%),radial-gradient(40% 36% at 88% 104%,rgba(0,155,76,.06) 0%,transparent 58%),var(--bg)}
+    .login-box{width:100%;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:30px 28px;box-shadow:0 2px 4px rgba(12,27,46,.05),0 16px 40px rgba(12,27,46,.09)}
+    .login-box img{height:44px;display:block;margin:0 auto 14px}
+    .login-box h1{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:3px;letter-spacing:-.01em}
+    .login-box>p{font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:20px}
+    .login-hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px;background:#F8F9FB;border:1px solid var(--line-soft);border-radius:8px;padding:8px}
+    .login-hint code{font-family:var(--font-mono);font-weight:600;color:var(--body)}
 
     /* ── SECTION ── */
     .sec-title{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px}
     .sec-title svg{width:15px;height:15px;color:var(--green)}
 
     /* ── RESULT CARD ── */
-    .res-card{background:#F8FAFC;border:1px solid var(--line-soft);border-radius:10px;padding:11px;margin-bottom:8px}
+    .res-card{background:#F8F9FB;border:1px solid var(--line-soft);border-radius:10px;padding:11px;margin-bottom:8px}
     .res-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--line-soft)}
     .res-row:last-child{border:none}
     .res-lbl{color:var(--muted)}
     .res-val{color:var(--ink);font-weight:600;text-align:right}
 
-    /* ── MOBILE TABS ── */
-    .mobile-tabs{display:none;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
-    .mobile-tabs::-webkit-scrollbar{display:none}
-    .mt{padding:6px 13px;font-size:12.5px;font-weight:600;color:var(--muted);border:1px solid transparent;background:#EDF1F6;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .15s}
-    .mt:hover{color:var(--ink)}
-    .mt.active{color:var(--ink);background:#fff;border-color:var(--line);box-shadow:0 1px 2px rgba(16,36,62,.08)}
-    @media(max-width:767px){.mobile-tabs{display:flex}}
-    @media(min-width:768px){.mobile-tabs{display:none!important}}
-
     /* ── FADE ── */
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
     .fade-in{animation:fadeIn .25s ease-out}
-
-    @media(max-width:639px){
-      .topbar-brand span{display:none}
-      .topbar-btn span{display:none}
-      .topbar-btn{padding:8px}
-      .topbar-btn svg{width:17px;height:17px}
-    }
 
     /* ═══ KLAIM: FILTERS ═══ */
     .filters-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
@@ -182,7 +199,7 @@
       .filter-count{margin-left:0;width:100%}
     }
     .kbd-hint{margin-top:8px;font-size:11px;color:var(--muted)}
-    .kbd-hint code{font-family:'JetBrains Mono',monospace;background:#EDF1F6;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:10.5px}
+    .kbd-hint code{font-family:var(--font-mono);background:#EDF0F4;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:10.5px}
     @media(max-width:767px){.kbd-hint{display:none}}
 
     /* ═══ KLAIM: DENSE TABLE ═══ */
@@ -191,9 +208,9 @@
     .tbl-claims td{padding:6px 10px;white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis}
     .tbl-claims tr{cursor:pointer}
     .tbl-claims tr:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
-    .mono-id{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11.5px;color:var(--ink)}
-    .mono-num{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#3E5165}
-    .risk-badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:1.5px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11.5px;border:1px solid transparent}
+    .mono-id{font-family:var(--font-mono);font-weight:600;font-size:11.5px;color:var(--ink)}
+    .mono-num{font-family:var(--font-mono);font-size:11.5px;color:#44546A}
+    .risk-badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:1.5px 7px;border-radius:6px;font-family:var(--font-mono);font-weight:700;font-size:11.5px;border:1px solid transparent}
     .risk-low{background:var(--green-soft);color:#067647;border-color:#C6E8D5}
     .risk-mid{background:var(--amber-soft);color:var(--amber);border-color:#F2DCC2}
     .risk-high{background:var(--red-soft);color:var(--red);border-color:#F4CFCB}
@@ -205,19 +222,19 @@
     .fc-cloning{background:var(--red-soft);color:var(--red);border-color:#F4CFCB}
 
     /* ═══ INSPECTOR DRAWER ═══ */
-    .drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(16,36,62,.38);z-index:70;opacity:0;transition:opacity .2s}
+    .drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(12,27,46,.38);z-index:70;opacity:0;transition:opacity .2s}
     .inspector{
       position:fixed;top:0;right:0;bottom:0;width:440px;max-width:100vw;z-index:80;
       background:#fff;border-left:1px solid var(--line);
       display:flex;flex-direction:column;
       transform:translateX(102%);transition:transform .25s ease;
-      box-shadow:-12px 0 32px rgba(16,36,62,.10);
+      box-shadow:-12px 0 32px rgba(12,27,46,.10);
     }
     .inspector.open{transform:translateX(0)}
     .inspector-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line-soft);flex:none}
     .inspector-head-title{display:flex;align-items:center;gap:8px;min-width:0}
     .inspector-close{background:none;border:1px solid var(--line);border-radius:7px;width:28px;height:28px;cursor:pointer;color:var(--muted);font-size:12px;flex:none}
-    .inspector-close:hover{color:var(--ink);background:#F8FAFC}
+    .inspector-close:hover{color:var(--ink);background:#F8F9FB}
     .inspector-body{flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch}
     .inspector-actions{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fff;flex:none}
     .insp-empty{text-align:center;padding:32px 12px;color:var(--muted);font-size:13px}
@@ -227,22 +244,22 @@
     .kv-row:last-child{border-bottom:none}
     .kv-lbl{color:var(--muted)}
     .kv-val{color:var(--ink);font-weight:600;text-align:right;min-width:0;overflow-wrap:anywhere}
-    .drug-chip{display:inline-block;padding:2.5px 8px;border-radius:999px;font-size:11px;border:1px solid var(--line);background:#F0F3F8;color:#3E5165}
+    .drug-chip{display:inline-block;padding:2.5px 8px;border-radius:999px;font-size:11px;border:1px solid var(--line);background:#F0F3F8;color:#44546A}
     .drug-chip.restricted{background:var(--red-soft);color:var(--red);border-color:#F4CFCB;font-weight:600}
     /* Pipeline strip A1→A2→A3 */
     .pipe-strip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;align-items:stretch}
     .pipe-arrow{align-self:center;color:var(--muted);font-size:12px}
-    .pipe-stage{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:#F8FAFC}
-    .pipe-stage-code{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px}
-    .pipe-stage-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;margin-top:2px;color:var(--ink)}
+    .pipe-stage{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:#F8F9FB}
+    .pipe-stage-code{font-family:var(--font-mono);font-weight:700;font-size:11px}
+    .pipe-stage-val{font-family:var(--font-mono);font-size:13px;font-weight:700;margin-top:2px;color:var(--ink)}
     .pipe-stage-sub{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.3}
     .pipe-stage.done{border-color:#C6E8D5;background:var(--green-soft)}
-    details.audit-details{border:1px solid var(--line);border-radius:9px;background:#F8FAFC}
+    details.audit-details{border:1px solid var(--line);border-radius:9px;background:#F8F9FB}
     details.audit-details summary{cursor:pointer;padding:8px 11px;font-size:12px;font-weight:600;color:var(--body);list-style:none;display:flex;align-items:center;gap:6px}
     details.audit-details summary::before{content:'▸';color:var(--muted);transition:transform .15s}
     details.audit-details[open] summary::before{transform:rotate(90deg)}
     details.audit-details .audit-list{padding:2px 12px 10px}
-    .audit-list li{font-size:12px;color:#3E5165;margin-bottom:4px;line-height:1.45}
+    .audit-list li{font-size:12px;color:#44546A;margin-bottom:4px;line-height:1.45}
     /* Mobile: inspector jadi bottom sheet */
     @media(max-width:767px){
       .inspector{top:auto;left:0;right:0;width:100%;height:86dvh;border-left:none;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(103%)}
@@ -251,161 +268,256 @@
 
     /* ═══ TOAST ═══ */
     .toast-wrap{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:max-content;max-width:92vw}
-    .toast{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 28px rgba(16,36,62,.18);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+    .toast{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 28px rgba(12,27,46,.18);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
     .toast.show{opacity:1;transform:translateY(0)}
     .toast-ok{background:#0B3D23;color:#7CE8AE;border:1px solid #14683C}
     .toast-err{background:#4A120C;color:#FFA39B;border:1px solid #7F2B23}
     .toast-info{background:#0B2B4A;color:#9CC5F5;border:1px solid #17517F}
 
     /* Heatmap bar */
-    .hm-bar{height:6px;border-radius:999px;background:#EEF2F7;overflow:hidden;min-width:64px}
+    .hm-bar{height:6px;border-radius:999px;background:#EEF0F4;overflow:hidden;min-width:64px}
     .hm-bar>div{height:100%;border-radius:999px}
     @media(prefers-reduced-motion:reduce){.inspector,.drawer-backdrop,.toast{transition:none}}
   </style>
 </head>
 <body>
-  <!-- ═══ TOPBAR ═══ -->
-  <header class="topbar">
-    <div class="topbar-brand" onclick="location.href='/'">
-      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
-      <span>SiKePo</span>
-    </div>
-    <nav class="topbar-nav" id="topbar-nav">
-      <button class="topbar-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        <span>Dashboard</span>
-      </button>
-      <button class="topbar-btn" data-tab="claims" onclick="switchTab('claims')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        <span>Klaim</span>
-      </button>
-      <button class="topbar-btn" data-tab="sandbox" onclick="switchTab('sandbox')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-        <span>Sandbox</span>
-      </button>
-      <button class="topbar-btn" data-tab="data" onclick="switchTab('data')">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span>Data</span>
-      </button>
-      <button class="topbar-btn hidden" data-tab="users" onclick="switchTab('users')" id="nav-users">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-        <span>Users</span>
-      </button>
-    </nav>
-    <div class="topbar-user">
-      <div class="topbar-user-badge" id="user-badge">
-        <span class="dot"></span>
-        <span id="user-role-label"></span>
+  <!-- ═══ SHELL ═══ -->
+  <div class="shell">
+    <!-- Sidebar (desktop / icon rail tablet) -->
+    <aside class="sbar" aria-label="Navigasi cockpit">
+      <a class="sbar-brand" href="/">
+        <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+        <span><b>SiKePo</b><span class="sbar-sub">Cockpit Audit</span></span>
+      </a>
+      <nav class="sbar-nav">
+        <button class="sbar-link topbar-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="sbar-link topbar-btn" data-tab="claims" onclick="switchTab('claims')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>Klaim</span><span class="sbar-key">J K</span>
+        </button>
+        <button class="sbar-link topbar-btn" data-tab="sandbox" onclick="switchTab('sandbox')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          <span>Sandbox</span>
+        </button>
+        <button class="sbar-link topbar-btn" data-tab="data" onclick="switchTab('data')">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span>Data</span>
+        </button>
+        <button class="sbar-link topbar-btn hidden" data-tab="users" onclick="switchTab('users')" id="nav-users">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <span>Users</span>
+        </button>
+      </nav>
+      <div class="sbar-foot">
+        <div class="sbar-user" id="user-badge">
+          <span class="dot"></span>
+          <span style="min-width:0"><b id="user-role-label"></b><span class="sbar-user-sub">Sesi aktif</span></span>
+        </div>
         <button class="topbar-logout" onclick="logoutUser()" title="Keluar">Keluar</button>
       </div>
-      <button class="topbar-login" id="btn-login-trigger" onclick="document.getElementById('login-user').focus()">Login</button>
-    </div>
-  </header>
+    </aside>
 
-  <!-- ═══ LOGIN ═══ -->
-  <div class="login-wrap" id="app-gate">
-    <div class="login-box">
-      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
-      <h1>Masuk ke Cockpit</h1>
-      <p>Audit klaim &amp; investigasi fraud BPJS Kesehatan</p>
-      <form id="login-form" onsubmit="attemptLogin(event)">
-        <div class="fg"><label>Username</label><input type="text" id="login-user" class="fi" required autofocus placeholder="mis. admin"></div>
-        <div class="fg"><label>Password</label><input type="password" id="login-pass" class="fi" required placeholder="••••••••"></div>
-        <p id="login-error" style="font-size:12.5px;color:var(--red);margin:4px 0 8px;display:none;background:var(--red-soft);border:1px solid #F4CFCB;border-radius:8px;padding:8px 11px"></p>
-        <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;padding:10px">Masuk</button>
-      </form>
-      <p class="login-hint">Akun demo: <code>admin</code> / <code>admin</code></p>
-    </div>
-  </div>
+    <div class="maincol">
+      <!-- Mobile header -->
+      <header class="mtop">
+        <a class="mtop-brand" href="/">
+          <img src="/static/img/sikepo-logo.png" alt="SiKePo"><b>SiKePo</b>
+        </a>
+        <div class="mtop-user" id="bottombar-badge">
+          <span class="dot"></span>
+          <span id="bottombar-role"></span>
+          <button class="topbar-logout" onclick="logoutUser()" title="Keluar">Keluar</button>
+        </div>
+      </header>
 
-  <!-- ═══ DASHBOARD ═══ -->
-  <div class="page" id="tab-dashboard">
-    <div class="mobile-tabs" id="mobile-tabs">
-      <button class="mt active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
-      <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
-      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
-      <button class="mt hidden" data-tab="users" onclick="switchTab('users')" id="mt-users">Users</button>
-    </div>
-
-    <div class="kpi-grid" id="kpi-row">
-      <div class="kpi"><div class="kpi-icon" style="background:var(--green-soft)"><svg fill="none" stroke="#009B4C" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:var(--green-dark)" id="cp-savings">Rp 0</div><div class="kpi-lbl">Dana dicegah</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--blue-soft)"><svg fill="none" stroke="#175CD3" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div><div class="kpi-val" id="cp-total">0</div><div class="kpi-lbl">Total klaim</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--red-soft)"><svg fill="none" stroke="#D92D20" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div><div class="kpi-val" style="color:var(--red)" id="cp-fraud">0</div><div class="kpi-lbl">Anomali</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--cyan-soft)"><svg fill="none" stroke="#0284A8" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:var(--cyan)" id="cp-clean">0</div><div class="kpi-lbl">Klaim bersih</div></div></div>
-    </div>
-
-    <!-- Simulasi inflow SIMRS -->
-    <div class="card" style="margin-top:10px">
-      <div class="card-h"><span class="card-title">Simulasi klaim masuk · SIMRS</span><span class="card-sub" id="simrs-state">Auto-push: mati</span></div>
-      <div class="card-b" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-        <button id="btn-simrs-toggle" class="btn btn-p" onclick="simrsToggle()">Aktifkan auto-push</button>
-        <select id="simrs-interval" class="fi fs" style="width:auto;min-width:140px" onchange="simrsSetInterval(this.value)">
-          <option value="10">Tiap 10 detik</option>
-          <option value="30" selected>Tiap 30 detik</option>
-          <option value="60">Tiap 60 detik</option>
-        </select>
-        <button class="btn btn-s" onclick="simrsPush()">Push 1 klaim</button>
-        <span class="card-sub" id="simrs-last" style="margin-left:auto">Belum ada klaim masuk sesi ini</span>
+      <!-- Mobile pill tabs -->
+      <div class="mobile-tabs" id="mobile-tabs">
+        <button class="mt active" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
+        <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
+        <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
+        <button class="mt hidden" data-tab="users" onclick="switchTab('users')" id="mt-users">Users</button>
       </div>
-    </div>
 
-    <div class="chart-grid">
-      <div class="card"><div class="card-h"><span class="card-title">Status klaim</span><span class="card-sub">Semua berkas</span></div><div class="card-b"><div style="height:200px"><canvas id="chart-inflow"></canvas></div></div></div>
-      <div class="card"><div class="card-h"><span class="card-title">Jenis anomali</span></div><div class="card-b"><div style="height:200px"><canvas id="chart-fraud"></canvas></div></div></div>
-    </div>
-    <div class="chart-grid">
-      <div class="card"><div class="card-h"><span class="card-title">Rata-rata risiko per faskes</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-faskes"></canvas></div></div></div>
-      <div class="card"><div class="card-h"><span class="card-title">Distribusi skor risiko</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-risk"></canvas></div></div></div>
-    </div>
-  </div>
+      <main class="content">
+        <!-- ═══ DASHBOARD ═══ -->
+        <div id="tab-dashboard">
+          <div class="page-head"><h1>Ringkasan operasional</h1><p>Kondisi antrean klaim &amp; hasil penyaringan — live dari dataset.</p></div>
+          <div class="kpi-grid" id="kpi-row">
+            <div class="stat" style="--accent:var(--green)"><div class="stat-val" style="color:#067647" id="cp-savings">Rp 0</div><div class="stat-lbl">Dana dicegah</div></div>
+            <div class="stat" style="--accent:var(--blue)"><div class="stat-val" id="cp-total">0</div><div class="stat-lbl">Total klaim</div></div>
+            <div class="stat" style="--accent:var(--red)"><div class="stat-val" style="color:var(--red)" id="cp-fraud">0</div><div class="stat-lbl">Anomali</div></div>
+            <div class="stat" style="--accent:var(--cyan)"><div class="stat-val" style="color:var(--cyan)" id="cp-clean">0</div><div class="stat-lbl">Klaim bersih</div></div>
+            <div class="stat" style="--accent:var(--navy)"><div class="stat-val" id="cp-faskes">—</div><div class="stat-lbl">Faskes aktif</div></div>
+          </div>
 
-  <!-- ═══ CLAIMS ═══ -->
-  <div class="page hidden" id="tab-claims">
-    <div class="mobile-tabs">
-      <button class="mt" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="mt active" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
-      <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
-      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
-      <button class="mt" data-tab="users" onclick="switchTab('users')">Users</button>
-    </div>
+          <!-- Simulasi inflow SIMRS -->
+          <div class="card" style="margin-top:10px">
+            <div class="card-h"><span class="card-title">Simulasi klaim masuk · SIMRS</span><span class="card-sub" id="simrs-state">Auto-push: mati</span></div>
+            <div class="card-b" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <button id="btn-simrs-toggle" class="btn btn-p" onclick="simrsToggle()">Aktifkan auto-push</button>
+              <select id="simrs-interval" class="fi fs" style="width:auto;min-width:140px" onchange="simrsSetInterval(this.value)">
+                <option value="10">Tiap 10 detik</option>
+                <option value="30" selected>Tiap 30 detik</option>
+                <option value="60">Tiap 60 detik</option>
+              </select>
+              <button class="btn btn-s" onclick="simrsPush()">Push 1 klaim</button>
+              <span class="card-sub" id="simrs-last" style="margin-left:auto">Belum ada klaim masuk sesi ini</span>
+            </div>
+          </div>
 
-    <!-- Filters -->
-    <div class="filters-row">
-      <input type="text" id="filter-search" class="fi filter-search" placeholder="Cari ID, RS, pasien, ICD-10…  ( / )" autocomplete="off" oninput="debounceSearch()">
-      <select id="filter-status" class="fi fs filter-ctl" onchange="fetchClaims()">
-        <option value="ALL">Semua status</option>
-        <option value="PENDING_AUDIT">Dalam antrean</option>
-        <option value="APPROVED">Disetujui</option>
-        <option value="REJECTED">Ditolak</option>
-      </select>
-      <select id="filter-fraud-type" class="fi fs filter-ctl" onchange="fetchClaims()">
-        <option value="ALL">Semua modus</option><option value="UPCODING">Upcoding</option><option value="PHANTOM_BILLING">Phantom</option><option value="INFLATED_BILLS">Overpreskripsi</option><option value="CLONING">Cloning</option><option value="CLEAN">Bersih</option>
-      </select>
-      <select id="filter-faskes" class="fi fs filter-ctl" onchange="applyClientFilters()">
-        <option value="ALL">Semua faskes</option>
-      </select>
-      <div class="risk-range" title="Rentang skor risiko">
-        <input type="number" id="filter-risk-min" class="fi font-mono risk-input" min="0" max="100" placeholder="min" oninput="applyClientFilters()">
-        <span class="risk-sep">–</span>
-        <input type="number" id="filter-risk-max" class="fi font-mono risk-input" min="0" max="100" placeholder="maks" oninput="applyClientFilters()">
-      </div>
-      <span class="filter-count" id="table-count-label">--</span>
-    </div>
+          <div class="chart-grid">
+            <div class="card"><div class="card-h"><span class="card-title">Status klaim</span><span class="card-sub">Semua berkas</span></div><div class="card-b"><div style="height:200px"><canvas id="chart-inflow"></canvas></div></div></div>
+            <div class="card"><div class="card-h"><span class="card-title">Jenis anomali</span></div><div class="card-b"><div style="height:200px"><canvas id="chart-fraud"></canvas></div></div></div>
+          </div>
+          <div class="chart-grid">
+            <div class="card"><div class="card-h"><span class="card-title">Rata-rata risiko per faskes</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-faskes"></canvas></div></div></div>
+            <div class="card"><div class="card-h"><span class="card-title">Distribusi skor risiko</span></div><div class="card-b"><div style="height:180px"><canvas id="chart-risk"></canvas></div></div></div>
+          </div>
+        </div>
 
-    <div class="card">
-      <div style="overflow:auto;max-height:calc(100dvh - 250px)">
-        <table class="tbl tbl-claims">
-          <thead><tr>
-            <th>ID</th><th>Tgl</th><th>Faskes</th><th>Diagnosa</th>
-            <th style="text-align:right">Biaya</th><th style="text-align:center">Risiko</th>
-            <th style="text-align:center">Modus</th><th style="text-align:center">Status</th>
-          </tr></thead>
-          <tbody id="claims-tbody"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Memuat…</td></tr></tbody>
-        </table>
-      </div>
+        <!-- ═══ CLAIMS ═══ -->
+        <div class="hidden" id="tab-claims">
+          <div class="page-head"><h1>Antrean klaim</h1><p>Klik baris untuk membuka inspector — verdict dalam satu ketukan.</p></div>
+
+          <!-- Filters -->
+          <div class="filters-row">
+            <input type="text" id="filter-search" class="fi filter-search" placeholder="Cari SEP, ID, RS, pasien, ICD-10…  ( / )" autocomplete="off" oninput="debounceSearch()">
+            <select id="filter-status" class="fi fs filter-ctl" onchange="fetchClaims()">
+              <option value="ALL">Semua status</option>
+              <option value="PENDING_AUDIT">Dalam antrean</option>
+              <option value="APPROVED">Disetujui</option>
+              <option value="REJECTED">Ditolak</option>
+            </select>
+            <select id="filter-fraud-type" class="fi fs filter-ctl" onchange="fetchClaims()">
+              <option value="ALL">Semua modus</option><option value="UPCODING">Upcoding</option><option value="PHANTOM_BILLING">Phantom</option><option value="INFLATED_BILLS">Overpreskripsi</option><option value="CLONING">Cloning</option><option value="CLEAN">Bersih</option>
+            </select>
+            <select id="filter-faskes" class="fi fs filter-ctl" onchange="applyClientFilters()">
+              <option value="ALL">Semua faskes</option>
+            </select>
+            <div class="risk-range" title="Rentang skor risiko">
+              <input type="number" id="filter-risk-min" class="fi font-mono risk-input" min="0" max="100" placeholder="min" oninput="applyClientFilters()">
+              <span class="risk-sep">–</span>
+              <input type="number" id="filter-risk-max" class="fi font-mono risk-input" min="0" max="100" placeholder="maks" oninput="applyClientFilters()">
+            </div>
+            <span class="filter-count" id="table-count-label">--</span>
+          </div>
+
+          <div class="card">
+            <div style="overflow:auto;max-height:calc(100dvh - 280px)">
+              <table class="tbl tbl-claims">
+                <thead><tr>
+                  <th>ID</th><th>Tgl</th><th>Faskes</th><th>Diagnosa</th>
+                  <th style="text-align:right">Biaya</th><th style="text-align:center">Risiko</th>
+                  <th style="text-align:center">Modus</th><th style="text-align:center">Status</th>
+                </tr></thead>
+                <tbody id="claims-tbody"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Memuat…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <p class="kbd-hint">Keyboard: <code>j</code>/<code>k</code> navigasi · <code>Enter</code> buka · <code>Esc</code> tutup · <code>a</code>/<code>h</code>/<code>r</code> verdict · <code>/</code> cari</p>
+        </div>
+
+        <!-- ═══ SANDBOX ═══ -->
+        <div class="hidden" id="tab-sandbox">
+          <div class="page-head"><h1>Simulasi audit</h1><p>Uji bagaimana mesin menilai klaim — tanpa menyentuh data real.</p></div>
+          <div style="display:grid;grid-template-columns:1fr;gap:10px" id="sandbox-grid">
+            <div class="card">
+              <div class="card-h"><span class="card-title">Formulir klaim simulasi</span><span class="card-sub">Pipeline A1 → A2 → A3</span></div>
+              <div class="card-b">
+                <form id="sandbox-form" onsubmit="runSandboxAudit(event)">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div class="fg"><label>Nama faskes</label><input type="text" id="sb-faskes" class="fi" value="RSUD Sehat Sentosa" required></div>
+                    <div class="fg"><label>Lama rawat (hari)</label><input type="number" id="sb-los" class="fi" value="8" min="1" max="60" required></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px">
+                    <div class="fg"><label>Kode ICD-10</label><input type="text" id="sb-icd" class="fi font-mono" value="A01.0" required></div>
+                    <div class="fg"><label>Diagnosa</label><input type="text" id="sb-diagnosa" class="fi" value="Demam Tifoid" required></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div class="fg"><label>Tarif INA-CBG (Rp)</label><input type="number" id="sb-tarif-cbg" class="fi font-mono" value="3800000" required></div>
+                    <div class="fg"><label>Biaya diajukan (Rp)</label><input type="number" id="sb-biaya-rs" class="fi font-mono" value="7900000" required></div>
+                  </div>
+                  <div class="fg"><label>Obat (pisahkan dengan koma)</label><input type="text" id="sb-obat" class="fi" value="Ceftriaxone, Paracetamol, Meropenem Inj 1g"></div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="submit" class="btn btn-s" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('single')">Audit aturan (cepat)</button>
+                    <button type="submit" class="btn btn-p" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('agent')">Pipeline AI penuh · A1→A2→A3</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-h"><span class="card-title">Hasil</span><span id="sb-res-badge" class="b b-x">--</span></div>
+              <div class="card-b"><div id="sandbox-result" style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Isi formulir di atas, lalu jalankan simulasi untuk melihat bagaimana mesin audit menilai klaim ini.</div><div id="sb-res-details" style="display:none"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ DATA VIEW ═══ -->
+        <div class="hidden" id="tab-data">
+          <div class="page-head"><h1>Data &amp; tren</h1><p>Timeline klaim dan persebaran anomali per faskes.</p></div>
+          <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+            <button class="mt active" onclick="loadTimeline('daily')" id="dt-daily">Harian</button>
+            <button class="mt" onclick="loadTimeline('monthly')" id="dt-monthly">Bulanan</button>
+            <button class="mt" onclick="loadTimeline('yearly')" id="dt-yearly">Tahunan</button>
+          </div>
+
+          <div class="kpi-grid" style="margin-bottom:10px">
+            <div class="stat" style="--accent:var(--blue)"><div class="stat-val" id="dt-total">0</div><div class="stat-lbl">Total klaim</div></div>
+            <div class="stat" style="--accent:var(--red)"><div class="stat-val" style="color:var(--red)" id="dt-fraud">0</div><div class="stat-lbl">Anomali</div></div>
+            <div class="stat" style="--accent:var(--green)"><div class="stat-val" style="color:#067647" id="dt-savings">Rp 0</div><div class="stat-lbl">Dana dicegah</div></div>
+            <div class="stat" style="--accent:var(--cyan)"><div class="stat-val" id="dt-avg-risk">0</div><div class="stat-lbl">Rata-rata risiko</div></div>
+          </div>
+
+          <div class="card" style="margin-bottom:10px">
+            <div class="card-h"><span class="card-title">Tren klaim</span><span class="card-sub" id="dt-period-label">Harian</span></div>
+            <div class="card-b"><div style="height:240px"><canvas id="chart-timeline"></canvas></div></div>
+          </div>
+
+          <div class="card" style="margin-bottom:10px">
+            <div class="card-h"><span class="card-title">Heatmap anomali per faskes</span><span class="card-sub" id="hm-count">--</span></div>
+            <div style="overflow:auto;max-height:320px">
+              <table class="tbl">
+                <thead><tr><th>Faskes</th><th style="text-align:right">Total</th><th style="text-align:right">Anomali</th><th style="text-align:center">Rata-rata risiko</th><th style="text-align:center">Modus teratas</th></tr></thead>
+                <tbody id="heatmap-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-h"><span class="card-title">Detail per periode</span><span class="card-sub" id="dt-count">--</span></div>
+            <div style="overflow:auto;max-height:320px">
+              <table class="tbl">
+                <thead><tr><th>Periode</th><th style="text-align:right">Total</th><th style="text-align:right">Anomali</th><th style="text-align:right">Bersih</th><th style="text-align:right">Dana dicegah</th><th style="text-align:right">Rata-rata risiko</th></tr></thead>
+                <tbody id="dt-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ USERS ═══ -->
+        <div class="hidden" id="tab-users">
+          <div class="page-head"><h1>Manajemen pengguna</h1><p>Tambah, ubah, dan nonaktifkan akun — khusus Super Admin.</p></div>
+          <div class="card" style="margin-bottom:10px;max-width:860px">
+            <div class="card-b">
+              <div class="card-title" style="margin-bottom:10px">Tambah pengguna</div>
+              <form id="add-user-form" onsubmit="addUser(event)" style="display:flex;flex-wrap:wrap;gap:8px;align-items:end">
+                <div class="fg" style="flex:1;min-width:110px"><label>Username</label><input type="text" id="nu-username" class="fi" required></div>
+                <div class="fg" style="flex:1;min-width:110px"><label>Password</label><input type="password" id="nu-password" class="fi" required></div>
+                <div class="fg" style="flex:1.4;min-width:130px"><label>Nama lengkap</label><input type="text" id="nu-fullname" class="fi" required></div>
+                <div class="fg" style="width:130px"><label>Peran</label><select id="nu-role" class="fi fs"><option value="VK">Verifikator</option><option value="ST">Satgas AF</option><option value="AU">Auditor</option><option value="SA">Super Admin</option></select></div>
+                <button type="submit" class="btn btn-p" style="margin-bottom:10px">Tambah</button>
+              </form>
+              <p id="add-user-note" style="font-size:12px;margin-top:6px;display:none"></p>
+            </div>
+          </div>
+          <div class="card"><div style="overflow:auto"><table class="tbl"><thead><tr><th>ID</th><th>Username</th><th>Nama</th><th>Peran</th><th>Status</th><th style="text-align:center">Aksi</th></tr></thead><tbody id="users-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody></table></div></div>
+        </div>
+      </main>
     </div>
-    <p class="kbd-hint">Keyboard: <code>j</code>/<code>k</code> navigasi · <code>Enter</code> buka · <code>Esc</code> tutup · <code>a</code>/<code>h</code>/<code>r</code> verdict · <code>/</code> cari</p>
   </div>
 
   <!-- ═══ INSPECTOR DRAWER (desktop) / SHEET (mobile) ═══ -->
@@ -428,140 +540,25 @@
     </div>
   </aside>
 
-  <!-- ═══ SANDBOX ═══ -->
-  <div class="page hidden" id="tab-sandbox">
-    <div class="mobile-tabs">
-      <button class="mt" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
-      <button class="mt active" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
-      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
-      <button class="mt hidden" data-tab="users" onclick="switchTab('users')">Users</button>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr;gap:10px;max-width:760px">
-      <div class="card">
-        <div class="card-h"><span class="card-title">Simulasi audit</span><span class="card-sub">Pipeline A1 → A2 → A3</span></div>
-        <div class="card-b">
-          <form id="sandbox-form" onsubmit="runSandboxAudit(event)">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="fg"><label>Nama faskes</label><input type="text" id="sb-faskes" class="fi" value="RSUD Sehat Sentosa" required></div>
-              <div class="fg"><label>Lama rawat (hari)</label><input type="number" id="sb-los" class="fi" value="8" min="1" max="60" required></div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px">
-              <div class="fg"><label>Kode ICD-10</label><input type="text" id="sb-icd" class="fi font-mono" value="A01.0" required></div>
-              <div class="fg"><label>Diagnosa</label><input type="text" id="sb-diagnosa" class="fi" value="Demam Tifoid" required></div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="fg"><label>Tarif INA-CBG (Rp)</label><input type="number" id="sb-tarif-cbg" class="fi font-mono" value="3800000" required></div>
-              <div class="fg"><label>Biaya diajukan (Rp)</label><input type="number" id="sb-biaya-rs" class="fi font-mono" value="7900000" required></div>
-            </div>
-            <div class="fg"><label>Obat (pisahkan dengan koma)</label><input type="text" id="sb-obat" class="fi" value="Ceftriaxone, Paracetamol, Meropenem Inj 1g"></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="submit" class="btn btn-s" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('single')">Audit aturan (cepat)</button>
-              <button type="submit" class="btn btn-p" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('agent')">Pipeline AI penuh · A1→A2→A3</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-h"><span class="card-title">Hasil</span><span id="sb-res-badge" class="b b-x">--</span></div>
-        <div class="card-b"><div id="sandbox-result" style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Isi formulir di atas, lalu jalankan simulasi untuk melihat bagaimana mesin audit menilai klaim ini.</div><div id="sb-res-details" style="display:none"></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ DATA VIEW ═══ -->
-  <div class="page hidden" id="tab-data">
-    <div class="mobile-tabs">
-      <button class="mt" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
-      <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
-      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
-      <button class="mt" data-tab="users" onclick="switchTab('users')">Users</button>
-    </div>
-    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
-      <button class="mt active" onclick="loadTimeline('daily')" id="dt-daily">Harian</button>
-      <button class="mt" onclick="loadTimeline('monthly')" id="dt-monthly">Bulanan</button>
-      <button class="mt" onclick="loadTimeline('yearly')" id="dt-yearly">Tahunan</button>
-    </div>
-
-    <div class="kpi-grid" style="margin-bottom:10px">
-      <div class="kpi"><div class="kpi-icon" style="background:var(--blue-soft)"><svg fill="none" stroke="#175CD3" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div><div class="kpi-val" id="dt-total">0</div><div class="kpi-lbl">Total klaim</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--red-soft)"><svg fill="none" stroke="#D92D20" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div><div class="kpi-val" style="color:var(--red)" id="dt-fraud">0</div><div class="kpi-lbl">Anomali</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--green-soft)"><svg fill="none" stroke="#009B4C" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="kpi-val" style="color:var(--green-dark)" id="dt-savings">Rp 0</div><div class="kpi-lbl">Dana dicegah</div></div></div>
-      <div class="kpi"><div class="kpi-icon" style="background:var(--cyan-soft)"><svg fill="none" stroke="#0284A8" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg></div><div><div class="kpi-val" id="dt-avg-risk">0</div><div class="kpi-lbl">Rata-rata risiko</div></div></div>
-    </div>
-
-    <div class="card" style="margin-bottom:10px">
-      <div class="card-h"><span class="card-title">Tren klaim</span><span class="card-sub" id="dt-period-label">Harian</span></div>
-      <div class="card-b"><div style="height:240px"><canvas id="chart-timeline"></canvas></div></div>
-    </div>
-
-    <div class="card" style="margin-bottom:10px">
-      <div class="card-h"><span class="card-title">Heatmap anomali per faskes</span><span class="card-sub" id="hm-count">--</span></div>
-      <div style="overflow:auto;max-height:320px">
-        <table class="tbl">
-          <thead><tr><th>Faskes</th><th style="text-align:right">Total</th><th style="text-align:right">Anomali</th><th style="text-align:center">Rata-rata risiko</th><th style="text-align:center">Modus teratas</th></tr></thead>
-          <tbody id="heatmap-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-h"><span class="card-title">Detail per periode</span><span class="card-sub" id="dt-count">--</span></div>
-      <div style="overflow:auto;max-height:320px">
-        <table class="tbl">
-          <thead><tr><th>Periode</th><th style="text-align:right">Total</th><th style="text-align:right">Anomali</th><th style="text-align:right">Bersih</th><th style="text-align:right">Dana dicegah</th><th style="text-align:right">Rata-rata risiko</th></tr></thead>
-          <tbody id="dt-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══ USERS ═══ -->
-  <div class="page hidden" id="tab-users">
-    <div class="mobile-tabs">
-      <button class="mt" data-tab="dashboard" onclick="switchTab('dashboard')">Dashboard</button>
-      <button class="mt" data-tab="claims" onclick="switchTab('claims')">Klaim</button>
-      <button class="mt" data-tab="sandbox" onclick="switchTab('sandbox')">Sandbox</button>
-      <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
-      <button class="mt active" data-tab="users" onclick="switchTab('users')">Users</button>
-    </div>
-    <div class="card" style="margin-bottom:10px;max-width:760px">
-      <div class="card-b">
-        <div class="card-title" style="margin-bottom:10px">Tambah pengguna</div>
-        <form id="add-user-form" onsubmit="addUser(event)" style="display:flex;flex-wrap:wrap;gap:8px;align-items:end">
-          <div class="fg" style="flex:1;min-width:110px"><label>Username</label><input type="text" id="nu-username" class="fi" required></div>
-          <div class="fg" style="flex:1;min-width:110px"><label>Password</label><input type="password" id="nu-password" class="fi" required></div>
-          <div class="fg" style="flex:1.4;min-width:130px"><label>Nama lengkap</label><input type="text" id="nu-fullname" class="fi" required></div>
-          <div class="fg" style="width:130px"><label>Peran</label><select id="nu-role" class="fi fs"><option value="VK">Verifikator</option><option value="ST">Satgas AF</option><option value="AU">Auditor</option><option value="SA">Super Admin</option></select></div>
-          <button type="submit" class="btn btn-p" style="margin-bottom:10px">Tambah</button>
-        </form>
-        <p id="add-user-note" style="font-size:12px;margin-top:6px;display:none"></p>
-      </div>
-    </div>
-    <div class="card"><div style="overflow:auto"><table class="tbl"><thead><tr><th>ID</th><th>Username</th><th>Nama</th><th>Peran</th><th>Status</th><th style="text-align:center">Aksi</th></tr></thead><tbody id="users-tbody"><tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody></table></div></div>
-  </div>
-
-  <!-- ═══ BOTTOM BAR (MOBILE) ═══ -->
-  <div class="bottombar" id="bottombar">
-    <div class="bottombar-inner">
-      <div class="bottombar-logo" onclick="location.href='/'">
-        <img src="/static/img/sikepo-logo.png" alt="SiKePo">
-        <span>SiKePo</span>
-      </div>
-      <div class="bottombar-user" id="bottombar-user">
-        <div class="bottombar-user-badge" id="bottombar-badge">
-          <span class="dot"></span>
-          <span id="bottombar-role"></span>
-          <button class="topbar-logout" onclick="logoutUser()" title="Keluar">Keluar</button>
-        </div>
-      </div>
+  <!-- ═══ LOGIN GATE ═══ -->
+  <div class="login-wrap" id="app-gate">
+    <div class="login-box">
+      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+      <h1>Masuk ke Cockpit</h1>
+      <p>Audit klaim &amp; investigasi fraud BPJS Kesehatan</p>
+      <form id="login-form" onsubmit="attemptLogin(event)">
+        <div class="fg"><label>Username</label><input type="text" id="login-user" class="fi" required autofocus placeholder="mis. admin"></div>
+        <div class="fg"><label>Password</label><input type="password" id="login-pass" class="fi" required placeholder="••••••••"></div>
+        <p id="login-error" style="font-size:12.5px;color:var(--red);margin:4px 0 8px;display:none;background:var(--red-soft);border:1px solid #F4CFCB;border-radius:8px;padding:8px 11px"></p>
+        <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;padding:10px">Masuk</button>
+      </form>
+      <p class="login-hint">Akun demo: <code>admin</code> / <code>admin</code></p>
     </div>
   </div>
 
   <div class="toast-wrap" id="toast-wrap"></div>
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
   <script src="/static/js/shared.js?v=6"></script>
-  <script src="/static/js/app.js?v=6"></script>
+  <script src="/static/js/app.js?v=10"></script>
 </body>
 </html>

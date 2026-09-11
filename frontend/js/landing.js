@@ -34,6 +34,12 @@ async function fetchLandingStats() {
     landingCount(document.getElementById('hud-fraud'), d.anomalous_count ?? 0);
     landingCount(document.getElementById('hud-savings'), d.total_savings_idr ?? 0, formatCompactIDR);
 
+    // Ticker strip (band ink)
+    landingCount(document.getElementById('tick-total'), d.total_claims ?? 0);
+    landingCount(document.getElementById('tick-fraud'), d.anomalous_count ?? 0);
+    landingCount(document.getElementById('tick-savings'), d.total_savings_idr ?? 0, formatCompactIDR);
+    landingCount(document.getElementById('tick-faskes'), d.active_faskes_count ?? 0);
+
     // Section Problem: satu angka kuat (dana berisiko teridentifikasi)
     landingCount(document.getElementById('problem-stat'), d.total_savings_idr ?? 0, formatCompactIDR);
 
