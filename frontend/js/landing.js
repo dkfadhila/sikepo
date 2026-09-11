@@ -33,6 +33,7 @@ async function fetchLandingStats() {
     landingCount(document.getElementById('hud-total'), d.total_claims ?? 0);
     landingCount(document.getElementById('hud-fraud'), d.anomalous_count ?? 0);
     landingCount(document.getElementById('hud-savings'), d.total_savings_idr ?? 0, formatCompactIDR);
+    landingCount(document.getElementById('hud-faskes'), d.active_faskes_count ?? 0);
 
     // Ticker strip (band ink)
     landingCount(document.getElementById('tick-total'), d.total_claims ?? 0);

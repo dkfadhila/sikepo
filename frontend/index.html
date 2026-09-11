@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling</title>
   <meta name="description" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling. Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
-  <meta name="theme-color" content="#0A1B33">
+  <meta name="theme-color" content="#FAFAFB">
   <meta property="og:title" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling">
   <meta property="og:description" content="Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
   <meta property="og:type" content="website">
@@ -16,88 +16,71 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            bpjs: { navy: '#0A2540', green: '#009B4C', greendark: '#007C3D', greensoft: '#E7F6EE', cyan: '#0284A8', ink: '#0C1B2E', body: '#44546A', muted: '#7C8BA1', line: '#E6E8EE', bg: '#F6F7F9' }
+            bpjs: { navy: '#0A2540', green: '#009B4C', greendark: '#007C3D', greensoft: '#E9F7EF', cyan: '#0284A8', ink: '#0B1526', body: '#4A5568', muted: '#8291A6', line: '#ECEEF2', bg: '#FAFAFB' }
           },
-          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'], display: ['Space Grotesk', 'Inter', 'sans-serif'] },
+          fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'], display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'] },
           boxShadow: {
-            card: '0 1px 2px rgba(12,27,46,.05)',
-            pop: '0 2px 4px rgba(12,27,46,.05), 0 12px 28px rgba(12,27,46,.08)'
+            card: '0 1px 2px rgba(11,21,38,.04)',
+            pop: '0 2px 4px rgba(11,21,38,.04), 0 16px 40px rgba(11,21,38,.08)'
           }
         }
       }
     }
   </script>
-  <link rel="stylesheet" href="/static/css/theme.css?v=10">
+  <link rel="stylesheet" href="/static/css/theme.css?v=11">
 </head>
 <body class="font-sans antialiased">
 
-  <!-- ═══════════ NAV ═══════════ -->
+  <!-- ═══════════ NAV: pill melayang ═══════════ -->
   <nav class="site-nav">
     <div class="nav-inner">
-      <a href="/" class="flex items-center gap-2.5 flex-none">
-        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="h-8 w-auto">
-        <span class="font-display font-bold text-bpjs-ink text-[17px] tracking-tight">SiKePo</span>
+      <a href="/" class="nav-brand">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" width="35" height="28" class="h-7 w-auto">
+        <b>SiKePo</b>
       </a>
-      <div class="hidden md:flex items-center gap-7">
+      <div class="nav-links hidden md:flex">
         <a href="/pages/overview.html" class="nav-link">Overview</a>
         <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
         <a href="/pages/detection-engine.html" class="nav-link">Mesin Deteksi</a>
         <a href="/pages/public-data.html" class="nav-link">Data Publik</a>
         <a href="/pages/roles.html" class="nav-link">Peran</a>
       </div>
-      <a href="/app" class="btn-primary px-4 py-2.5 text-[13.5px] flex-none">Buka Aplikasi</a>
+      <a href="/app" class="nav-cta-mini">Buka Aplikasi</a>
       <!-- Hamburger mobile di-inject oleh shared.js (initMobileNav) -->
     </div>
   </nav>
 
   <main class="fade-in">
 
-    <!-- ── HERO ────────────────────────────────────────────── -->
+    <!-- ── HERO: terpusat, mesin sebagai panggung ──────────── -->
     <header class="hero">
       <div class="wrap">
-        <div class="hero-grid">
-          <div class="hero-copy" data-hero-intro>
-            <p class="kicker">Audit klaim · BPJS Kesehatan</p>
-            <h1 class="hero-title">Klaim masuk.<br>Mesin menyaring.<br><span class="accent">Dana selamat.</span></h1>
-            <p class="hero-sub">
-              Pipeline <strong>A1 Triage → A2 Investigator → A3 Adjudicator</strong> memeriksa setiap klaim
-              dalam hitungan detik — aturan deterministik, ML, lalu adjudikasi LLM medis
-              <strong>Ling 3.0 Flash Sante</strong> dengan skor risiko 0–100 beserta bukti yang bisa dibaca.
-              Keputusan akhir tetap di tangan verifikator.
-            </p>
-            <div class="hero-cta">
-              <a href="/app" class="btn-primary px-6 py-3.5 text-[15px]">Buka Aplikasi
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/></svg>
-              </a>
-              <a href="/pages/how-it-works.html" class="btn-outline px-6 py-3.5 text-[15px]">Pelajari Cara Kerja</a>
-            </div>
-
-            <!-- HUD live dari GET /api/stats/overview -->
-            <div class="hud-row" role="status" aria-label="Statistik live">
-              <div class="hud-chip">
-                <span class="hud-label">Klaim diproses</span>
-                <span class="hud-value" id="hud-total">—</span>
-              </div>
-              <div class="hud-chip">
-                <span class="hud-label">Anomali tersaring</span>
-                <span class="hud-value hud-amber" id="hud-fraud">—</span>
-              </div>
-              <div class="hud-chip">
-                <span class="hud-label">Dana dicegah</span>
-                <span class="hud-value hud-green" id="hud-savings">—</span>
-              </div>
-              <div class="hud-live"><span class="hud-dot"></span>LIVE</div>
-            </div>
+        <div class="hero-inner" data-hero-intro>
+          <span class="hero-pill"><span class="dot"></span>Healthkathon BPJS Kesehatan 2026</span>
+          <h1 class="hero-title">Mesin audit klaim.<br>Bekerja <em>sebelum</em> dana cair.</h1>
+          <p class="hero-sub">
+            Setiap klaim melewati <strong>A1 Triage → A2 Investigator → A3 Adjudicator</strong> —
+            aturan deterministik, ML, lalu adjudikasi LLM medis <strong>Ling 3.0 Flash Sante</strong>.
+            Skor risiko 0–100 beserta bukti yang bisa dibaca; keputusan akhir tetap milik verifikator.
+          </p>
+          <div class="hero-cta">
+            <a href="/app" class="btn-primary px-7 py-3.5 text-[15px]">Buka Aplikasi
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5-5 5M6 12h12"/></svg>
+            </a>
+            <a href="#cara-kerja" class="btn-outline px-7 py-3.5 text-[15px]">Lihat cara kerja</a>
           </div>
+          <p class="hero-trust"><span class="mono">admin / admin</span> · data sintetis · tanpa instalasi</p>
+        </div>
 
-          <!-- Panel gelap: mesin sortir klaim (Setujui / Tahan / Tolak) -->
-          <figure class="hero-panel" data-hero-panel>
+        <!-- Panggung mesin: HUD live melayang di tepi bawah -->
+        <div class="hero-stage" data-hero-panel>
+          <div class="stage-panel">
             <picture>
               <source type="image/webp" srcset="/static/img/hero-machine.webp">
               <img src="/static/img/hero-machine.png"
@@ -105,167 +88,162 @@
                    width="1400" height="933" class="hero-img" decoding="async">
             </picture>
             <div class="scan-beam" aria-hidden="true"></div>
-          </figure>
+            <div class="hud-float" role="status" aria-label="Statistik live">
+              <span class="hud-chip-f"><b id="hud-total">—</b> klaim diproses</span>
+              <span class="hud-chip-f"><b class="t-amber" id="hud-fraud">—</b> anomali</span>
+              <span class="hud-chip-f"><b class="t-green" id="hud-savings">—</b> dicegah</span>
+              <span class="hud-chip-f"><b id="hud-faskes">—</b> faskes</span>
+              <span class="hud-live"><span class="dot"></span>LIVE</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- ── TICKER LIVE ─────────────────────────────────────── -->
-    <section class="ticker" aria-label="Statistik live sistem">
+    <!-- ── 1. PROBLEM: statement terpusat ──────────────────── -->
+    <section class="section" id="masalah">
       <div class="wrap">
-        <div class="ticker-row" data-reveal>
-          <span class="tick"><b id="tick-total">—</b> klaim diproses</span>
-          <span class="tick-sep" aria-hidden="true"></span>
-          <span class="tick"><b class="t-amber" id="tick-fraud">—</b> anomali tersaring</span>
-          <span class="tick-sep" aria-hidden="true"></span>
-          <span class="tick"><b class="t-green" id="tick-savings">—</b> dana dicegah</span>
-          <span class="tick-sep" aria-hidden="true"></span>
-          <span class="tick"><b id="tick-faskes">—</b> faskes terpantau</span>
-          <span class="tick-live"><span class="hud-dot"></span>LIVE</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── 1. PROBLEM ──────────────────────────────────────── -->
-    <section class="section">
-      <div class="wrap split">
-        <div data-reveal>
+        <div class="statement" data-reveal>
           <div class="stat-huge" id="problem-stat">—</div>
-          <p class="stat-cap">potensi overbilling teridentifikasi pada klaim demo — kini tersaring otomatis sebelum dana cair.</p>
+          <p class="statement-cap">potensi overbilling teridentifikasi pada klaim demo — kini tersaring otomatis sebelum dana cair.</p>
         </div>
-        <div class="split-prose" data-reveal>
-          <h2 class="h2">Audit manual tidak skala.</h2>
+        <div class="prose-cols" data-reveal>
           <p>
             Verifikator meninjau ratusan berkas klaim per hari: tarif vs plafon INA-CBG, lama rawat,
             obat restriksi e-Fornas, resume medis yang terduplikasi. Pemeriksaan menyeluruh per berkas
-            mustahil dilakukan manual — dan satu klaim fraud yang lolos berarti kerugian langsung pada
-            dana kesehatan nasional.
+            mustahil dilakukan manual — dan <strong>satu klaim fraud yang lolos berarti kerugian langsung</strong>
+            pada dana kesehatan nasional.
           </p>
           <p>
-            SiKePo membaca setiap berkas, menilai risikonya, dan menjelaskan alasannya —
-            verifikator tinggal memutuskan.
+            SiKePo membaca setiap berkas, menilai risikonya 0–100, dan menjelaskan alasannya —
+            lengkap dengan rekomendasi yang bisa ditolak atau disetujui manusia.
+            <strong>Verifikator tinggal memutuskan.</strong>
           </p>
         </div>
       </div>
     </section>
 
-    <!-- ── 2. PIPELINE A1 → A2 → A3 ────────────────────────── -->
-    <section class="section section-alt">
+    <!-- ── 2. PIPELINE: stepper horizontal ─────────────────── -->
+    <section class="section section-alt" id="cara-kerja">
       <div class="wrap">
-        <div class="section-head" data-reveal>
+        <div class="section-head-center" data-reveal>
           <p class="kicker">Cara kerja</p>
           <h2 class="h2">Tiga agen, kurang dari dua detik.</h2>
           <p class="section-sub">Klik tiap tahap untuk detail. Verifikator selalu memegang keputusan akhir.</p>
         </div>
-        <div class="pipe" data-reveal>
-          <button class="pipe-row" type="button" aria-expanded="false" data-step>
-            <span class="pipe-num">A1</span>
-            <span class="pipe-main">
-              <span class="pipe-name">Triage Agent</span>
-              <span class="pipe-hint">Aturan deterministik · rasio tarif, lama rawat, obat restriksi</span>
-              <span class="pipe-detail">Memeriksa rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas — menghasilkan risiko awal 0–99 dalam milidetik.</span>
+        <div class="steps" data-reveal>
+          <button class="step-card" type="button" aria-expanded="false" data-step>
+            <span class="step-top">
+              <span class="step-tag step-tag-cyan">A1</span>
+              <span class="step-plus" aria-hidden="true">+</span>
             </span>
-            <span class="pipe-plus" aria-hidden="true">+</span>
+            <span class="step-name">Triage Agent</span>
+            <span class="step-hint">Aturan deterministik</span>
+            <span class="step-detail">Memeriksa rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas — menghasilkan risiko awal 0–99 dalam milidetik.</span>
           </button>
-          <button class="pipe-row" type="button" aria-expanded="false" data-step>
-            <span class="pipe-num">A2</span>
-            <span class="pipe-main">
-              <span class="pipe-name">Investigator Agent</span>
-              <span class="pipe-hint">ML IsolationForest · 7 fitur pola klaim</span>
-              <span class="pipe-detail">Membandingkan pola fitur klaim (rasio biaya, LOS, farmasi, usia) dengan populasi klaim lain, memvalidasi temuan A1, dan memfusikan skor akhir 0–100.</span>
+          <button class="step-card" type="button" aria-expanded="false" data-step>
+            <span class="step-top">
+              <span class="step-tag step-tag-blue">A2</span>
+              <span class="step-plus" aria-hidden="true">+</span>
             </span>
-            <span class="pipe-plus" aria-hidden="true">+</span>
+            <span class="step-name">Investigator Agent</span>
+            <span class="step-hint">ML IsolationForest · 7 fitur pola klaim</span>
+            <span class="step-detail">Membandingkan pola fitur klaim (rasio biaya, LOS, farmasi, usia) dengan populasi klaim lain, memvalidasi temuan A1, dan memfusikan skor akhir 0–100.</span>
           </button>
-          <button class="pipe-row" type="button" aria-expanded="false" data-step>
-            <span class="pipe-num">A3</span>
-            <span class="pipe-main">
-              <span class="pipe-name">Adjudicator Agent — Ling 3.0 Flash Sante</span>
-              <span class="pipe-hint">LLM fokus medis · adjudikasi berbahasa Indonesia</span>
-              <span class="pipe-detail">Ling 3.0 Flash Sante — varian LLM yang berfokus pada domain medis — menyusun putusan rekomendasi (Setujui, Tahan, Tolak) lengkap dengan alasan klinis-operasional berbahasa Indonesia. Dijalankan lewat Vercel AI Gateway; bila tidak tersedia, aturan deterministik A1 mengambil alih sehingga sistem tidak pernah berhenti.</span>
+          <button class="step-card" type="button" aria-expanded="false" data-step>
+            <span class="step-top">
+              <span class="step-tag step-tag-green">A3</span>
+              <span class="step-plus" aria-hidden="true">+</span>
             </span>
-            <span class="pipe-plus" aria-hidden="true">+</span>
+            <span class="step-name">Adjudicator — Ling 3.0 Flash Sante</span>
+            <span class="step-hint">LLM fokus medis · bahasa Indonesia</span>
+            <span class="step-detail">Ling 3.0 Flash Sante — LLM yang berfokus pada domain medis — menyusun putusan rekomendasi beserta alasan klinis-operasional berbahasa Indonesia. Lewat Vercel AI Gateway; bila tidak tersedia, aturan A1 mengambil alih.</span>
           </button>
         </div>
-        <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal>
-          <a href="/pages/how-it-works.html" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-green hover:text-bpjs-greendark">
-            Lihat detail pipeline
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
-          <a href="/faskes" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-ink hover:text-bpjs-navy">
-            Coba Portal Faskes (kirim klaim →)
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-          </a>
+        <div class="step-links" data-reveal>
+          <a href="/pages/how-it-works.html" class="text-bpjs-green hover:text-bpjs-greendark">Lihat detail pipeline →</a>
+          <a href="/faskes" class="text-bpjs-ink hover:text-bpjs-navy">Coba Portal Faskes (kirim klaim) ↗</a>
+        </div>
       </div>
     </section>
 
-    <!-- ── 2.5 MESIN KEPUTUSAN: TIGA LAPIS AI ──────────────── -->
+    <!-- ── 3. MESIN KEPUTUSAN: TIGA LAPIS AI ───────────────── -->
     <section class="section">
       <div class="wrap">
-        <div class="section-head" data-reveal>
+        <div class="section-head-center" data-reveal>
           <p class="kicker">Mesin keputusan</p>
           <h2 class="h2">Tiga lapis kecerdasan, satu skor yang bisa ditelusuri.</h2>
-          <p class="section-sub">Bukan kotak hitam: setiap skor risiko bisa dijawab dengan aturan, fitur, dan alasan yang terbaca. Lapisan teratas memakai <strong style="color:var(--ink)">Ling 3.0 Flash Sante</strong> — LLM yang berfokus pada domain medis.</p>
+          <p class="section-sub">Bukan kotak hitam: setiap skor risiko dijawab dengan aturan, fitur, dan alasan yang terbaca. Lapisan teratas memakai <strong style="color:var(--ink)">Ling 3.0 Flash Sante</strong> — LLM yang berfokus pada domain medis.</p>
         </div>
-        <div class="ai-stack" data-reveal-group>
-          <div class="ai-layer">
-            <div class="ai-top"><span class="ai-tag ai-tag-cyan">A1 · Aturan deterministik</span><span class="ai-meta">&lt; 2 ms · selalu konsisten</span></div>
+        <div class="ai-grid" data-reveal-group>
+          <div class="ai-card">
+            <span class="ai-tag ai-tag-cyan">A1 · Aturan deterministik</span>
             <h3>Screening regulasi</h3>
-            <p>Rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas diperiksa sebagai aturan tegas. Lapisan ini menjadi tulang punggung: cepat, dapat diaudit, dan aktif mengambil alih saat LLM tidak tersedia.</p>
+            <p>Rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan obat restriksi e-Fornas diperiksa sebagai aturan tegas. Cepat, dapat diaudit, dan aktif mengambil alih saat LLM tidak tersedia.</p>
           </div>
-          <div class="ai-layer">
-            <div class="ai-top"><span class="ai-tag ai-tag-blue">A2 · Machine Learning</span><span class="ai-meta">IsolationForest · 7 fitur</span></div>
+          <div class="ai-card">
+            <span class="ai-tag ai-tag-blue">A2 · Machine Learning</span>
             <h3>Deteksi pola anomali</h3>
-            <p>Membandingkan 7 fitur klaim (rasio biaya, selisih, lama rawat, farmasi, usia) terhadap populasi klaim. Skor akhir adalah fusi 45% aturan + 55% ML — dan model terus belajar dari setiap verdict verifikator.</p>
+            <p>IsolationForest membandingkan 7 fitur klaim terhadap populasi. Skor akhir = fusi 45% aturan + 55% ML — dan model terus belajar dari setiap verdict verifikator.</p>
           </div>
-          <div class="ai-layer ai-layer-hi">
-            <div class="ai-top"><span class="ai-tag ai-tag-green">A3 · LLM Ling 3.0 Flash Sante</span><span class="ai-meta">Vercel AI Gateway · fallback A1</span></div>
+          <div class="ai-card ai-card-dark">
+            <span class="ai-tag ai-tag-green">A3 · LLM Ling 3.0 Flash Sante</span>
             <h3>Adjudikasi berfokus medis</h3>
-            <p>Lapisan puncak memakai <strong>Ling 3.0 Flash Sante</strong> — varian LLM yang dikhususkan pada konteks kesehatan: memahami diagnosa, severitas, dan farmasi lebih baik daripada LLM umum, lalu menuliskan putusan rekomendasi beserta alasannya dalam bahasa Indonesia yang siap dibaca verifikator.</p>
+            <p>Varian LLM yang dikhususkan pada konteks kesehatan: memahami diagnosa, severitas, dan farmasi lebih baik daripada LLM umum, lalu menuliskan putusan dalam bahasa Indonesia yang siap dibaca verifikator.</p>
             <ul class="ai-points">
               <li>Fokus domain medis — kosakata klinis &amp; formularium</li>
               <li>Alasan berbahasa Indonesia, siap audit</li>
-              <li>Fallback deterministik — sistem tidak pernah berhenti</li>
+              <li>Fallback deterministik — tidak pernah berhenti</li>
             </ul>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin-top:16px" data-reveal>* Semua model berjalan di sisi server — antarmuka tidak pernah memanggil LLM langsung, dan keputusan akhir selalu milik verifikator manusia.</p>
+        <p class="ai-note" data-reveal>* Semua model berjalan di sisi server — antarmuka tidak pernah memanggil LLM langsung, dan keputusan akhir selalu milik verifikator manusia.</p>
       </div>
     </section>
 
-    <!-- ── 3. FRAUD LEDGER + SPEKTRUM RISIKO ───────────────── -->
-    <section class="section">
+    <!-- ── 4. FRAUD ROWS + SPEKTRUM ────────────────────────── -->
+    <section class="section section-alt">
       <div class="wrap">
-        <div class="section-head" data-reveal>
+        <div class="section-head-center" data-reveal>
           <p class="kicker">Pola yang dideteksi</p>
           <h2 class="h2">Empat modus fraud klaim JKN.</h2>
         </div>
-        <div class="ledger" data-reveal>
-          <div class="ledger-head" aria-hidden="true">
-            <span>Modus</span><span>Deskripsi</span><span>Sinyal audit khas</span>
+        <div class="fraud-rows" data-reveal>
+          <div class="fraud-row">
+            <span class="fraud-idx">01</span>
+            <div>
+              <div class="fraud-name"><span class="fraud-dot" style="background:#F0B429"></span>Upcoding</div>
+              <p class="fraud-desc">Diagnosa digelembungkan agar tarif masuk kelas INA-CBG yang lebih mahal.</p>
+            </div>
+            <div class="fraud-signal">tarif pengajuan ≫ plafon CBG · severitas naik tanpa komorbiditas</div>
           </div>
-          <div class="ledger-row">
-            <div class="ledger-name"><span class="ledger-dot" style="background:#F0B429"></span>Upcoding</div>
-            <div class="ledger-desc">Diagnosa digelembungkan agar tarif masuk kelas INA-CBG yang lebih mahal.</div>
-            <div class="ledger-signal">tarif pengajuan ≫ plafon CBG · severitas naik tanpa komorbiditas</div>
+          <div class="fraud-row">
+            <span class="fraud-idx">02</span>
+            <div>
+              <div class="fraud-name"><span class="fraud-dot" style="background:#EA580C"></span>Phantom billing</div>
+              <p class="fraud-desc">Penagihan atas layanan yang tidak pernah diberikan kepada pasien.</p>
+            </div>
+            <div class="fraud-signal">fingerprint rawat absen · jadwal dokter tercatat off</div>
           </div>
-          <div class="ledger-row">
-            <div class="ledger-name"><span class="ledger-dot" style="background:#EA580C"></span>Phantom billing</div>
-            <div class="ledger-desc">Penagihan atas layanan yang tidak pernah diberikan kepada pasien.</div>
-            <div class="ledger-signal">fingerprint rawat absen · jadwal dokter tercatat off</div>
+          <div class="fraud-row">
+            <span class="fraud-idx">03</span>
+            <div>
+              <div class="fraud-name"><span class="fraud-dot" style="background:#0284A8"></span>Overpreskripsi</div>
+              <p class="fraud-desc">Obat di luar formularium nasional dengan harga tinggi tanpa justifikasi klinis.</p>
+            </div>
+            <div class="fraud-signal">obat restriksi e-Fornas · tanpa persetujuan komite farmasi</div>
           </div>
-          <div class="ledger-row">
-            <div class="ledger-name"><span class="ledger-dot" style="background:#0284A8"></span>Overpreskripsi</div>
-            <div class="ledger-desc">Obat di luar formularium nasional dengan harga tinggi tanpa justifikasi klinis.</div>
-            <div class="ledger-signal">obat restriksi e-Fornas · tanpa persetujuan komite farmasi</div>
-          </div>
-          <div class="ledger-row">
-            <div class="ledger-name"><span class="ledger-dot" style="background:#D92D20"></span>Cloning</div>
-            <div class="ledger-desc">Resume medis dijiplak antar pasien berbeda untuk klaim massal.</div>
-            <div class="ledger-signal">kemiripan resume ±98% (Jaccard) dalam 48 jam</div>
+          <div class="fraud-row">
+            <span class="fraud-idx">04</span>
+            <div>
+              <div class="fraud-name"><span class="fraud-dot" style="background:#D92D20"></span>Cloning</div>
+              <p class="fraud-desc">Resume medis dijiplak antar pasien berbeda untuk klaim massal.</p>
+            </div>
+            <div class="fraud-signal">kemiripan resume ±98% (Jaccard) dalam 48 jam</div>
           </div>
         </div>
 
-        <div class="mt-12 max-w-3xl" data-reveal>
+        <div style="max-width:640px;margin:48px auto 0" data-reveal>
           <div class="flex items-center justify-between text-[11px] font-semibold tracking-wide text-bpjs-muted uppercase mb-2">
             <span>Clean</span><span>Hold</span><span>Reject</span>
           </div>
@@ -280,121 +258,102 @@
       </div>
     </section>
 
-    <!-- ── 4. ROLES ────────────────────────────────────────── -->
-    <section class="section section-alt">
+    <!-- ── 5. ROLES: strip ringan ──────────────────────────── -->
+    <section class="section">
       <div class="wrap">
-        <div class="section-head" data-reveal>
+        <div class="section-head-center" data-reveal>
           <p class="kicker">Peran</p>
           <h2 class="h2">Empat peran, hak akses terisolasi.</h2>
         </div>
-        <div class="roles-grid" data-reveal>
-          <div class="role-tile">
+        <div class="roles-strip" data-reveal>
+          <div class="role-item">
             <span class="role-code" style="background:var(--red-soft);color:var(--red)">SA</span>
-            <div>
-              <div class="role-name">Super Admin</div>
-              <p class="role-desc">Kontrol penuh sistem: pengguna, verdict, investigasi AI, pelatihan model.</p>
-              <div class="role-perms"><span class="perm-chip">verdict</span><span class="perm-chip">manage_users</span><span class="perm-chip">ml_train</span></div>
-            </div>
+            <div class="role-name">Super Admin</div>
+            <p class="role-desc">Kontrol penuh: pengguna, verdict, investigasi AI, pelatihan model.</p>
+            <div class="role-perms"><span class="perm-chip">verdict</span><span class="perm-chip">manage_users</span><span class="perm-chip">ml_train</span></div>
           </div>
-          <div class="role-tile">
+          <div class="role-item">
             <span class="role-code" style="background:var(--green-soft);color:#067647">VK</span>
-            <div>
-              <div class="role-name">Verifikator KC</div>
-              <p class="role-desc">Memeriksa antrean klaim cabang dan memberi verdict akhir.</p>
-              <div class="role-perms"><span class="perm-chip">view_cabang_claims</span><span class="perm-chip">verdict</span><span class="perm-chip">sandbox</span></div>
-            </div>
+            <div class="role-name">Verifikator KC</div>
+            <p class="role-desc">Memeriksa antrean klaim cabang dan memberi verdict akhir.</p>
+            <div class="role-perms"><span class="perm-chip">view_cabang_claims</span><span class="perm-chip">verdict</span><span class="perm-chip">sandbox</span></div>
           </div>
-          <div class="role-tile">
+          <div class="role-item">
             <span class="role-code" style="background:var(--amber-soft);color:var(--amber)">ST</span>
-            <div>
-              <div class="role-name">Satgas Anti-Fraud</div>
-              <p class="role-desc">Investigasi lintas faskes dan analisis pola — tanpa wewenang verdict.</p>
-              <div class="role-perms"><span class="perm-chip">view_all_claims</span><span class="perm-chip">ai_investigate</span></div>
-            </div>
+            <div class="role-name">Satgas Anti-Fraud</div>
+            <p class="role-desc">Investigasi lintas faskes dan analisis pola — tanpa wewenang verdict.</p>
+            <div class="role-perms"><span class="perm-chip">view_all_claims</span><span class="perm-chip">ai_investigate</span></div>
           </div>
-          <div class="role-tile">
+          <div class="role-item">
             <span class="role-code" style="background:var(--blue-soft);color:var(--blue)">AU</span>
-            <div>
-              <div class="role-name">Auditor / Juri</div>
-              <p class="role-desc">Akses baca transparan untuk evaluasi dan pengawasan.</p>
-              <div class="role-perms"><span class="perm-chip">view_all_claims</span><span class="perm-chip">sandbox</span></div>
-            </div>
+            <div class="role-name">Auditor / Juri</div>
+            <p class="role-desc">Akses baca transparan untuk evaluasi dan pengawasan.</p>
+            <div class="role-perms"><span class="perm-chip">view_all_claims</span><span class="perm-chip">sandbox</span></div>
           </div>
         </div>
-        <a href="/pages/roles.html" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-green hover:text-bpjs-greendark mt-8" data-reveal>
-          Detail peran &amp; hak akses
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
-        </a>
+        <div class="step-links" data-reveal>
+          <a href="/pages/roles.html" class="text-bpjs-green hover:text-bpjs-greendark">Detail peran &amp; hak akses →</a>
+        </div>
       </div>
     </section>
 
-    <!-- ── 5. STATS BAND (live dari API) ───────────────────── -->
-    <section class="stats" aria-label="Statistik publik">
+    <!-- ── 6. STATS: angka raksasa terang ──────────────────── -->
+    <section class="stats-band" aria-label="Statistik publik">
       <div class="wrap">
         <div class="stats-grid" data-reveal-group>
-          <div>
-            <div class="stat-num text-[34px] sm:text-[44px]" id="teaser-total">—</div>
-            <div class="stats-lbl">Total klaim diproses</div>
-          </div>
-          <div>
-            <div class="stat-num text-[34px] sm:text-[44px]" id="teaser-fraud">—</div>
-            <div class="stats-lbl">Klaim anomali tersaring</div>
-          </div>
-          <div>
-            <div class="stat-num text-[34px] sm:text-[44px]" id="teaser-savings">—</div>
-            <div class="stats-lbl">Dana dicegah sebelum cair</div>
-          </div>
-          <div>
-            <div class="stat-num text-[34px] sm:text-[44px]" id="teaser-faskes">—</div>
-            <div class="stats-lbl">Faskes terpantau</div>
-          </div>
+          <div><div class="stat-num" id="teaser-total">—</div><div class="stats-lbl">Total klaim diproses</div></div>
+          <div><div class="stat-num" id="teaser-fraud">—</div><div class="stats-lbl">Klaim anomali tersaring</div></div>
+          <div><div class="stat-num" id="teaser-savings">—</div><div class="stats-lbl">Dana dicegah sebelum cair</div></div>
+          <div><div class="stat-num" id="teaser-faskes">—</div><div class="stats-lbl">Faskes terpantau</div></div>
         </div>
         <p class="stats-note">* Angka live dari simulasi dataset sintetis — bukan data operasional BPJS Kesehatan.</p>
       </div>
     </section>
 
-    <!-- ── 6. CTA AKHIR ────────────────────────────────────── -->
-    <section class="cta-band">
-      <div class="wrap" data-reveal>
-        <h2 class="h2">Lihat sendiri mesinnya bekerja.</h2>
-        <p>Masuk dengan akun demo dan ikuti alur lengkapnya — dari antrean klaim sampai verdict.</p>
-        <a href="/app" class="btn-primary px-7 py-3.5 text-[15px] mt-8">Buka Aplikasi</a>
+    <!-- ── 7. CTA: panel gelap ─────────────────────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div class="cta-panel" data-reveal>
+          <h2>Lihat sendiri mesinnya bekerja.</h2>
+          <p>Masuk dengan akun demo dan ikuti alur lengkapnya — dari antrean klaim sampai verdict, dalam dua klik.</p>
+          <a href="/app" class="btn-primary px-8 py-4 text-[15px]">Buka Aplikasi</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- ═══════════ FOOTER ═══════════ -->
+  <!-- ═══════════ FOOTER TERANG ═══════════ -->
   <footer class="site-footer">
     <div class="wrap py-12">
       <div class="flex flex-col lg:flex-row justify-between gap-10">
         <div class="max-w-sm">
           <div class="flex items-center gap-3">
             <img src="/static/img/sikepo-logo.png" alt="" width="30" height="24" style="height:26px;" class="w-auto" aria-hidden="true">
-            <span class="font-display text-white font-bold text-[16px]">SiKePo</span>
+            <span class="font-display text-bpjs-ink font-bold text-[16px]">SiKePo</span>
           </div>
-          <p class="text-[12.5px] leading-relaxed mt-3 text-[#9DB2CC]">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling. Mendeteksi fraud sebelum dana cair — Detect Smarter. Protect JKN.</p>
+          <p class="text-[12.5px] leading-relaxed mt-3 text-bpjs-muted">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling. Mendeteksi fraud sebelum dana cair — Detect Smarter. Protect JKN.</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-[12.5px]">
           <div class="flex flex-col gap-2.5">
-            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-[#64809F]">Produk</span>
+            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-bpjs-muted">Produk</span>
             <a href="/pages/overview.html">Overview</a>
             <a href="/pages/how-it-works.html">Cara Kerja</a>
             <a href="/pages/detection-engine.html">Mesin Deteksi</a>
           </div>
           <div class="flex flex-col gap-2.5">
-            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-[#64809F]">Transparansi</span>
+            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-bpjs-muted">Transparansi</span>
             <a href="/pages/public-data.html">Data Publik</a>
             <a href="/pages/roles.html">Peran &amp; Akses</a>
-            <a href="/app">Buka Aplikasi</a>
+            <a href="/faskes">Portal Faskes</a>
           </div>
           <div class="flex flex-col gap-2.5">
-            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-[#64809F]">Event</span>
+            <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-bpjs-muted">Event</span>
             <span>Healthkathon BPJS Kesehatan 2026</span>
             <span>Prototype · data sintetis</span>
           </div>
         </div>
       </div>
-      <div class="border-t border-[#14294A] mt-10 pt-6 text-[11px] text-[#64809F] flex flex-col sm:flex-row justify-between gap-2">
+      <div class="border-t border-bpjs-line mt-10 pt-6 text-[11px] text-bpjs-muted flex flex-col sm:flex-row justify-between gap-2">
         <span>© 2026 SiKePo · BPJS Kesehatan Healthkathon</span>
         <span>Seluruh data bersifat sintetis untuk simulasi &amp; demo — bukan data pasien atau operasional BPJS Kesehatan.</span>
       </div>
@@ -403,7 +362,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
   <script src="/static/js/shared.js?v=6"></script>
-  <script src="/static/js/landing.js?v=7"></script>
+  <script src="/static/js/landing.js?v=8"></script>
   <script src="/static/js/animations.js?v=5"></script>
 </body>
 </html>
