@@ -1,15 +1,15 @@
 # ═══════════════════════════════════════════════════════════
 # SiKePo AI Engine
 # Agentic pipeline (Triage → Investigator → Adjudicator)
-# + IsolationForest ML scorer + LLM via opencode (mimo-v2.5-free)
+# + IsolationForest ML scorer + LLM via Vercel AI Gateway
 # ═══════════════════════════════════════════════════════════
 import json
 import math
 import os
 import re
-import subprocess
-import tempfile
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,39 @@ MODEL_DIR.mkdir(exist_ok=True)
 MODEL_FILE = MODEL_DIR / "isolation_forest.joblib"
 META_FILE = MODEL_DIR / "model_meta.json"
 
-LLM_MODEL = "opencode/mimo-v2.5-free"
+# ── LLM: Vercel AI Gateway (OpenAI-compatible) ─────────────
+# Config from env (see .env / Vercel project env). Fallbacks for local demo.
+LLM_MODEL = os.environ.get("SIKEPO_LLM_MODEL", "inclusionai/ling-3.0-flash-sante-free")
+LLM_BASE_URL = os.environ.get("SIKEPO_LLM_BASE_URL", "https://ai-gateway.vercel.sh/v1").rstrip("/")
+LLM_API_KEY = os.environ.get("AI_GATEWAY_API_KEY", "").strip()
+LLM_TIMEOUT_S = int(os.environ.get("SIKEPO_LLM_TIMEOUT", "60"))
+
+
+def _load_dotenv(path: Optional[Path] = None) -> None:
+    """Minimal .env loader (no python-dotenv dependency)."""
+    if path is None:
+        path = ENGINE_DIR.parent / ".env"
+    if not path.exists():
+        return
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, _, v = line.partition("=")
+            k, v = k.strip(), v.strip().strip('"').strip("'")
+            if k and k not in os.environ:
+                os.environ[k] = v
+    except OSError:
+        pass
+
+
+_load_dotenv()
+# re-read after dotenv
+LLM_MODEL = os.environ.get("SIKEPO_LLM_MODEL", LLM_MODEL)
+LLM_BASE_URL = os.environ.get("SIKEPO_LLM_BASE_URL", LLM_BASE_URL).rstrip("/")
+LLM_API_KEY = os.environ.get("AI_GATEWAY_API_KEY", "").strip() or LLM_API_KEY
+
 RESTRICTED_TERMS = ["meropenem", "albumin", "trastuzumab", "imunoglobulin", "vecuronium"]
 
 # ── Feature extraction ─────────────────────────────────────
@@ -199,50 +231,60 @@ def investigator_agent(claim: Dict[str, Any], triage: Dict[str, Any]) -> Dict[st
         ),
     }
 
-# ── A3 · Adjudicator Agent (LLM via opencode mimo) ─────────
-def _resolve_opencode() -> Optional[str]:
-    import shutil
-    p = shutil.which("opencode.exe")
-    if p:
-        return p
-    # npm global layout (Windows): Roaming/npm/node_modules/opencode-ai/bin/opencode.exe
-    candidates = []
-    appdata = os.environ.get("APPDATA", "")
-    if appdata:
-        candidates.append(Path(appdata) / "npm" / "node_modules" / "opencode-ai" / "bin" / "opencode.exe")
-    candidates.append(Path.home() / "AppData" / "Roaming" / "npm" / "node_modules" / "opencode-ai" / "bin" / "opencode.exe")
-    for cand in candidates:
-        try:
-            if cand.exists():
-                return str(cand)
-        except Exception:
-            pass
-    p = shutil.which("opencode")
-    return p
-
-def _call_opencode(prompt: str, timeout: int = 90) -> Optional[str]:
-    exe = _resolve_opencode()
-    if not exe:
+# ── A3 · Adjudicator Agent (LLM via Vercel AI Gateway) ─────
+def _call_llm(prompt: str, timeout: Optional[int] = None) -> Optional[str]:
+    """Chat Completions against Vercel AI Gateway. Returns assistant text or None."""
+    if not LLM_API_KEY:
         return None
-    # cwd bersih + --dir: cegah opencode menyeret konteks/persona dari direktori proyek
-    clean_cwd = Path(os.environ.get("TEMP", tempfile.gettempdir())) / "sikepo_llm"
-    clean_cwd.mkdir(parents=True, exist_ok=True)
-    if exe.lower().endswith((".cmd", ".bat")):
-        cmd = ["cmd", "/c", exe, "run", "--dir", str(clean_cwd), "-m", LLM_MODEL, prompt]
-    else:
-        cmd = [exe, "run", "--dir", str(clean_cwd), "-m", LLM_MODEL, prompt]
+    timeout = timeout or LLM_TIMEOUT_S
+    url = f"{LLM_BASE_URL}/chat/completions"
+    payload = {
+        "model": LLM_MODEL,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are SiKePo A3 Adjudicator. Reply with ONLY a single JSON object. "
+                    "No markdown, no extra text, no questions."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.1,
+        "max_tokens": 400,
+    }
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(
+        url,
+        data=body,
+        method="POST",
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {LLM_API_KEY}",
+        },
+    )
     try:
-        proc = subprocess.run(
-            cmd, cwd=str(clean_cwd),
-            capture_output=True, text=True, timeout=timeout, encoding="utf-8", errors="replace"
-        )
-        if proc.returncode != 0:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            raw = resp.read().decode("utf-8", errors="replace")
+        data = json.loads(raw)
+        choices = data.get("choices") or []
+        if not choices:
             return None
-        out = proc.stdout or ""
-        # buang header CLI: baris "> via · ..." dan baris kosong awal
-        lines = [ln for ln in out.splitlines() if not ln.strip().startswith(">")]
-        return "\n".join(lines).strip() or None
-    except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        msg = choices[0].get("message") or {}
+        content = msg.get("content")
+        if isinstance(content, list):
+            # OpenAI content-parts shape
+            parts = []
+            for p in content:
+                if isinstance(p, dict) and p.get("type") == "text":
+                    parts.append(p.get("text") or "")
+                elif isinstance(p, str):
+                    parts.append(p)
+            content = "".join(parts)
+        if not isinstance(content, str) or not content.strip():
+            return None
+        return content.strip()
+    except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError, OSError, ValueError):
         return None
 
 def adjudicator_agent(claim: Dict[str, Any], triage: Dict[str, Any], invest: Dict[str, Any]) -> Dict[str, Any]:
@@ -282,7 +324,7 @@ def adjudicator_agent(claim: Dict[str, Any], triage: Dict[str, Any], invest: Dic
         "FORMAT WAJIB:\n"
         '{"status": "APPROVE|HOLD|REJECT", "alasan": "<maks 60 kata>", "rekomendasi": "<tindakan operasional singkat>"}'
     )
-    llm_raw = _call_opencode(prompt)
+    llm_raw = _call_llm(prompt)
     latency = int((time.time() - t0) * 1000)
     fallback_used = False
     parsed: Optional[Dict[str, Any]] = None
@@ -344,5 +386,5 @@ def run_agentic_audit(claim: Dict[str, Any]) -> Dict[str, Any]:
         "rekomendasi": a3.get("rekomendasi", ""),
         "alasan_ai": a3.get("alasan", ""),
         "agent_trace": [a1, a2, a3],
-        "pipeline": "SiKePo Agentic v2 · A1 Triage → A2 Investigator (IsolationForest) → A3 Adjudicator (mimo)",
+        "pipeline": "SiKePo Agentic v2 · A1 Triage → A2 Investigator (IsolationForest) → A3 Adjudicator (Vercel AI Gateway)",
     }

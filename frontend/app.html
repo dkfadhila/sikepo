@@ -168,6 +168,99 @@
       .topbar-btn{padding:8px}
       .topbar-btn svg{width:17px;height:17px}
     }
+
+    /* ═══ KLAIM: FILTERS ═══ */
+    .filters-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+    .filter-search{flex:1;min-width:150px;max-width:300px}
+    .filter-ctl{width:auto;min-width:126px}
+    .risk-range{display:flex;align-items:center;gap:4px}
+    .risk-input{width:64px;padding:8px 8px;text-align:center;font-size:12px}
+    .risk-sep{color:var(--muted);font-size:12px}
+    .filter-count{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap}
+    @media(max-width:767px){
+      .filter-search{max-width:none;width:100%}
+      .filter-count{margin-left:0;width:100%}
+    }
+    .kbd-hint{margin-top:8px;font-size:11px;color:var(--muted)}
+    .kbd-hint code{font-family:'JetBrains Mono',monospace;background:#EDF1F6;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:10.5px}
+    @media(max-width:767px){.kbd-hint{display:none}}
+
+    /* ═══ KLAIM: DENSE TABLE ═══ */
+    .tbl-claims{font-size:12.5px}
+    .tbl-claims th{padding:7px 10px}
+    .tbl-claims td{padding:6px 10px;white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+    .tbl-claims tr{cursor:pointer}
+    .tbl-claims tr:focus-visible{outline:2px solid var(--green);outline-offset:-2px}
+    .mono-id{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11.5px;color:var(--ink)}
+    .mono-num{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#3E5165}
+    .risk-badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:1.5px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11.5px;border:1px solid transparent}
+    .risk-low{background:var(--green-soft);color:#067647;border-color:#C6E8D5}
+    .risk-mid{background:var(--amber-soft);color:var(--amber);border-color:#F2DCC2}
+    .risk-high{background:var(--red-soft);color:var(--red);border-color:#F4CFCB}
+    .fraud-chip{display:inline-block;padding:1.5px 7px;border-radius:6px;font-size:10.5px;font-weight:600;border:1px solid transparent}
+    .fc-clean{background:var(--green-soft);color:#067647;border-color:#C6E8D5}
+    .fc-upcoding{background:var(--amber-soft);color:var(--amber);border-color:#F2DCC2}
+    .fc-phantom{background:#FEF0EB;color:#C2410C;border-color:#F8DBCB}
+    .fc-inflated{background:var(--blue-soft);color:var(--blue);border-color:#C9DBF6}
+    .fc-cloning{background:var(--red-soft);color:var(--red);border-color:#F4CFCB}
+
+    /* ═══ INSPECTOR DRAWER ═══ */
+    .drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(16,36,62,.38);z-index:70;opacity:0;transition:opacity .2s}
+    .inspector{
+      position:fixed;top:0;right:0;bottom:0;width:440px;max-width:100vw;z-index:80;
+      background:#fff;border-left:1px solid var(--line);
+      display:flex;flex-direction:column;
+      transform:translateX(102%);transition:transform .25s ease;
+      box-shadow:-12px 0 32px rgba(16,36,62,.10);
+    }
+    .inspector.open{transform:translateX(0)}
+    .inspector-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line-soft);flex:none}
+    .inspector-head-title{display:flex;align-items:center;gap:8px;min-width:0}
+    .inspector-close{background:none;border:1px solid var(--line);border-radius:7px;width:28px;height:28px;cursor:pointer;color:var(--muted);font-size:12px;flex:none}
+    .inspector-close:hover{color:var(--ink);background:#F8FAFC}
+    .inspector-body{flex:1;overflow-y:auto;padding:14px 16px;-webkit-overflow-scrolling:touch}
+    .inspector-actions{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fff;flex:none}
+    .insp-empty{text-align:center;padding:32px 12px;color:var(--muted);font-size:13px}
+    .insp-block{margin-bottom:12px}
+    .insp-block-title{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+    .kv-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--line-soft)}
+    .kv-row:last-child{border-bottom:none}
+    .kv-lbl{color:var(--muted)}
+    .kv-val{color:var(--ink);font-weight:600;text-align:right;min-width:0;overflow-wrap:anywhere}
+    .drug-chip{display:inline-block;padding:2.5px 8px;border-radius:999px;font-size:11px;border:1px solid var(--line);background:#F0F3F8;color:#3E5165}
+    .drug-chip.restricted{background:var(--red-soft);color:var(--red);border-color:#F4CFCB;font-weight:600}
+    /* Pipeline strip A1→A2→A3 */
+    .pipe-strip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;align-items:stretch}
+    .pipe-arrow{align-self:center;color:var(--muted);font-size:12px}
+    .pipe-stage{border:1px solid var(--line);border-radius:9px;padding:8px;text-align:center;background:#F8FAFC}
+    .pipe-stage-code{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px}
+    .pipe-stage-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;margin-top:2px;color:var(--ink)}
+    .pipe-stage-sub{font-size:9.5px;color:var(--muted);margin-top:2px;line-height:1.3}
+    .pipe-stage.done{border-color:#C6E8D5;background:var(--green-soft)}
+    details.audit-details{border:1px solid var(--line);border-radius:9px;background:#F8FAFC}
+    details.audit-details summary{cursor:pointer;padding:8px 11px;font-size:12px;font-weight:600;color:var(--body);list-style:none;display:flex;align-items:center;gap:6px}
+    details.audit-details summary::before{content:'▸';color:var(--muted);transition:transform .15s}
+    details.audit-details[open] summary::before{transform:rotate(90deg)}
+    details.audit-details .audit-list{padding:2px 12px 10px}
+    .audit-list li{font-size:12px;color:#3E5165;margin-bottom:4px;line-height:1.45}
+    /* Mobile: inspector jadi bottom sheet */
+    @media(max-width:767px){
+      .inspector{top:auto;left:0;right:0;width:100%;height:86dvh;border-left:none;border-top:1px solid var(--line);border-radius:16px 16px 0 0;transform:translateY(103%)}
+      .inspector.open{transform:translateY(0)}
+    }
+
+    /* ═══ TOAST ═══ */
+    .toast-wrap{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:120;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:max-content;max-width:92vw}
+    .toast{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:0 8px 28px rgba(16,36,62,.18);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .toast-ok{background:#0B3D23;color:#7CE8AE;border:1px solid #14683C}
+    .toast-err{background:#4A120C;color:#FFA39B;border:1px solid #7F2B23}
+    .toast-info{background:#0B2B4A;color:#9CC5F5;border:1px solid #17517F}
+
+    /* Heatmap bar */
+    .hm-bar{height:6px;border-radius:999px;background:#EEF2F7;overflow:hidden;min-width:64px}
+    .hm-bar>div{height:100%;border-radius:999px}
+    @media(prefers-reduced-motion:reduce){.inspector,.drawer-backdrop,.toast{transition:none}}
   </style>
 </head>
 <body>
@@ -276,21 +369,64 @@
       <button class="mt" data-tab="data" onclick="switchTab('data')">Data</button>
       <button class="mt" data-tab="users" onclick="switchTab('users')">Users</button>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center">
-      <input type="text" id="filter-search" class="fi" style="flex:1;min-width:160px;max-width:300px" placeholder="Cari RS, pasien, no. SEP…" oninput="debounceSearch()">
-      <select id="filter-fraud-type" class="fi fs" style="width:auto;min-width:140px" onchange="fetchClaims()">
+
+    <!-- Filters -->
+    <div class="filters-row">
+      <input type="text" id="filter-search" class="fi filter-search" placeholder="Cari ID, RS, pasien, ICD-10…  ( / )" autocomplete="off" oninput="debounceSearch()">
+      <select id="filter-status" class="fi fs filter-ctl" onchange="fetchClaims()">
+        <option value="ALL">Semua status</option>
+        <option value="PENDING_AUDIT">Dalam antrean</option>
+        <option value="APPROVED">Disetujui</option>
+        <option value="REJECTED">Ditolak</option>
+      </select>
+      <select id="filter-fraud-type" class="fi fs filter-ctl" onchange="fetchClaims()">
         <option value="ALL">Semua modus</option><option value="UPCODING">Upcoding</option><option value="PHANTOM_BILLING">Phantom</option><option value="INFLATED_BILLS">Overpreskripsi</option><option value="CLONING">Cloning</option><option value="CLEAN">Bersih</option>
       </select>
-      <span style="font-size:12px;color:var(--muted);margin-left:auto" id="table-count-label">--</span>
+      <select id="filter-faskes" class="fi fs filter-ctl" onchange="applyClientFilters()">
+        <option value="ALL">Semua faskes</option>
+      </select>
+      <div class="risk-range" title="Rentang skor risiko">
+        <input type="number" id="filter-risk-min" class="fi font-mono risk-input" min="0" max="100" placeholder="min" oninput="applyClientFilters()">
+        <span class="risk-sep">–</span>
+        <input type="number" id="filter-risk-max" class="fi font-mono risk-input" min="0" max="100" placeholder="maks" oninput="applyClientFilters()">
+      </div>
+      <span class="filter-count" id="table-count-label">--</span>
     </div>
-    <div style="display:grid;grid-template-columns:1fr;gap:10px">
-      <div class="card"><div style="overflow:auto;max-height:45vh"><table class="tbl"><thead><tr><th>No. SEP</th><th>Faskes</th><th>Diagnosa</th><th style="text-align:right">Biaya</th><th style="text-align:center">Risiko</th><th style="text-align:center">Status</th></tr></thead><tbody id="claims-tbody"><tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">Memuat…</td></tr></tbody></table></div></div>
-      <div class="card" id="inspector-card">
-        <div class="card-h"><span class="card-title">Detail &amp; investigasi</span><span id="insp-risk-badge" class="b b-x">Pilih klaim</span></div>
-        <div class="card-b"><div id="inspector-content"><p style="text-align:center;padding:24px;color:var(--muted);font-size:13px">Pilih salah satu klaim di tabel untuk melihat detail dan memberi verdict.</p></div><div id="inspector-actions" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft);gap:8px"><button onclick="submitVerdict('APPROVE')" class="btn btn-ok" style="flex:1;justify-content:center">Setujui</button><button onclick="submitVerdict('HOLD')" class="btn btn-w" style="flex:1;justify-content:center">Tahan</button><button onclick="submitVerdict('REJECT')" class="btn btn-d" style="flex:1;justify-content:center">Tolak</button></div></div>
+
+    <div class="card">
+      <div style="overflow:auto;max-height:calc(100dvh - 250px)">
+        <table class="tbl tbl-claims">
+          <thead><tr>
+            <th>ID</th><th>Tgl</th><th>Faskes</th><th>Diagnosa</th>
+            <th style="text-align:right">Biaya</th><th style="text-align:center">Risiko</th>
+            <th style="text-align:center">Modus</th><th style="text-align:center">Status</th>
+          </tr></thead>
+          <tbody id="claims-tbody"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Memuat…</td></tr></tbody>
+        </table>
       </div>
     </div>
+    <p class="kbd-hint">Keyboard: <code>j</code>/<code>k</code> navigasi · <code>Enter</code> buka · <code>Esc</code> tutup · <code>a</code>/<code>h</code>/<code>r</code> verdict · <code>/</code> cari</p>
   </div>
+
+  <!-- ═══ INSPECTOR DRAWER (desktop) / SHEET (mobile) ═══ -->
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="closeInspector()"></div>
+  <aside class="inspector" id="inspector-drawer" aria-hidden="true" role="dialog" aria-label="Detail klaim">
+    <div class="inspector-head">
+      <div class="inspector-head-title">
+        <span class="card-title" id="insp-title">Detail klaim</span>
+        <span id="insp-risk-badge" class="b b-x">—</span>
+      </div>
+      <button class="inspector-close" onclick="closeInspector()" aria-label="Tutup">✕</button>
+    </div>
+    <div class="inspector-body" id="inspector-content">
+      <p class="insp-empty">Pilih klaim di tabel untuk melihat detail dan memberi verdict.</p>
+    </div>
+    <div class="inspector-actions" id="inspector-actions" style="display:none">
+      <button onclick="submitVerdict('APPROVE')" class="btn btn-ok" style="flex:1;justify-content:center">✓ Setujui</button>
+      <button onclick="submitVerdict('HOLD')" class="btn btn-w" style="flex:1;justify-content:center">⏸ Tahan</button>
+      <button onclick="submitVerdict('REJECT')" class="btn btn-d" style="flex:1;justify-content:center">✕ Tolak</button>
+    </div>
+  </aside>
 
   <!-- ═══ SANDBOX ═══ -->
   <div class="page hidden" id="tab-sandbox">
@@ -319,7 +455,10 @@
               <div class="fg"><label>Biaya diajukan (Rp)</label><input type="number" id="sb-biaya-rs" class="fi font-mono" value="7900000" required></div>
             </div>
             <div class="fg"><label>Obat (pisahkan dengan koma)</label><input type="text" id="sb-obat" class="fi" value="Ceftriaxone, Paracetamol, Meropenem Inj 1g"></div>
-            <button type="submit" class="btn btn-p" style="width:100%;justify-content:center;padding:10px">Jalankan Audit Simulasi</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="submit" class="btn btn-s" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('single')">Audit aturan (cepat)</button>
+              <button type="submit" class="btn btn-p" style="flex:1;justify-content:center;padding:10px" onclick="setSandboxMode('agent')">Pipeline AI penuh · A1→A2→A3</button>
+            </div>
           </form>
         </div>
       </div>
@@ -355,6 +494,16 @@
     <div class="card" style="margin-bottom:10px">
       <div class="card-h"><span class="card-title">Tren klaim</span><span class="card-sub" id="dt-period-label">Harian</span></div>
       <div class="card-b"><div style="height:240px"><canvas id="chart-timeline"></canvas></div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-h"><span class="card-title">Heatmap anomali per faskes</span><span class="card-sub" id="hm-count">--</span></div>
+      <div style="overflow:auto;max-height:320px">
+        <table class="tbl">
+          <thead><tr><th>Faskes</th><th style="text-align:right">Total</th><th style="text-align:right">Anomali</th><th style="text-align:center">Rata-rata risiko</th><th style="text-align:center">Modus teratas</th></tr></thead>
+          <tbody id="heatmap-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">Memuat…</td></tr></tbody>
+        </table>
+      </div>
     </div>
 
     <div class="card">
@@ -410,8 +559,9 @@
     </div>
   </div>
 
+  <div class="toast-wrap" id="toast-wrap"></div>
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
-  <script src="/static/js/shared.js?v=5"></script>
-  <script src="/static/js/app.js?v=5"></script>
+  <script src="/static/js/shared.js?v=6"></script>
+  <script src="/static/js/app.js?v=6"></script>
 </body>
 </html>

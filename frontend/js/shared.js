@@ -80,3 +80,51 @@ const MODUS_LABEL = { CLEAN: 'Bersih', UPCODING: 'Upcoding', PHANTOM_BILLING: 'P
 const MODUS_COLOR = { CLEAN: 'text-emerald-700', UPCODING: 'text-amber-700', PHANTOM_BILLING: 'text-orange-700', INFLATED_BILLS: 'text-rose-700', CLONING: 'text-red-700' };
 const STATUS_LABEL = { PENDING_AUDIT: 'Dalam antrean', APPROVED: 'Disetujui', REJECTED: 'Ditolak', HOLD: 'Ditahan' };
 const STATUS_COLOR = { PENDING_AUDIT: 'text-amber-800 border-amber-300 bg-amber-50', APPROVED: 'text-emerald-800 border-emerald-300 bg-emerald-50', REJECTED: 'text-red-700 border-red-300 bg-red-50', HOLD: 'text-slate-600 border-slate-300 bg-slate-100' };
+
+/* ── Mobile hamburger nav (landing + semua sub-pages) ─────
+   Meng-clone link desktop .nav-link ke panel geser di bawah
+   nav. Tanpa JS, link desktop tetap berfungsi normal. */
+function initMobileNav() {
+  const nav = document.querySelector('.site-nav');
+  if (!nav || nav.querySelector('.nav-toggle')) return;
+  const links = Array.from(nav.querySelectorAll('a.nav-link'));
+  if (!links.length) return;
+
+  const toggle = document.createElement('button');
+  toggle.className = 'nav-toggle';
+  toggle.type = 'button';
+  toggle.setAttribute('aria-label', 'Buka menu navigasi');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.innerHTML = '<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>';
+
+  const panel = document.createElement('div');
+  panel.className = 'nav-mobile';
+  links.forEach(a => {
+    const c = a.cloneNode(true);
+    c.classList.remove('active');
+    c.addEventListener('click', () => close());
+    panel.appendChild(c);
+  });
+  const cta = document.createElement('a');
+  cta.href = '/app';
+  cta.className = 'nav-cta';
+  cta.textContent = 'Buka Aplikasi →';
+  panel.appendChild(cta);
+
+  const inner = nav.querySelector('.nav-inner') || nav.querySelector(':scope > div') || nav;
+  inner.appendChild(toggle);
+  nav.appendChild(panel);
+
+  function close() { panel.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  document.addEventListener('click', (e) => {
+    if (panel.classList.contains('open') && !nav.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+}
+
+document.addEventListener('DOMContentLoaded', initMobileNav);

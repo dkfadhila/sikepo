@@ -275,7 +275,7 @@ def audit_single_claim(claim: AuditClaimRequest):
 
 @app.post("/api/audit/agent")
 def audit_agent_claim(claim: AuditClaimRequest):
-    """Pipeline agentic penuh: A1 Triage → A2 Investigator (ML) → A3 Adjudicator (LLM mimo)."""
+    """Pipeline agentic penuh: A1 Triage → A2 Investigator (ML) → A3 Adjudicator (Vercel AI Gateway)."""
     return run_agentic_audit(_request_to_claim(claim))
 
 
@@ -302,7 +302,11 @@ def ml_train():
 @app.get("/api/ml/status")
 def ml_status():
     meta = dict(ml_scorer.meta)
-    meta["llm_model"] = "opencode/mimo-v2.5-free"
+    from ai_engine import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+    meta["llm_model"] = LLM_MODEL
+    meta["llm_provider"] = "vercel-ai-gateway"
+    meta["llm_base_url"] = LLM_BASE_URL
+    meta["llm_configured"] = bool(LLM_API_KEY)
     meta["pipeline"] = "A1 Triage (rules) → A2 Investigator (IsolationForest) → A3 Adjudicator (LLM)"
     return meta
 

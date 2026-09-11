@@ -8,7 +8,7 @@
 
 ## 1. Project Overview
 
-SiKePo adalah aplikasi web audit klaim BPJS kesehatan yang mendeteksi fraud (Upcoding, Phantom Billing, Inflated Bills, Cloning) sebelum dana cair. Menggabungkan deterministic rules, ML (IsolationForest), dan LLM (mimo-v2.5-free via opencode) dalam pipeline agentic 3 tahap.
+SiKePo adalah aplikasi web audit klaim BPJS kesehatan yang mendeteksi fraud (Upcoding, Phantom Billing, Inflated Bills, Cloning) sebelum dana cair. Menggabungkan deterministic rules, ML (IsolationForest), dan LLM (Vercel AI Gateway: `inclusionai/ling-3.0-flash-sante-free`) dalam pipeline agentic 3 tahap.
 
 **Tagline:** *Detect Smarter. Protect JKN.*
 
@@ -33,7 +33,7 @@ Buka `http://127.0.0.1:7721/`
 - FastAPI + uvicorn
 - scikit-learn (IsolationForest)
 - joblib
-- opencode CLI (untuk LLM adjudicator)
+- Network access ke `ai-gateway.vercel.sh` (LLM adjudicator)
 
 ---
 
@@ -212,11 +212,14 @@ Final Verdict
 - Persist: `engine/model_store/isolation_forest.joblib`
 - Meta: `engine/model_store/model_meta.json`
 
-### LLM Integration
-- Model: `opencode/mimo-v2.5-free`
-- CLI: `opencode run --dir <tempdir> -m <model> <prompt>`
-- Timeout: 90 detik
-- Fallback: deterministic rules jika LLM tidak available/parse gagal
+### LLM Integration (Vercel AI Gateway)
+- Model: `inclusionai/ling-3.0-flash-sante-free`
+- Base URL: `https://ai-gateway.vercel.sh/v1` (OpenAI-compatible `/chat/completions`)
+- Auth: `Authorization: Bearer $AI_GATEWAY_API_KEY`
+- Config: `.env` (gitignored) — `AI_GATEWAY_API_KEY`, `SIKEPO_LLM_MODEL`, `SIKEPO_LLM_BASE_URL`, `SIKEPO_LLM_TIMEOUT`
+- Loader: `engine/ai_engine.py` (`_load_dotenv` + `_call_llm`)
+- Timeout: 60 detik (default)
+- Fallback: deterministic rules jika key kosong / HTTP error / JSON tidak valid
 
 ---
 
@@ -425,7 +428,7 @@ curl -X POST http://127.0.0.1:7721/api/ml/train
 3. **Server port: 7721** — jangan clash dengan service lain
 4. **CORS: allow all origins** — untuk demo/prototype
 5. **ML model auto-trains** saat startup jika belum ada model file
-6. **LLM (opencode)** perlu ter-install dan configured — fallback ke rules jika tidak available
+6. **LLM (Vercel AI Gateway)** perlu `AI_GATEWAY_API_KEY` di `.env` atau env system — fallback ke rules jika tidak available
 
 ---
 
