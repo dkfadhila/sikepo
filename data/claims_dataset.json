@@ -6963,5 +6963,1702 @@
       "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
     ],
     "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0111",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Andi Pratama",
+      "no_kartu": "00030251098",
+      "gender": "L",
+      "usia": 62
+    },
+    "diagnosa": {
+      "icd10": "E11.9",
+      "nama": "Diabetes Melitus Tipe 2",
+      "cbg": "E-4-10-I",
+      "tarif_standar": 4200000,
+      "los_norm": 3,
+      "obat_lazim": [
+        "Metformin",
+        "Glimepiride",
+        "Insulin Rapid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-14",
+    "los": 3,
+    "biaya_diajukan": 4247293,
+    "tarif_ina_cbg": 4200000,
+    "selisih_biaya": 47293,
+    "obat": [
+      "Metformin",
+      "Glimepiride",
+      "Insulin Rapid"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0134",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Rudi Hartono",
+      "no_kartu": "00010893820",
+      "gender": "P",
+      "usia": 49
+    },
+    "diagnosa": {
+      "icd10": "K29.7",
+      "nama": "Gastritis Tanpa Pendarahan",
+      "cbg": "K-4-17-I",
+      "tarif_standar": 2900000,
+      "los_norm": 2,
+      "obat_lazim": [
+        "Omeprazole",
+        "Antasida",
+        "Sucralfate"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-13",
+    "los": 2,
+    "biaya_diajukan": 2940948,
+    "tarif_ina_cbg": 2900000,
+    "selisih_biaya": 40948,
+    "obat": [
+      "Omeprazole",
+      "Antasida",
+      "Sucralfate"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0135",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Lina Kartika",
+      "no_kartu": "00069645013",
+      "gender": "P",
+      "usia": 51
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 6291492,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 391492,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-001-202609-0147",
+    "faskes": {
+      "kode": "FKRTL-001",
+      "nama": "RSUP Dr. Sardjito",
+      "tipe": "A",
+      "kota": "Yogyakarta"
+    },
+    "pasien": {
+      "nama": "Andi Pratama",
+      "no_kartu": "00048799900",
+      "gender": "P",
+      "usia": 56
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-15",
+    "los": 4,
+    "biaya_diajukan": 8416378,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 2516378,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 83,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0136",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Rudi Hartono",
+      "no_kartu": "00098837132",
+      "gender": "L",
+      "usia": 62
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-17",
+    "los": 6,
+    "biaya_diajukan": 19586503,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 1086503,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 62,
+    "fraud_type": "CLONING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Resume medis & item penagihan identik ±98% (Jaccard) dengan klaim lain dalam 48 jam.",
+      "Indikasi copy-paste rekam medis oleh petugas koder faskes."
+    ],
+    "rekomendasi": "SUSPEND PENGAJUAN & CROSS-CHECK BERKAS ASLI"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0073",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Siti Aminah",
+      "no_kartu": "00068784397",
+      "gender": "L",
+      "usia": 55
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 30491520,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 11991520,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 90,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0137",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Lina Kartika",
+      "no_kartu": "00070788689",
+      "gender": "P",
+      "usia": 72
+    },
+    "diagnosa": {
+      "icd10": "K29.7",
+      "nama": "Gastritis Tanpa Pendarahan",
+      "cbg": "K-4-17-I",
+      "tarif_standar": 2900000,
+      "los_norm": 2,
+      "obat_lazim": [
+        "Omeprazole",
+        "Antasida",
+        "Sucralfate"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-13",
+    "los": 2,
+    "biaya_diajukan": 2868010,
+    "tarif_ina_cbg": 2900000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Omeprazole",
+      "Antasida",
+      "Sucralfate"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-002-202609-0002",
+    "faskes": {
+      "kode": "FKRTL-002",
+      "nama": "RSUD Tarakan",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Siti Aminah",
+      "no_kartu": "00024138498",
+      "gender": "P",
+      "usia": 22
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-17",
+    "los": 6,
+    "biaya_diajukan": 18671490,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 171490,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 72,
+    "fraud_type": "CLONING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Resume medis & item penagihan identik ±98% (Jaccard) dengan klaim lain dalam 48 jam.",
+      "Indikasi copy-paste rekam medis oleh petugas koder faskes."
+    ],
+    "rekomendasi": "SUSPEND PENGAJUAN & CROSS-CHECK BERKAS ASLI"
+  },
+  {
+    "id": "SEP-FKRTL-004-202609-0128",
+    "faskes": {
+      "kode": "FKRTL-004",
+      "nama": "RS Siloam Kebon Jeruk",
+      "tipe": "B",
+      "kota": "Jakarta Barat"
+    },
+    "pasien": {
+      "nama": "Dewi Lestari",
+      "no_kartu": "00058790390",
+      "gender": "P",
+      "usia": 57
+    },
+    "diagnosa": {
+      "icd10": "A01.0",
+      "nama": "Demam Tifoid",
+      "cbg": "I-4-10-I",
+      "tarif_standar": 3800000,
+      "los_norm": 4,
+      "obat_lazim": [
+        "Ceftriaxone",
+        "Paracetamol",
+        "RL Infus"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-14",
+    "los": 3,
+    "biaya_diajukan": 3911554,
+    "tarif_ina_cbg": 3800000,
+    "selisih_biaya": 111554,
+    "obat": [
+      "Ceftriaxone",
+      "Paracetamol",
+      "RL Infus"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-007-202609-0151",
+    "faskes": {
+      "kode": "FKRTL-007",
+      "nama": "RS Sentra Medika Cikarang",
+      "tipe": "B",
+      "kota": "Bekasi"
+    },
+    "pasien": {
+      "nama": "Rudi Hartono",
+      "no_kartu": "00040656068",
+      "gender": "L",
+      "usia": 24
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-17",
+    "los": 6,
+    "biaya_diajukan": 7750000,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 1850000,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi",
+      "Human Albumin 20%"
+    ],
+    "risk_score": 77,
+    "fraud_type": "INFLATED_BILLS",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Obat berbiaya tinggi (Human Albumin 20%) di luar Formularium Nasional untuk J18.9.",
+      "Tanpa persetujuan Komite Farmasi (Plasma Expander Ketat)."
+    ],
+    "rekomendasi": "POTONG BIAYA FARMASI NON-FORNAS"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0074",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Joko Susilo",
+      "no_kartu": "00017703280",
+      "gender": "L",
+      "usia": 68
+    },
+    "diagnosa": {
+      "icd10": "K29.7",
+      "nama": "Gastritis Tanpa Pendarahan",
+      "cbg": "K-4-17-I",
+      "tarif_standar": 2900000,
+      "los_norm": 2,
+      "obat_lazim": [
+        "Omeprazole",
+        "Antasida",
+        "Sucralfate"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-13",
+    "los": 2,
+    "biaya_diajukan": 2762548,
+    "tarif_ina_cbg": 2900000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Omeprazole",
+      "Antasida",
+      "Sucralfate"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-002-202609-0003",
+    "faskes": {
+      "kode": "FKRTL-002",
+      "nama": "RSUD Tarakan",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Agus Wijaya",
+      "no_kartu": "00088327155",
+      "gender": "P",
+      "usia": 67
+    },
+    "diagnosa": {
+      "icd10": "H25.9",
+      "nama": "Katarak Senilis (Fakoemulsifikasi)",
+      "cbg": "H-1-10-I",
+      "tarif_standar": 7200000,
+      "los_norm": 1,
+      "obat_lazim": [
+        "Tetes Mata Antibiotik",
+        "Tetes Steroid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 9600000,
+    "tarif_ina_cbg": 7200000,
+    "selisih_biaya": 2400000,
+    "obat": [
+      "Tetes Mata Antibiotik",
+      "Tetes Steroid",
+      "Meropenem Inj 1g"
+    ],
+    "risk_score": 69,
+    "fraud_type": "INFLATED_BILLS",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Obat berbiaya tinggi (Meropenem Inj 1g) di luar Formularium Nasional untuk H25.9.",
+      "Tanpa persetujuan Komite Farmasi (Antibiotik Cadangan Kuartener)."
+    ],
+    "rekomendasi": "POTONG BIAYA FARMASI NON-FORNAS"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0075",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Joko Susilo",
+      "no_kartu": "00010625780",
+      "gender": "P",
+      "usia": 18
+    },
+    "diagnosa": {
+      "icd10": "A01.0",
+      "nama": "Demam Tifoid",
+      "cbg": "I-4-10-I",
+      "tarif_standar": 3800000,
+      "los_norm": 4,
+      "obat_lazim": [
+        "Ceftriaxone",
+        "Paracetamol",
+        "RL Infus"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 5980645,
+    "tarif_ina_cbg": 3800000,
+    "selisih_biaya": 2180645,
+    "obat": [
+      "Ceftriaxone",
+      "Paracetamol",
+      "RL Infus"
+    ],
+    "risk_score": 68,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0076",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Lina Kartika",
+      "no_kartu": "00048220644",
+      "gender": "P",
+      "usia": 28
+    },
+    "diagnosa": {
+      "icd10": "H25.9",
+      "nama": "Katarak Senilis (Fakoemulsifikasi)",
+      "cbg": "H-1-10-I",
+      "tarif_standar": 7200000,
+      "los_norm": 1,
+      "obat_lazim": [
+        "Tetes Mata Antibiotik",
+        "Tetes Steroid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 6986165,
+    "tarif_ina_cbg": 7200000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Tetes Mata Antibiotik",
+      "Tetes Steroid"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0077",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Nur Halimah",
+      "no_kartu": "00086684671",
+      "gender": "L",
+      "usia": 31
+    },
+    "diagnosa": {
+      "icd10": "E11.9",
+      "nama": "Diabetes Melitus Tipe 2",
+      "cbg": "E-4-10-I",
+      "tarif_standar": 4200000,
+      "los_norm": 3,
+      "obat_lazim": [
+        "Metformin",
+        "Glimepiride",
+        "Insulin Rapid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 8264312,
+    "tarif_ina_cbg": 4200000,
+    "selisih_biaya": 4064312,
+    "obat": [
+      "Metformin",
+      "Glimepiride",
+      "Insulin Rapid"
+    ],
+    "risk_score": 68,
+    "fraud_type": "UPCODING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Tarif INA-CBGs melonjak 196% dari baseline.",
+      "Kode severitas terangkat tanpa bukti komorbiditas valid di resume medis."
+    ],
+    "rekomendasi": "HOLD / TURUNKAN TINGKAT SEVERITAS"
+  },
+  {
+    "id": "SEP-FKRTL-002-202609-0004",
+    "faskes": {
+      "kode": "FKRTL-002",
+      "nama": "RSUD Tarakan",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Dewi Lestari",
+      "no_kartu": "00081353400",
+      "gender": "P",
+      "usia": 37
+    },
+    "diagnosa": {
+      "icd10": "H25.9",
+      "nama": "Katarak Senilis (Fakoemulsifikasi)",
+      "cbg": "H-1-10-I",
+      "tarif_standar": 7200000,
+      "los_norm": 1,
+      "obat_lazim": [
+        "Tetes Mata Antibiotik",
+        "Tetes Steroid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 11788680,
+    "tarif_ina_cbg": 7200000,
+    "selisih_biaya": 4588680,
+    "obat": [
+      "Tetes Mata Antibiotik",
+      "Tetes Steroid"
+    ],
+    "risk_score": 63,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0138",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Taufik Hidayat",
+      "no_kartu": "00061966678",
+      "gender": "P",
+      "usia": 55
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-15",
+    "los": 4,
+    "biaya_diajukan": 6287996,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 387996,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 88,
+    "fraud_type": "CLONING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Resume medis & item penagihan identik ±98% (Jaccard) dengan klaim lain dalam 48 jam.",
+      "Indikasi copy-paste rekam medis oleh petugas koder faskes."
+    ],
+    "rekomendasi": "SUSPEND PENGAJUAN & CROSS-CHECK BERKAS ASLI"
+  },
+  {
+    "id": "SEP-FKRTL-001-202609-0148",
+    "faskes": {
+      "kode": "FKRTL-001",
+      "nama": "RSUP Dr. Sardjito",
+      "tipe": "A",
+      "kota": "Yogyakarta"
+    },
+    "pasien": {
+      "nama": "Rina Marlina",
+      "no_kartu": "00038551947",
+      "gender": "L",
+      "usia": 41
+    },
+    "diagnosa": {
+      "icd10": "K29.7",
+      "nama": "Gastritis Tanpa Pendarahan",
+      "cbg": "K-4-17-I",
+      "tarif_standar": 2900000,
+      "los_norm": 2,
+      "obat_lazim": [
+        "Omeprazole",
+        "Antasida",
+        "Sucralfate"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 2790267,
+    "tarif_ina_cbg": 2900000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Omeprazole",
+      "Antasida",
+      "Sucralfate"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0112",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Maya Anggraini",
+      "no_kartu": "00037067876",
+      "gender": "P",
+      "usia": 57
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 6186901,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 286901,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-003-202609-0133",
+    "faskes": {
+      "kode": "FKRTL-003",
+      "nama": "RS Hermina Kemayoran",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Sri Wahyuni",
+      "no_kartu": "00021585806",
+      "gender": "L",
+      "usia": 55
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-21",
+    "los": 10,
+    "biaya_diajukan": 35894921,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 17394921,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 75,
+    "fraud_type": "UPCODING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Tarif INA-CBGs melonjak 194% dari baseline.",
+      "Kode severitas terangkat tanpa bukti komorbiditas valid di resume medis."
+    ],
+    "rekomendasi": "HOLD / TURUNKAN TINGKAT SEVERITAS"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0113",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Rina Marlina",
+      "no_kartu": "00047799651",
+      "gender": "P",
+      "usia": 69
+    },
+    "diagnosa": {
+      "icd10": "H25.9",
+      "nama": "Katarak Senilis (Fakoemulsifikasi)",
+      "cbg": "H-1-10-I",
+      "tarif_standar": 7200000,
+      "los_norm": 1,
+      "obat_lazim": [
+        "Tetes Mata Antibiotik",
+        "Tetes Steroid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 7653800,
+    "tarif_ina_cbg": 7200000,
+    "selisih_biaya": 453800,
+    "obat": [
+      "Tetes Mata Antibiotik",
+      "Tetes Steroid"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-007-202609-0152",
+    "faskes": {
+      "kode": "FKRTL-007",
+      "nama": "RS Sentra Medika Cikarang",
+      "tipe": "B",
+      "kota": "Bekasi"
+    },
+    "pasien": {
+      "nama": "Dewi Lestari",
+      "no_kartu": "00088009322",
+      "gender": "P",
+      "usia": 43
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-17",
+    "los": 6,
+    "biaya_diajukan": 8967747,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 3067747,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 78,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0114",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Dewi Lestari",
+      "no_kartu": "00010293968",
+      "gender": "L",
+      "usia": 23
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-18",
+    "los": 7,
+    "biaya_diajukan": 19700000,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 1200000,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin",
+      "Enoxaparin Sodium Inj"
+    ],
+    "risk_score": 79,
+    "fraud_type": "INFLATED_BILLS",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Obat berbiaya tinggi (Enoxaparin Sodium Inj) di luar Formularium Nasional untuk I21.9.",
+      "Tanpa persetujuan Komite Farmasi (Antikoagulan Khusus)."
+    ],
+    "rekomendasi": "POTONG BIAYA FARMASI NON-FORNAS"
+  },
+  {
+    "id": "SEP-FKRTL-004-202609-0129",
+    "faskes": {
+      "kode": "FKRTL-004",
+      "nama": "RS Siloam Kebon Jeruk",
+      "tipe": "B",
+      "kota": "Jakarta Barat"
+    },
+    "pasien": {
+      "nama": "Taufik Hidayat",
+      "no_kartu": "00047525504",
+      "gender": "P",
+      "usia": 67
+    },
+    "diagnosa": {
+      "icd10": "K29.7",
+      "nama": "Gastritis Tanpa Pendarahan",
+      "cbg": "K-4-17-I",
+      "tarif_standar": 2900000,
+      "los_norm": 2,
+      "obat_lazim": [
+        "Omeprazole",
+        "Antasida",
+        "Sucralfate"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-14",
+    "los": 3,
+    "biaya_diajukan": 2766929,
+    "tarif_ina_cbg": 2900000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Omeprazole",
+      "Antasida",
+      "Sucralfate"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-004-202609-0130",
+    "faskes": {
+      "kode": "FKRTL-004",
+      "nama": "RS Siloam Kebon Jeruk",
+      "tipe": "B",
+      "kota": "Jakarta Barat"
+    },
+    "pasien": {
+      "nama": "Nur Halimah",
+      "no_kartu": "00057860504",
+      "gender": "P",
+      "usia": 41
+    },
+    "diagnosa": {
+      "icd10": "A01.0",
+      "nama": "Demam Tifoid",
+      "cbg": "I-4-10-I",
+      "tarif_standar": 3800000,
+      "los_norm": 4,
+      "obat_lazim": [
+        "Ceftriaxone",
+        "Paracetamol",
+        "RL Infus"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 3807178,
+    "tarif_ina_cbg": 3800000,
+    "selisih_biaya": 7178,
+    "obat": [
+      "Ceftriaxone",
+      "Paracetamol",
+      "RL Infus"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0139",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Maya Anggraini",
+      "no_kartu": "00048776658",
+      "gender": "P",
+      "usia": 47
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 7750000,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 1850000,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi",
+      "Human Albumin 20%"
+    ],
+    "risk_score": 62,
+    "fraud_type": "INFLATED_BILLS",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Obat berbiaya tinggi (Human Albumin 20%) di luar Formularium Nasional untuk J18.9.",
+      "Tanpa persetujuan Komite Farmasi (Plasma Expander Ketat)."
+    ],
+    "rekomendasi": "POTONG BIAYA FARMASI NON-FORNAS"
+  },
+  {
+    "id": "SEP-FKRTL-002-202609-0005",
+    "faskes": {
+      "kode": "FKRTL-002",
+      "nama": "RSUD Tarakan",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Dewi Lestari",
+      "no_kartu": "00047515923",
+      "gender": "P",
+      "usia": 19
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 19124461,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 624461,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-005-202609-0140",
+    "faskes": {
+      "kode": "FKRTL-005",
+      "nama": "RSUD Dr. Soetomo",
+      "tipe": "A",
+      "kota": "Surabaya"
+    },
+    "pasien": {
+      "nama": "Hendra Gunawan",
+      "no_kartu": "00042101581",
+      "gender": "P",
+      "usia": 62
+    },
+    "diagnosa": {
+      "icd10": "H25.9",
+      "nama": "Katarak Senilis (Fakoemulsifikasi)",
+      "cbg": "H-1-10-I",
+      "tarif_standar": 7200000,
+      "los_norm": 1,
+      "obat_lazim": [
+        "Tetes Mata Antibiotik",
+        "Tetes Steroid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-12",
+    "los": 1,
+    "biaya_diajukan": 6887478,
+    "tarif_ina_cbg": 7200000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Tetes Mata Antibiotik",
+      "Tetes Steroid"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-004-202609-0131",
+    "faskes": {
+      "kode": "FKRTL-004",
+      "nama": "RS Siloam Kebon Jeruk",
+      "tipe": "B",
+      "kota": "Jakarta Barat"
+    },
+    "pasien": {
+      "nama": "Sri Wahyuni",
+      "no_kartu": "00048536978",
+      "gender": "L",
+      "usia": 57
+    },
+    "diagnosa": {
+      "icd10": "A01.0",
+      "nama": "Demam Tifoid",
+      "cbg": "I-4-10-I",
+      "tarif_standar": 3800000,
+      "los_norm": 4,
+      "obat_lazim": [
+        "Ceftriaxone",
+        "Paracetamol",
+        "RL Infus"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 5822117,
+    "tarif_ina_cbg": 3800000,
+    "selisih_biaya": 2022117,
+    "obat": [
+      "Ceftriaxone",
+      "Paracetamol",
+      "RL Infus"
+    ],
+    "risk_score": 90,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-001-202609-0149",
+    "faskes": {
+      "kode": "FKRTL-001",
+      "nama": "RSUP Dr. Sardjito",
+      "tipe": "A",
+      "kota": "Yogyakarta"
+    },
+    "pasien": {
+      "nama": "Joko Susilo",
+      "no_kartu": "00088536552",
+      "gender": "P",
+      "usia": 22
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-18",
+    "los": 7,
+    "biaya_diajukan": 30990702,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 12490702,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 90,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-007-202609-0153",
+    "faskes": {
+      "kode": "FKRTL-007",
+      "nama": "RS Sentra Medika Cikarang",
+      "tipe": "B",
+      "kota": "Bekasi"
+    },
+    "pasien": {
+      "nama": "Budi Santoso",
+      "no_kartu": "00031502532",
+      "gender": "L",
+      "usia": 21
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "cbg": "J-4-16-I",
+      "tarif_standar": 5900000,
+      "los_norm": 5,
+      "obat_lazim": [
+        "Azithromycin",
+        "Ambroxol",
+        "Salbutamol Inhalasi"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-15",
+    "los": 4,
+    "biaya_diajukan": 6221958,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 321958,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Salbutamol Inhalasi"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-002-202609-0006",
+    "faskes": {
+      "kode": "FKRTL-002",
+      "nama": "RSUD Tarakan",
+      "tipe": "B",
+      "kota": "Jakarta Pusat"
+    },
+    "pasien": {
+      "nama": "Andi Pratama",
+      "no_kartu": "00026614538",
+      "gender": "L",
+      "usia": 33
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 25428471,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 6928471,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 84,
+    "fraud_type": "PHANTOM_BILLING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Fingerprint validasi biometrik absen pada sebagian hari rawat.",
+      "Tindakan ditagihkan tapi jadwal dokter di SIMRS tercatat off."
+    ],
+    "rekomendasi": "TOLAK KLAIM & AUDIT INVESTIGATIF"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0115",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Rudi Hartono",
+      "no_kartu": "00019566417",
+      "gender": "P",
+      "usia": 46
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-17",
+    "los": 6,
+    "biaya_diajukan": 17835423,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 0,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 80,
+    "fraud_type": "CLONING",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "Resume medis & item penagihan identik ±98% (Jaccard) dengan klaim lain dalam 48 jam.",
+      "Indikasi copy-paste rekam medis oleh petugas koder faskes."
+    ],
+    "rekomendasi": "SUSPEND PENGAJUAN & CROSS-CHECK BERKAS ASLI"
+  },
+  {
+    "id": "SEP-FKRTL-006-202609-0116",
+    "faskes": {
+      "kode": "FKRTL-006",
+      "nama": "RS Bhayangkara Sartika Asih",
+      "tipe": "C",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Sri Wahyuni",
+      "no_kartu": "00037531964",
+      "gender": "P",
+      "usia": 44
+    },
+    "diagnosa": {
+      "icd10": "I21.9",
+      "nama": "Infark Miokard Akut (STEMI)",
+      "cbg": "I-4-11-III",
+      "tarif_standar": 18500000,
+      "los_norm": 6,
+      "obat_lazim": [
+        "Aspirin",
+        "Clopidogrel",
+        "Atorvastatin",
+        "Heparin"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-16",
+    "los": 5,
+    "biaya_diajukan": 18888431,
+    "tarif_ina_cbg": 18500000,
+    "selisih_biaya": 388431,
+    "obat": [
+      "Aspirin",
+      "Clopidogrel",
+      "Atorvastatin",
+      "Heparin"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-008-202609-0078",
+    "faskes": {
+      "kode": "FKRTL-008",
+      "nama": "RSUD Al-Ihsan",
+      "tipe": "B",
+      "kota": "Bandung"
+    },
+    "pasien": {
+      "nama": "Siti Aminah",
+      "no_kartu": "00010001508",
+      "gender": "L",
+      "usia": 60
+    },
+    "diagnosa": {
+      "icd10": "E11.9",
+      "nama": "Diabetes Melitus Tipe 2",
+      "cbg": "E-4-10-I",
+      "tarif_standar": 4200000,
+      "los_norm": 3,
+      "obat_lazim": [
+        "Metformin",
+        "Glimepiride",
+        "Insulin Rapid"
+      ]
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-14",
+    "los": 3,
+    "biaya_diajukan": 4304916,
+    "tarif_ina_cbg": 4200000,
+    "selisih_biaya": 104916,
+    "obat": [
+      "Metformin",
+      "Glimepiride",
+      "Insulin Rapid"
+    ],
+    "risk_score": 5,
+    "fraud_type": "CLEAN",
+    "status": "APPROVED",
+    "audit_reasons": [
+      "Seluruh item prosedur & farmasi sesuai e-Fornas dan Clinical Pathway nasional."
+    ],
+    "rekomendasi": "SIAP BAYAR (AUTO-APPROVED)"
+  },
+  {
+    "id": "SEP-FKRTL-001-202609-0150",
+    "faskes": {
+      "kode": "FKRTL-001",
+      "nama": "RSUP Dr. Sardjito",
+      "kota": "Yogyakarta"
+    },
+    "pasien": {
+      "nama": "Siti Rahmawati",
+      "no_kartu": "000188776644",
+      "gender": "P",
+      "usia": 47
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "los_norm": 5
+    },
+    "tgl_masuk": "2026-09-11",
+    "tgl_keluar": "2026-09-18",
+    "los": 7,
+    "biaya_diajukan": 8300000,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 2400000,
+    "obat": [
+      "Azithromycin",
+      "Ambroxol",
+      "Ceftriaxone"
+    ],
+    "risk_score": 45,
+    "fraud_type": "REVIEW",
+    "status": "PENDING_AUDIT",
+    "audit_reasons": [
+      "RATIO_TARIF_WARN: pengajuan 40% di atas tarif standar",
+      "ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 58.6)",
+      "SELISIH_BIAYA: Rp 2.400.000"
+    ],
+    "rekomendasi": "Tahan berkas, minta resume medis & justifikasi tarif ke faskes.",
+    "agent_trace": [
+      {
+        "agent": "A1",
+        "name": "Triage Agent",
+        "latency_ms": 0,
+        "preliminary_risk": 28,
+        "flags": [
+          "RATIO_TARIF_WARN: pengajuan 40% di atas tarif standar"
+        ],
+        "queued_for_investigation": true
+      },
+      {
+        "agent": "A2",
+        "name": "Investigator Agent",
+        "latency_ms": 51,
+        "ml": {
+          "anomaly_score": 58.6,
+          "is_anomaly": true,
+          "model_version": "IF-200-202609072201",
+          "trained_at": "2026-09-07 22:01:23"
+        },
+        "evidence": [
+          "RATIO_TARIF_WARN: pengajuan 40% di atas tarif standar",
+          "ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 58.6)",
+          "SELISIH_BIAYA: Rp 2.400.000"
+        ],
+        "fused_risk": 45,
+        "fraud_type_guess": "REVIEW"
+      },
+      {
+        "agent": "A3",
+        "name": "Adjudicator Agent",
+        "latency_ms": 3014,
+        "status": "HOLD",
+        "alasan": "RATIO_TARIF_WARN: pengajuan 40% di atas tarif standar; ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 58.6); SELISIH_BIAYA: Rp 2.400.000",
+        "rekomendasi": "Tahan berkas, minta resume medis & justifikasi tarif ke faskes.",
+        "llm": {
+          "model": "inclusionai/ling-3.0-flash-sante-free",
+          "fallback": true,
+          "latency_ms": 3014
+        }
+      }
+    ],
+    "verdict_history": [
+      {
+        "at": "2026-09-11T23:16:48",
+        "by": "system:A3",
+        "action": "HOLD",
+        "notes": null
+      }
+    ]
   }
 ]

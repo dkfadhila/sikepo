@@ -3,6 +3,7 @@ import re
 import sys
 import json
 import random
+import secrets
 import asyncio
 from pathlib import Path
 from typing import Dict, Any, List, Optional
@@ -18,15 +19,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / "engine"))
 from ai_engine import ml_scorer, run_agentic_audit, triage_agent, investigator_agent  # noqa: E402
 from auth import authenticate, get_session, logout, has_permission, require_permission, list_users, add_user, delete_user, update_user, ROLE_DEFS  # noqa: E402
+from security import login_allowed, login_record_fail, login_reset  # noqa: E402
 
 DATA_FILE = str(BASE_DIR / "data" / "claims_dataset.json")
 FRONTEND_DIR = str(BASE_DIR / "frontend")
+API_KEYS_FILE = str(BASE_DIR / "data" / "api_keys.json")
 IS_VERCEL = os.environ.get("VERCEL") == "1"
 
 app = FastAPI(
     title="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling",
     description="BPJS Kesehatan Healthkathon 2026 Innovation API",
-    version="2.0.0"
+    version="2.1.0"
 )
 
 # ── Auth endpoints ─────────────────────────────────────────
@@ -35,10 +38,15 @@ class LoginRequest(BaseModel):
     password: str
 
 @app.post("/api/auth/login")
-def auth_login(payload: LoginRequest):
+def auth_login(payload: LoginRequest, request: Request):
+    ip = request.client.host if request.client else "unknown"
+    if not login_allowed(ip):
+        raise HTTPException(status_code=429, detail="Terlalu banyak percobaan login gagal. Coba lagi dalam beberapa menit.")
     result = authenticate(payload.username, payload.password)
     if not result:
+        login_record_fail(ip)
         raise HTTPException(status_code=401, detail="Username atau password salah.")
+    login_reset(ip)
     return result
 
 @app.post("/api/auth/logout")
@@ -186,22 +194,30 @@ class VerdictUpdate(BaseModel):
     notes: Optional[str] = ""
 
 @app.post("/api/claims/{claim_id}/verdict")
-def update_verdict(claim_id: str, payload: VerdictUpdate):
+def update_verdict(claim_id: str, payload: VerdictUpdate, session: Dict[str, Any] = Depends(require_permission("verdict"))):
     claims = load_claims()
     found = False
     new_status = "APPROVED" if payload.action == "APPROVE" else ("REJECTED" if payload.action == "REJECT" else "PENDING_AUDIT")
-    
+
     for c in claims:
         if c["id"] == claim_id:
             c["status"] = new_status
+            # Audit trail: every human verdict is recorded, never overwritten
+            history = c.setdefault("verdict_history", [])
+            history.append({
+                "at": datetime.now().isoformat(timespec="seconds"),
+                "by": session["username"],
+                "action": payload.action,
+                "notes": payload.notes or None
+            })
             if payload.notes:
                 c["audit_reasons"].append(f"[Verifikator BPJS Note]: {payload.notes}")
             found = True
             break
-            
+
     if not found:
         raise HTTPException(status_code=404, detail="Berkas klaim tidak ditemukan")
-        
+
     save_claims(claims)
     return {"success": True, "new_status": new_status, "id": claim_id}
 
@@ -287,6 +303,139 @@ def audit_agent_existing_claim(claim_id: str):
         if c["id"] == claim_id:
             return run_agentic_audit(c)
     raise HTTPException(status_code=404, detail="Berkas klaim tidak ditemukan")
+
+
+# ── Production ingestion (machine-to-machine) ──────────────
+# Sumber data otomatis: SIMRS/E-Klaim faskes mendorong klaim baru ke
+# endpoint ini dengan header X-API-Key (1 key per faskes, dikelola SA).
+# Setiap klaim langsung diaudit pipeline A1→A2→A3 saat masuk.
+
+def _load_api_keys() -> List[Dict[str, Any]]:
+    if os.path.exists(API_KEYS_FILE):
+        with open(API_KEYS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
+
+def _save_api_keys(keys: List[Dict[str, Any]]):
+    try:
+        with open(API_KEYS_FILE, "w", encoding="utf-8") as f:
+            json.dump(keys, f, indent=2, ensure_ascii=False)
+    except (OSError, IOError) as e:
+        if IS_VERCEL:
+            print(f"[SiKePo] api_keys save skipped (read-only FS): {e}")
+        else:
+            raise
+
+def _seed_api_keys():
+    """Generate key awal untuk sebagian faskes bila file belum ada (lokal only)."""
+    if os.path.exists(API_KEYS_FILE):
+        return
+    keys = []
+    for f in SIMRS_FASKES[:3]:
+        keys.append({
+            "key": "sk_" + secrets.token_hex(16),
+            "faskes_kode": f["kode"],
+            "nama": f"Kunci ingest {f['nama']}",
+            "active": True,
+            "created_at": datetime.now().strftime("%Y-%m-%d")
+        })
+    _save_api_keys(keys)
+    print(f"[SiKePo] API key ingest dibuat untuk {len(keys)} faskes (data/api_keys.json)")
+
+class IngestClaim(BaseModel):
+    """Payload klaim dari sistem sumber (SIMRS/E-Klaim)."""
+    id: Optional[str] = None        # SEP opsional; bila kosong digenerate otomatis
+    faskes_kode: str
+    faskes_nama: str
+    faskes_kota: Optional[str] = "-"
+    pasien: Dict[str, Any]          # nama, no_kartu?, gender, usia
+    diagnosa: Dict[str, Any]        # icd10, nama, los_norm?
+    tgl_masuk: Optional[str] = None
+    los: int
+    biaya_diajukan: int
+    tarif_ina_cbg: int
+    obat: List[str] = []
+
+@app.post("/api/ingest/claims")
+def ingest_claim(payload: IngestClaim, request: Request):
+    """Terima klaim dari server sumber (X-API-Key), audit otomatis A1→A2→A3, simpan ke antrean."""
+    api_key = request.headers.get("X-API-Key", "")
+    key_rec = next((k for k in _load_api_keys() if k.get("key") == api_key and k.get("active", True)), None)
+    if not key_rec:
+        raise HTTPException(status_code=401, detail="X-API-Key tidak valid atau tidak aktif.")
+    if payload.faskes_kode != key_rec["faskes_kode"]:
+        raise HTTPException(status_code=403, detail="API key ini hanya berlaku untuk faskes " + key_rec["faskes_kode"])
+
+    claims = load_claims()
+    now = datetime.now()
+    sep = payload.id or _next_sep(claims, payload.faskes_kode, now)
+    if any(c.get("id") == sep for c in claims):
+        return {"success": True, "id": sep, "status": "already_ingested", "message": "SEP sudah pernah diterima (idempoten)."}
+
+    diagnosa = dict(payload.diagnosa)
+    diagnosa.setdefault("los_norm", 4)
+    claim = {
+        "id": sep,
+        "faskes": {"kode": payload.faskes_kode, "nama": payload.faskes_nama, "kota": payload.faskes_kota},
+        "pasien": payload.pasien,
+        "diagnosa": diagnosa,
+        "tgl_masuk": payload.tgl_masuk or now.strftime("%Y-%m-%d"),
+        "tgl_keluar": (now + timedelta(days=max(1, payload.los))).strftime("%Y-%m-%d"),
+        "los": payload.los,
+        "biaya_diajukan": payload.biaya_diajukan,
+        "tarif_ina_cbg": payload.tarif_ina_cbg,
+        "selisih_biaya": max(0, payload.biaya_diajukan - payload.tarif_ina_cbg),
+        "obat": payload.obat,
+    }
+    # Audit penuh saat masuk — antrean hanya berisi klaim yang sudah dinilai
+    audit = run_agentic_audit(claim)
+    claim.update({
+        "risk_score": audit.get("risk_score", 0),
+        "fraud_type": audit.get("fraud_type", "CLEAN"),
+        "status": audit.get("status", "PENDING_AUDIT"),
+        "audit_reasons": audit.get("reasons", []),
+        "rekomendasi": audit.get("rekomendasi", ""),
+        "agent_trace": audit.get("agent_trace", []),
+        "verdict_history": [{
+            "at": now.isoformat(timespec="seconds"),
+            "by": "system:A3",
+            "action": audit.get("verdict", "HOLD"),
+            "notes": None
+        }]
+    })
+    claims.append(claim)
+    save_claims(claims)
+    return {
+        "success": True,
+        "id": sep,
+        "status": "ingested",
+        "risk_score": claim["risk_score"],
+        "fraud_type": claim["fraud_type"],
+        "rekomendasi": claim["rekomendasi"],
+        "claim_status": claim["status"]
+    }
+
+class ApiKeyCreate(BaseModel):
+    faskes_kode: str
+    nama: str
+    faskes_kota: Optional[str] = "-"
+
+@app.get("/api/admin/api-keys")
+def admin_list_api_keys(session: Dict[str, Any] = Depends(require_permission("manage_users"))):
+    keys = _load_api_keys()
+    masked = [{**k, "key": k["key"][:6] + "…" + k["key"][-4:]} for k in keys]
+    return {"keys": masked}
+
+@app.post("/api/admin/api-keys")
+def admin_create_api_key(payload: ApiKeyCreate, session: Dict[str, Any] = Depends(require_permission("manage_users"))):
+    keys = _load_api_keys()
+    new_key = {"key": "sk_" + secrets.token_hex(16), "faskes_kode": payload.faskes_kode,
+               "nama": payload.nama, "active": True,
+               "created_at": datetime.now().strftime("%Y-%m-%d")}
+    keys.append(new_key)
+    _save_api_keys(keys)
+    # Key penuh hanya ditampilkan sekali saat dibuat
+    return {"success": True, "key": new_key["key"], "faskes_kode": new_key["faskes_kode"]}
 
 
 @app.post("/api/ml/train")
@@ -545,6 +694,7 @@ async def startup_simrs():
 # Auto-train ML model saat server start (jika belum ada model)
 @app.on_event("startup")
 def startup_train_model():
+    _seed_api_keys()
     if not ml_scorer.is_trained():
         claims = load_claims()
         if len(claims) >= 10:

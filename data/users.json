@@ -2,7 +2,7 @@
   {
     "id": "USR-001",
     "username": "admin",
-    "password": "admin",
+    "password": "pbkdf2$240000$7d9398fbcd1544e604128531b510f5ed$73b71b54fec4587139b2a61b4ae4d8656aae474874e58e700bf831a4cdd4e871",
     "fullname": "Administrator",
     "role": "SA",
     "faskes_scope": null,

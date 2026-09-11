@@ -1,6 +1,9 @@
 """
 SiKePo Auth System — Role-Based Access Control
 4 roles: SA (Super Admin), VK (Verifikator), ST (Satgas AF), AU (Auditor)
+Passwords are stored hashed (PBKDF2, see security.py). Legacy plaintext
+values from users.json are upgraded transparently on first successful login.
+Sessions persist to data/sessions.json so restarts do not log users out.
 """
 import json
 import os
@@ -9,6 +12,8 @@ import time
 from typing import Any, Dict, List, Optional
 from functools import wraps
 from fastapi import HTTPException, Request
+
+from security import hash_password, verify_password, is_hashed, load_sessions, save_sessions
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
@@ -41,8 +46,18 @@ ROLE_DEFS = {
     }
 }
 
-# ── Session store (in-memory) ──────────────────────────────
+# ── Session store (persisted to disk) ──────────────────────
 _sessions: Dict[str, Dict[str, Any]] = {}
+_sessions_loaded = False
+
+def _load_sessions_once():
+    global _sessions, _sessions_loaded
+    if not _sessions_loaded:
+        _sessions = load_sessions()
+        _sessions_loaded = True
+
+def _persist_sessions():
+    save_sessions(_sessions)
 
 def _load_users() -> List[Dict[str, Any]]:
     if not os.path.exists(USERS_FILE):
@@ -56,44 +71,62 @@ def _save_users(users: List[Dict[str, Any]]):
 
 # ── Auth functions ─────────────────────────────────────────
 def authenticate(username: str, password: str) -> Optional[Dict[str, Any]]:
-    """Validate credentials, return user dict (without password) or None."""
+    """Validate credentials, return user dict (without password) or None.
+    Legacy plaintext passwords are verified then upgraded to a hash."""
+    _load_sessions_once()
     users = _load_users()
     for u in users:
-        if u["username"] == username and u["password"] == password and u.get("active", True):
-            token = secrets.token_hex(32)
-            _sessions[token] = {
-                "user_id": u["id"],
-                "username": u["username"],
-                "fullname": u["fullname"],
-                "role": u["role"],
-                "faskes_scope": u.get("faskes_scope"),
-                "login_at": time.time()
-            }
-            return {
-                "token": token,
-                "user_id": u["id"],
-                "username": u["username"],
-                "fullname": u["fullname"],
-                "role": u["role"],
-                "role_name": ROLE_DEFS[u["role"]]["name"],
-                "role_desc": ROLE_DEFS[u["role"]]["desc"],
-                "permissions": ROLE_DEFS[u["role"]]["permissions"],
-                "faskes_scope": u.get("faskes_scope")
-            }
+        if u["username"] != username or not u.get("active", True):
+            continue
+        stored = u.get("password", "")
+        if is_hashed(stored):
+            ok = verify_password(password, stored)
+        else:
+            ok = secrets.compare_digest(stored, password)
+            if ok:
+                u["password"] = hash_password(password)  # transparent upgrade
+                _save_users(users)
+        if not ok:
+            continue
+        token = secrets.token_hex(32)
+        _sessions[token] = {
+            "user_id": u["id"],
+            "username": u["username"],
+            "fullname": u["fullname"],
+            "role": u["role"],
+            "faskes_scope": u.get("faskes_scope"),
+            "login_at": time.time()
+        }
+        _persist_sessions()
+        return {
+            "token": token,
+            "user_id": u["id"],
+            "username": u["username"],
+            "fullname": u["fullname"],
+            "role": u["role"],
+            "role_name": ROLE_DEFS[u["role"]]["name"],
+            "role_desc": ROLE_DEFS[u["role"]]["desc"],
+            "permissions": ROLE_DEFS[u["role"]]["permissions"],
+            "faskes_scope": u.get("faskes_scope")
+        }
     return None
 
 def get_session(token: str) -> Optional[Dict[str, Any]]:
     """Get session by token. Returns None if expired (24h) or invalid."""
+    _load_sessions_once()
     session = _sessions.get(token)
     if not session:
         return None
     if time.time() - session["login_at"] > 86400:  # 24h expiry
         _sessions.pop(token, None)
+        _persist_sessions()
         return None
     return session
 
 def logout(token: str):
-    _sessions.pop(token, None)
+    _load_sessions_once()
+    if _sessions.pop(token, None) is not None:
+        _persist_sessions()
 
 def has_permission(session: Dict[str, Any], perm: str) -> bool:
     """Check if session has a specific permission."""
@@ -130,7 +163,7 @@ def add_user(username: str, password: str, fullname: str, role: str, faskes_scop
     new_user = {
         "id": new_id,
         "username": username,
-        "password": password,
+        "password": hash_password(password),
         "fullname": fullname,
         "role": role,
         "faskes_scope": faskes_scope,
@@ -173,7 +206,7 @@ def update_user(user_id: str, fullname: Optional[str] = None, role: Optional[str
     if fullname is not None: target["fullname"] = fullname
     if role is not None: target["role"] = role
     if faskes_scope is not None: target["faskes_scope"] = faskes_scope
-    if password is not None: target["password"] = password
+    if password is not None: target["password"] = hash_password(password)
     if active is not None: target["active"] = active
     _save_users(users)
     return {k: v for k, v in target.items() if k != "password"}
