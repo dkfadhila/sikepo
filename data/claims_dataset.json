@@ -8660,5 +8660,101 @@
         "notes": null
       }
     ]
+  },
+  {
+    "id": "SEP-FKRTL-001-202609-0151",
+    "faskes": {
+      "kode": "FKRTL-001",
+      "nama": "RSUP Dr. Sardjito",
+      "kota": "Yogyakarta"
+    },
+    "pasien": {
+      "nama": "Tanpa Nama",
+      "gender": "L",
+      "usia": 45
+    },
+    "diagnosa": {
+      "icd10": "J18.9",
+      "nama": "Pneumonia Akut",
+      "los_norm": 5
+    },
+    "tgl_masuk": "2026-09-12",
+    "tgl_keluar": "2026-09-23",
+    "los": 11,
+    "biaya_diajukan": 15800000,
+    "tarif_ina_cbg": 5900000,
+    "selisih_biaya": 9900000,
+    "obat": [
+      "Azithromycin",
+      "Meropenem Inj 1g",
+      "Human Albumin 20%",
+      "Imunoglobulin"
+    ],
+    "risk_score": 99,
+    "fraud_type": "UPCODING",
+    "status": "REJECTED",
+    "audit_reasons": [
+      "RATIO_TARIF: pengajuan 167% di atas plafon INA-CBGs",
+      "LOS_ANOMALI: 11 hari vs norm 5 hari",
+      "FORNAS_RESTRIKSI: Meropenem Inj 1g, Human Albumin 20%, Imunoglobulin",
+      "ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 100.0)",
+      "SELISIH_BIAYA: Rp 9.900.000"
+    ],
+    "rekomendasi": "Tolak pengajuan, eskalasi ke tim anti-fraud untuk clawback.",
+    "agent_trace": [
+      {
+        "agent": "A1",
+        "name": "Triage Agent",
+        "latency_ms": 0,
+        "preliminary_risk": 99,
+        "flags": [
+          "RATIO_TARIF: pengajuan 167% di atas plafon INA-CBGs",
+          "LOS_ANOMALI: 11 hari vs norm 5 hari",
+          "FORNAS_RESTRIKSI: Meropenem Inj 1g, Human Albumin 20%, Imunoglobulin"
+        ],
+        "queued_for_investigation": true
+      },
+      {
+        "agent": "A2",
+        "name": "Investigator Agent",
+        "latency_ms": 31,
+        "ml": {
+          "anomaly_score": 100.0,
+          "is_anomaly": true,
+          "model_version": "IF-200-202609072201",
+          "trained_at": "2026-09-07 22:01:23"
+        },
+        "evidence": [
+          "RATIO_TARIF: pengajuan 167% di atas plafon INA-CBGs",
+          "LOS_ANOMALI: 11 hari vs norm 5 hari",
+          "FORNAS_RESTRIKSI: Meropenem Inj 1g, Human Albumin 20%, Imunoglobulin",
+          "ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 100.0)",
+          "SELISIH_BIAYA: Rp 9.900.000"
+        ],
+        "fused_risk": 99,
+        "fraud_type_guess": "UPCODING"
+      },
+      {
+        "agent": "A3",
+        "name": "Adjudicator Agent",
+        "latency_ms": 3516,
+        "status": "REJECT",
+        "alasan": "RATIO_TARIF: pengajuan 167% di atas plafon INA-CBGs; LOS_ANOMALI: 11 hari vs norm 5 hari; FORNAS_RESTRIKSI: Meropenem Inj 1g, Human Albumin 20%, Imunoglobulin; ML_ISOLATION_FOREST: pola fitur klaim menyimpang dari populasi (skor 100.0); SELISIH_BIAYA: Rp 9.900.000",
+        "rekomendasi": "Tolak pengajuan, eskalasi ke tim anti-fraud untuk clawback.",
+        "llm": {
+          "model": "inclusionai/ling-3.0-flash-sante-free",
+          "fallback": true,
+          "latency_ms": 3516
+        }
+      }
+    ],
+    "verdict_history": [
+      {
+        "at": "2026-09-12T00:01:18",
+        "by": "system:A3",
+        "action": "REJECT",
+        "notes": null
+      }
+    ]
   }
 ]

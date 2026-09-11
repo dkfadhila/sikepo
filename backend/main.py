@@ -709,6 +709,11 @@ def startup_train_model():
 def serve_app():
     return FileResponse(os.path.join(FRONTEND_DIR, "app.html"))
 
+@app.get("/faskes")
+def serve_faskes():
+    """Portal faskes: simulasi sisi SIMRS untuk ingest klaim via X-API-Key."""
+    return FileResponse(os.path.join(FRONTEND_DIR, "faskes.html"))
+
 @app.get("/pages/{page_name}")
 def serve_page(page_name: str):
     if not re.match(r'^[a-z0-9\-]+\.html$', page_name):

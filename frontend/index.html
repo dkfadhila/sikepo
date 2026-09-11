@@ -33,7 +33,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="/static/css/theme.css?v=9">
+  <link rel="stylesheet" href="/static/css/theme.css?v=10">
 </head>
 <body class="font-sans antialiased">
 
@@ -67,8 +67,9 @@
             <h1 class="hero-title">Klaim masuk.<br>Mesin menyaring.<br><span class="accent">Dana selamat.</span></h1>
             <p class="hero-sub">
               Pipeline <strong>A1 Triage → A2 Investigator → A3 Adjudicator</strong> memeriksa setiap klaim
-              dalam hitungan detik — aturan deterministik, ML, lalu adjudikasi AI dengan skor risiko 0–100
-              beserta bukti yang bisa dibaca. Keputusan akhir tetap di tangan verifikator.
+              dalam hitungan detik — aturan deterministik, ML, lalu adjudikasi LLM medis
+              <strong>Ling 3.0 Flash Sante</strong> dengan skor risiko 0–100 beserta bukti yang bisa dibaca.
+              Keputusan akhir tetap di tangan verifikator.
             </p>
             <div class="hero-cta">
               <a href="/app" class="btn-primary px-6 py-3.5 text-[15px]">Buka Aplikasi
@@ -178,17 +179,56 @@
           <button class="pipe-row" type="button" aria-expanded="false" data-step>
             <span class="pipe-num">A3</span>
             <span class="pipe-main">
-              <span class="pipe-name">Adjudicator Agent</span>
-              <span class="pipe-hint">LLM adjudikasi · fallback aturan deterministik</span>
-              <span class="pipe-detail">Menyusun putusan rekomendasi — Setujui, Tahan, atau Tolak — lengkap dengan alasan berbahasa Indonesia. Bila LLM tidak tersedia, aturan deterministik mengambil alih.</span>
+              <span class="pipe-name">Adjudicator Agent — Ling 3.0 Flash Sante</span>
+              <span class="pipe-hint">LLM fokus medis · adjudikasi berbahasa Indonesia</span>
+              <span class="pipe-detail">Ling 3.0 Flash Sante — varian LLM yang berfokus pada domain medis — menyusun putusan rekomendasi (Setujui, Tahan, Tolak) lengkap dengan alasan klinis-operasional berbahasa Indonesia. Dijalankan lewat Vercel AI Gateway; bila tidak tersedia, aturan deterministik A1 mengambil alih sehingga sistem tidak pernah berhenti.</span>
             </span>
             <span class="pipe-plus" aria-hidden="true">+</span>
           </button>
         </div>
-        <a href="/pages/how-it-works.html" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-green hover:text-bpjs-greendark mt-8" data-reveal>
-          Lihat detail pipeline
+        <div class="mt-8 flex flex-wrap items-center gap-4" data-reveal>
+          <a href="/pages/how-it-works.html" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-green hover:text-bpjs-greendark">
+            Lihat detail pipeline
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M9 5l7 7-7 7"/></svg>
         </a>
+          <a href="/faskes" class="inline-flex items-center gap-1.5 text-[14px] font-semibold text-bpjs-ink hover:text-bpjs-navy">
+            Coba Portal Faskes (kirim klaim →)
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+      </div>
+    </section>
+
+    <!-- ── 2.5 MESIN KEPUTUSAN: TIGA LAPIS AI ──────────────── -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Mesin keputusan</p>
+          <h2 class="h2">Tiga lapis kecerdasan, satu skor yang bisa ditelusuri.</h2>
+          <p class="section-sub">Bukan kotak hitam: setiap skor risiko bisa dijawab dengan aturan, fitur, dan alasan yang terbaca. Lapisan teratas memakai <strong style="color:var(--ink)">Ling 3.0 Flash Sante</strong> — LLM yang berfokus pada domain medis.</p>
+        </div>
+        <div class="ai-stack" data-reveal-group>
+          <div class="ai-layer">
+            <div class="ai-top"><span class="ai-tag ai-tag-cyan">A1 · Aturan deterministik</span><span class="ai-meta">&lt; 2 ms · selalu konsisten</span></div>
+            <h3>Screening regulasi</h3>
+            <p>Rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas diperiksa sebagai aturan tegas. Lapisan ini menjadi tulang punggung: cepat, dapat diaudit, dan aktif mengambil alih saat LLM tidak tersedia.</p>
+          </div>
+          <div class="ai-layer">
+            <div class="ai-top"><span class="ai-tag ai-tag-blue">A2 · Machine Learning</span><span class="ai-meta">IsolationForest · 7 fitur</span></div>
+            <h3>Deteksi pola anomali</h3>
+            <p>Membandingkan 7 fitur klaim (rasio biaya, selisih, lama rawat, farmasi, usia) terhadap populasi klaim. Skor akhir adalah fusi 45% aturan + 55% ML — dan model terus belajar dari setiap verdict verifikator.</p>
+          </div>
+          <div class="ai-layer ai-layer-hi">
+            <div class="ai-top"><span class="ai-tag ai-tag-green">A3 · LLM Ling 3.0 Flash Sante</span><span class="ai-meta">Vercel AI Gateway · fallback A1</span></div>
+            <h3>Adjudikasi berfokus medis</h3>
+            <p>Lapisan puncak memakai <strong>Ling 3.0 Flash Sante</strong> — varian LLM yang dikhususkan pada konteks kesehatan: memahami diagnosa, severitas, dan farmasi lebih baik daripada LLM umum, lalu menuliskan putusan rekomendasi beserta alasannya dalam bahasa Indonesia yang siap dibaca verifikator.</p>
+            <ul class="ai-points">
+              <li>Fokus domain medis — kosakata klinis &amp; formularium</li>
+              <li>Alasan berbahasa Indonesia, siap audit</li>
+              <li>Fallback deterministik — sistem tidak pernah berhenti</li>
+            </ul>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:16px" data-reveal>* Semua model berjalan di sisi server — antarmuka tidak pernah memanggil LLM langsung, dan keputusan akhir selalu milik verifikator manusia.</p>
       </div>
     </section>
 

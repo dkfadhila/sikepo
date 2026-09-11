@@ -349,6 +349,30 @@ body {
 }
 .spectrum-tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.85); }
 
+/* ── AI stack (3 lapis kecerdasan) ─────────────────────── */
+.ai-stack { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 36px; }
+@media (min-width: 960px) { .ai-stack { grid-template-columns: 1fr 1fr 1fr; } }
+.ai-layer {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-card);
+  padding: 24px 22px; box-shadow: var(--shadow-sm); position: relative;
+}
+.ai-layer-hi { border-color: #BFE5D0; background: linear-gradient(180deg, #F4FBF7 0%, #FFFFFF 42%); box-shadow: 0 2px 4px rgba(12,27,46,.05), 0 16px 36px rgba(0,155,76,.10); }
+.ai-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.ai-tag {
+  display: inline-flex; padding: 3px 9px; border-radius: 6px;
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; letter-spacing: .02em;
+  border: 1px solid transparent;
+}
+.ai-tag-cyan { background: var(--cyan-soft); color: var(--cyan); border-color: #C4E7F0; }
+.ai-tag-blue { background: var(--blue-soft); color: var(--blue); border-color: #C9DBF6; }
+.ai-tag-green { background: var(--green-soft); color: #067647; border-color: #C6E8D5; }
+.ai-meta { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+.ai-layer h3 { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.ai-layer p { font-size: 13.5px; line-height: 1.65; color: var(--body); margin-top: 8px; }
+.ai-points { margin: 12px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.ai-points li { font-size: 12.5px; color: var(--body); padding-left: 18px; position: relative; }
+.ai-points li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+
 /* ── Roles ─────────────────────────────────────────────── */
 .roles-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 36px; border-top: 1px solid var(--line); }
 @media (min-width: 640px) { .roles-grid { grid-template-columns: 1fr 1fr; } }

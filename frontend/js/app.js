@@ -112,7 +112,7 @@ function switchTab(tab) {
   if (tab === 'dashboard') { fetchStats(); initCharts(); motionStagger(document.getElementById('kpi-row')); simrsRefresh(); }
   if (tab === 'claims') fetchClaims();
   if (tab === 'data') { loadTimeline('daily'); loadHeatmap(); }
-  if (tab === 'users') fetchUsers();
+  if (tab === 'users') { fetchUsers(); fetchApiKeys(); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -683,6 +683,55 @@ async function addUser(e) {
   else { note.textContent = d.detail || 'Gagal.'; note.style.color = '#D92D20'; } } catch { note.style.display = 'block'; note.textContent = 'Terjadi kesalahan.'; note.style.color = '#D92D20'; }
 }
 async function deleteUser(id) { if (!confirm('Nonaktifkan pengguna ini?')) return; try { const r = await af(`/api/admin/users/${id}`, { method: 'DELETE' }); if (r?.ok) fetchUsers(); } catch {} }
+
+/* ── API keys ingest faskes (SA only) ───────────────────── */
+const FASKES_LIST = [
+  ['FKRTL-001', 'RSUP Dr. Sardjito'], ['FKRTL-002', 'RSUD Tarakan'],
+  ['FKRTL-003', 'RS Hermina Kemayoran'], ['FKRTL-004', 'RS Siloam Kebon Jeruk'],
+  ['FKRTL-005', 'RSUD Dr. Soetomo'], ['FKRTL-006', 'RS Bhayangkara Sartika Asih'],
+  ['FKRTL-007', 'RS Sentra Medika Cikarang'], ['FKRTL-008', 'RSUD Al-Ihsan']
+];
+async function fetchApiKeys() {
+  const sel = document.getElementById('ak-faskes');
+  if (sel && !sel.options.length) {
+    sel.innerHTML = FASKES_LIST.map(([k, n]) => `<option value="${k}">${k} · ${n}</option>`).join('');
+  }
+  try {
+    const r = await af('/api/admin/api-keys');
+    if (!r) return;
+    renderApiKeys((await r.json()).keys || []);
+  } catch {}
+}
+function renderApiKeys(keys) {
+  const tb = document.getElementById('apikeys-tbody');
+  if (!tb) return;
+  if (!keys.length) { tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px;color:#7C8BA1">Belum ada kunci — generate di atas.</td></tr>'; return; }
+  tb.innerHTML = keys.map(k => `<tr>
+    <td class="mono-id">${k.faskes_kode}</td>
+    <td style="font-size:12.5px;color:#10243E">${k.nama || '-'}</td>
+    <td class="mono-num">${k.key}</td>
+    <td class="mono-num">${k.created_at || '-'}</td>
+    <td style="text-align:center"><span class="b ${k.active ? 'b-g' : 'b-x'}">${k.active ? 'Aktif' : 'Nonaktif'}</span></td>
+  </tr>`).join('');
+}
+async function createApiKey(e) {
+  e.preventDefault();
+  const note = document.getElementById('ak-newkey');
+  try {
+    const r = await af('/api/admin/api-keys', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ faskes_kode: document.getElementById('ak-faskes').value, nama: document.getElementById('ak-nama').value.trim() }) });
+    const d = await r.json();
+    if (d.success && d.key) {
+      note.style.display = 'block';
+      note.innerHTML = `Kunci baru untuk <b>${d.faskes_kode}</b> (tampil sekali — salin sekarang): <code class="mono-id" style="font-size:12px">${d.key}</code>`;
+      document.getElementById('ak-nama').value = '';
+      fetchApiKeys();
+    } else {
+      note.style.display = 'block';
+      note.style.borderColor = '#F4CFCB'; note.style.background = '#FDECEA'; note.style.color = '#D92D20';
+      note.textContent = d.detail || 'Gagal membuat kunci.';
+    }
+  } catch { note.style.display = 'block'; note.textContent = 'Gagal menghubungi server.'; }
+}
 
 /* ── SIMRS Intake Simulator ──────────────────────────────── */
 let simrsState = { auto_enabled: false, interval_sec: 30, pushed_count: 0, last_sep: null, last_push_at: null };
