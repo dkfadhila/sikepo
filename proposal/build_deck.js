@@ -42,7 +42,7 @@ s.addText([
   { text: "sebelum ", options: { color: "FFFFFF" } },
   { text: "dana cair.", options: { color: "35D08F" } },
 ], { x: M, y: 2.72, w: 7.2, h: 1.9, fontFace: DISP, fontSize: 44, bold: true, margin: 0, lineSpacingMultiple: 1.18 });
-s.addText("Pipeline A1 Triage, A2 Investigator, dan A3 Adjudicator menilai setiap klaim dalam hitungan detik. Skor risiko 0–100 disertai bukti yang dapat dibaca; keputusan akhir tetap milik verifikator.", { x: M, y: 4.72, w: 6.9, h: 0.95, fontFace: UI, fontSize: 13.5, color: "AAB9CB", margin: 0, lineSpacingMultiple: 1.4 });
+s.addText("Pipeline A1 Triage, A2 Investigator, dan A3 Adjudicator menilai setiap klaim dalam hitungan detik. Skor risiko 0–100 disertai bukti yang dapat dibaca; keputusan akhir tetap milik verifikator.", { x: M, y: 4.72, w: 6.9, h: 0.95, fontFace: UI, fontSize: 13.5, color: "AAB9CB", align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 s.addShape(p.shapes.LINE, { x: M, y: 6.05, w: 6.4, h: 0, line: { color: "24406B", width: 1 } });
 s.addText([
   { text: "Coba Namanya Ini", options: { bold: true, color: "FFFFFF" } },
@@ -73,7 +73,7 @@ subs.forEach((it, i) => {
   const x = M + (i % 2) * 6.31, y = 3.32 + Math.floor(i / 2) * 1.72;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w: 6.02, h: 1.56, fill: { color: "FFFFFF" }, line: { color: LINE, width: 1 }, rectRadius: 0.09, shadow: shadow() });
   s.addText(it[0], { x: x + 0.28, y: y + 0.16, w: 5.5, h: 0.3, fontFace: DISP, fontSize: 14.5, bold: true, color: INK, margin: 0 });
-  s.addText(it[1], { x: x + 0.28, y: y + 0.5, w: 5.5, h: 0.55, fontFace: UI, fontSize: 11.5, color: BODY, margin: 0, lineSpacingMultiple: 1.38 });
+  s.addText(it[1], { x: x + 0.28, y: y + 0.5, w: 5.5, h: 0.55, fontFace: UI, fontSize: 11.5, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
   s.addText(it[2], { x: x + 0.28, y: y + 1.13, w: 5.5, h: 0.28, fontFace: MONO, fontSize: 10, color: GREEN, margin: 0 });
 });
 s.addText("Cakupan lanjutan: prolonged length of stay (No. 12), readmisi (No. 16), repeat billing (No. 11), dan unbundling/fragmentasi (No. 9) dipantau melalui pemeriksaan LOS dan pola episode. Kasus = sebaran modus pada 150 klaim uji SiKePo.", { x: M, y: 6.85, w: 11, h: 0.26, fontFace: UI, fontSize: 9.5, color: MUTED, margin: 0 });
@@ -84,31 +84,18 @@ s = p.addSlide();
 s.background = { color: "FFFFFF" };
 kicker(s, "Bagian 1 · Identitas & positioning");
 title(s, "Asisten verifikator yang membaca semua berkas");
-s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 1.72, w: 7.4, h: 2.5, fill: { color: SOFTBG }, rectRadius: 0.1 });
+s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 1.7, w: 12.33, h: 2.1, fill: { color: SOFTBG }, rectRadius: 0.1 });
 s.addText([
-  { text: "Satu kalimat nilai\n", options: { fontSize: 11, bold: true, color: GREEN, charSpacing: 2 } },
-  { text: "SiKePo membaca setiap berkas klaim dalam hitungan detik, memberi skor risiko 0–100 beserta bukti yang dapat dibaca, lalu menyerahkan keputusan akhir kepada verifikator.", options: { fontSize: 17, color: INK } },
-], { x: 0.85, y: 1.95, w: 6.7, h: 2.1, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
-s.addText("Posisi kami", { x: M, y: 4.55, w: 6, h: 0.3, fontFace: DISP, fontSize: 15, bold: true, color: INK, margin: 0 });
+  { text: "SATU KALIMAT NILAI", options: { fontSize: 11, bold: true, color: GREEN, charSpacing: 2, breakLine: true } },
+  { text: "SiKePo membaca setiap berkas klaim dalam hitungan detik, memberi skor risiko 0–100 beserta bukti yang dapat dibaca, lalu menyerahkan keputusan akhir kepada verifikator.", options: { fontSize: 18, color: INK } },
+], { x: 0.9, y: 1.95, w: 11.55, h: 1.7, fontFace: UI, margin: 0, align: "justify", lineSpacingMultiple: 1.5, paraSpaceAfter: 6 });
+s.addText("Posisi kami", { x: M, y: 4.02, w: 6, h: 0.32, fontFace: DISP, fontSize: 15, bold: true, color: INK, margin: 0 });
 s.addText([
-  { text: "Audit berjalan di dalam alur klaim, sebelum dana cair.", options: { bullet: bu(), breakLine: true } },
+  { text: "Audit berjalan di dalam alur klaim, sebelum dana cair, bukan laporan setelah kejadian.", options: { bullet: bu(), breakLine: true } },
   { text: "Setiap skor disertai alasan yang dapat dibaca dan diaudit.", options: { bullet: bu(), breakLine: true } },
   { text: "AI memberi rekomendasi; verifikator yang memutuskan.", options: { bullet: bu() } },
-], { x: M, y: 4.9, w: 7.3, h: 1.7, fontFace: UI, fontSize: 13, color: BODY, paraSpaceAfter: 8, margin: 0 });
-s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: 8.35, y: 1.72, w: 4.48, h: 4.88, fill: { color: INK }, rectRadius: 0.12 });
-s.addText("TIM", { x: 8.7, y: 2.0, w: 3, h: 0.28, fontFace: UI, fontSize: 10, bold: true, color: "35D08F", charSpacing: 3, margin: 0 });
-s.addText("Coba Namanya Ini", { x: 8.7, y: 2.3, w: 3.8, h: 0.45, fontFace: DISP, fontSize: 22, bold: true, color: "FFFFFF", margin: 0 });
-s.addText("Namanya konyol, kerjaannya serius.", { x: 8.7, y: 2.82, w: 3.8, h: 0.6, fontFace: UI, fontSize: 12, italic: true, color: "9DB2CC", margin: 0, lineSpacingMultiple: 1.4 });
-s.addShape(p.shapes.LINE, { x: 8.7, y: 3.62, w: 3.75, h: 0, line: { color: "24406B", width: 1 } });
-s.addText("Decka Fadhila Tirta", { x: 8.7, y: 3.8, w: 3.8, h: 0.32, fontFace: DISP, fontSize: 15, bold: true, color: "FFFFFF", margin: 0 });
-s.addText("Lead Engineer & Product\nS.Si. Fisika, Universitas Negeri Yogyakarta", { x: 8.7, y: 4.14, w: 3.8, h: 0.55, fontFace: UI, fontSize: 11.5, color: "AAB9CB", margin: 0, lineSpacingMultiple: 1.38 });
-s.addText([
-  { text: "Full-stack aplikasi (Python + web)\n", options: {} },
-  { text: "Pipeline AI & integrasi LLM\n", options: {} },
-  { text: "Desain UI/UX & konten", options: {} },
-], { x: 8.7, y: 4.85, w: 3.8, h: 1.0, fontFace: UI, fontSize: 11.5, color: "AAB9CB", paraSpaceAfter: 5, margin: 0 });
-s.addShape(p.shapes.LINE, { x: 8.7, y: 5.95, w: 3.75, h: 0, line: { color: "24406B", width: 1 } });
-s.addText("1 orang, peran menyeluruh: konsep, pembangunan, pengujian, dan perancangan skala.", { x: 8.7, y: 6.08, w: 3.8, h: 0.5, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0, lineSpacingMultiple: 1.35 });
+], { x: M, y: 4.4, w: 12.33, h: 1.0, fontFace: UI, fontSize: 13.5, color: BODY, paraSpaceAfter: 12, margin: 0, align: "justify", align: "justify", lineSpacingMultiple: 1.45 });
+s.addImage({ path: A + "shot-claims.png", x: M, y: 5.62, w: 12.33, h: 1.5, sizing: { type: "cover", w: 12.33, h: 1.5 } });
 pagefoot(s, 3);
 
 /* ── S4 B2 MASALAH & URGENSI ──────────────────────────── */
@@ -125,7 +112,7 @@ stats.forEach((it, i) => {
   const x = M + i * 4.18;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y: 1.72, w: 3.94, h: 2.06, fill: { color: i === 0 ? INK : "FFFFFF" }, line: { color: LINE, width: 1 }, rectRadius: 0.1, shadow: shadow() });
   s.addText(it[0], { x: x + 0.3, y: 1.94, w: 3.35, h: 0.75, fontFace: DISP, fontSize: i === 0 ? 40 : 34, bold: true, color: i === 0 ? "FFFFFF" : NAVY, margin: 0 });
-  s.addText(it[1], { x: x + 0.3, y: 2.72, w: 3.35, h: 0.68, fontFace: UI, fontSize: 11, color: i === 0 ? "AAB9CB" : BODY, margin: 0, lineSpacingMultiple: 1.35 });
+  s.addText(it[1], { x: x + 0.3, y: 2.72, w: 3.35, h: 0.68, fontFace: UI, fontSize: 11, color: i === 0 ? "AAB9CB" : BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
   s.addText(it[2], { x: x + 0.3, y: 3.44, w: 3.35, h: 0.26, fontFace: UI, fontSize: 9.5, italic: true, color: i === 0 ? "64809F" : MUTED, margin: 0 });
 });
 s.addText("Yang membuatnya urgen", { x: M, y: 4.15, w: 6, h: 0.3, fontFace: DISP, fontSize: 15, bold: true, color: INK, margin: 0 });
@@ -133,13 +120,13 @@ s.addText([
   { text: "Pemeriksaan manual hanya mampu mengambil sampel berkas.", options: { bullet: bu(), breakLine: true } },
   { text: "Pola fraud terus berubah dan sulit diikuti secara konsisten.", options: { bullet: bu(), breakLine: true } },
   { text: "Dana yang bocor adalah iuran peserta JKN.", options: { bullet: bu() } },
-], { x: M, y: 4.5, w: 7.4, h: 1.8, fontFace: UI, fontSize: 13, color: BODY, paraSpaceAfter: 9, margin: 0 });
+], { x: M, y: 4.5, w: 7.4, h: 1.8, fontFace: UI, fontSize: 13, color: BODY, paraSpaceAfter: 11, margin: 0, align: "justify" });
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: 8.35, y: 4.15, w: 4.48, h: 2.28, fill: { color: REDSOFT }, rectRadius: 0.1 });
 s.addText("Konsekuensi bila dibiarkan", { x: 8.65, y: 4.38, w: 3.9, h: 0.3, fontFace: DISP, fontSize: 13.5, bold: true, color: "B42318", margin: 0 });
 s.addText([
   { text: "Klaim tidak layak terbayar lebih dahulu\n", options: { breakLine: true } },
   { text: "Faskes jujur dapat tertuduh tanpa dasar bukti", options: {} },
-], { x: 8.65, y: 4.72, w: 3.9, h: 1.5, fontFace: UI, fontSize: 12, color: "B42318", paraSpaceAfter: 8, margin: 0, lineSpacingMultiple: 1.4 });
+], { x: 8.65, y: 4.72, w: 3.9, h: 1.5, fontFace: UI, fontSize: 12, color: "B42318", paraSpaceAfter: 8, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 s.addText("Sumber: publikasi media nasional atas keterangan BPJS Kesehatan dan BPJS Watch; angka merupakan temuan atau estimasi.", { x: M, y: 6.62, w: 12.3, h: 0.26, fontFace: UI, fontSize: 9.5, color: MUTED, margin: 0 });
 pagefoot(s, 4);
 
@@ -159,8 +146,8 @@ nodes.forEach((n, i) => {
   const x = M + i * 2.53;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y: 1.85, w: 2.28, h: 1.72, fill: { color: n[3] }, line: { color: LINE, width: 1 }, rectRadius: 0.09, shadow: shadow() });
   s.addText(n[0], { x: x + 0.16, y: 2.02, w: 2, h: 0.24, fontFace: MONO, fontSize: 9.5, bold: true, color: n[4], charSpacing: 2, margin: 0 });
-  s.addText(n[1], { x: x + 0.16, y: 2.28, w: 2, h: 0.5, fontFace: DISP, fontSize: 13.5, bold: true, color: INK, margin: 0, lineSpacingMultiple: 1.4 });
-  s.addText(n[2], { x: x + 0.16, y: 2.85, w: 2, h: 0.62, fontFace: UI, fontSize: 10, color: BODY, margin: 0, lineSpacingMultiple: 1.3 });
+  s.addText(n[1], { x: x + 0.16, y: 2.28, w: 2, h: 0.5, fontFace: DISP, fontSize: 13.5, bold: true, color: INK, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
+  s.addText(n[2], { x: x + 0.16, y: 2.85, w: 2, h: 0.62, fontFace: UI, fontSize: 10, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.45 });
   if (i < 4) s.addText("→", { x: x + 2.26, y: 2.5, w: 0.3, h: 0.4, fontFace: UI, fontSize: 16, color: MUTED, align: "center", margin: 0 });
 });
 const outs = [
@@ -182,7 +169,7 @@ const adv = [
 adv.forEach((it, i) => {
   const x = M + i * 4.18;
   s.addText(it[0], { x, y: 5.42, w: 3.9, h: 0.28, fontFace: UI, fontSize: 12.5, bold: true, color: INK, margin: 0 });
-  s.addText(it[1], { x, y: 5.72, w: 3.9, h: 0.85, fontFace: UI, fontSize: 11.5, color: BODY, margin: 0, lineSpacingMultiple: 1.38 });
+  s.addText(it[1], { x, y: 5.72, w: 3.9, h: 0.85, fontFace: UI, fontSize: 11.5, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 });
 pagefoot(s, 5);
 
@@ -200,7 +187,7 @@ s.addText([
   { text: "Klik baris: inspector memuat bukti A1–A3, obat restriksi, dan selisih biaya", options: { bullet: bu(), breakLine: true } },
   { text: "Verdict satu klik dengan jejak audit", options: { bullet: bu(), breakLine: true } },
   { text: "Navigasi keyboard: j/k, Enter, a/h/r", options: { bullet: bu() } },
-], { x: 9.72, y: 2.32, w: 2.86, h: 4.4, fontFace: UI, fontSize: 11.5, color: BODY, paraSpaceAfter: 10, margin: 0, lineSpacingMultiple: 1.38 });
+], { x: 9.72, y: 2.32, w: 2.86, h: 4.4, fontFace: UI, fontSize: 11.5, color: BODY, paraSpaceAfter: 10, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 pagefoot(s, 6);
 
 /* ── S7 B3 FITUR: DASHBOARD + SANDBOX + FASKES ────────── */
@@ -217,7 +204,7 @@ shots.forEach((it, i) => {
   const x = M + i * 4.18;
   s.addImage({ path: it[0], x, y: 1.7, w: 3.94, h: 2.74, sizing: { type: "cover", w: 3.94, h: 2.74 } });
   s.addText(it[1], { x, y: 4.56, w: 3.94, h: 0.3, fontFace: DISP, fontSize: 14, bold: true, color: INK, margin: 0 });
-  s.addText(it[2], { x, y: 4.88, w: 3.94, h: 0.85, fontFace: UI, fontSize: 11.5, color: BODY, margin: 0, lineSpacingMultiple: 1.38 });
+  s.addText(it[2], { x, y: 4.88, w: 3.94, h: 0.85, fontFace: UI, fontSize: 11.5, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 });
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 6.0, w: 12.33, h: 0.72, fill: { color: GREENSOFT }, rectRadius: 0.09 });
 s.addText([
@@ -241,9 +228,9 @@ arch.forEach((a, i) => {
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y, w: 12.33, h: 1.36, fill: { color: i === 1 ? SOFTBG : "FFFFFF" }, line: { color: LINE, width: 1 }, rectRadius: 0.1 });
   s.addShape(p.shapes.OVAL, { x: 0.82, y: y + 0.42, w: 0.52, h: 0.52, fill: { color: a[3] } });
   s.addText(String(i + 1), { x: 0.82, y: y + 0.42, w: 0.52, h: 0.52, fontFace: MONO, fontSize: 16, bold: true, color: "FFFFFF", align: "center", valign: "middle", margin: 0 });
-  s.addText(a[0], { x: 1.62, y: y + 0.22, w: 3.1, h: 0.9, fontFace: DISP, fontSize: 15, bold: true, color: INK, margin: 0, lineSpacingMultiple: 1.35 });
-  s.addText(a[1], { x: 4.9, y: y + 0.2, w: 5.4, h: 1.0, fontFace: UI, fontSize: 12, color: BODY, margin: 0, lineSpacingMultiple: 1.4 });
-  s.addText(a[2], { x: 10.45, y: y + 0.2, w: 2.2, h: 1.0, fontFace: UI, fontSize: 10.5, color: MUTED, margin: 0, lineSpacingMultiple: 1.35 });
+  s.addText(a[0], { x: 1.62, y: y + 0.22, w: 3.1, h: 0.9, fontFace: DISP, fontSize: 15, bold: true, color: INK, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
+  s.addText(a[1], { x: 4.9, y: y + 0.2, w: 5.4, h: 1.0, fontFace: UI, fontSize: 12, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
+  s.addText(a[2], { x: 10.45, y: y + 0.2, w: 2.2, h: 1.0, fontFace: UI, fontSize: 10.5, color: MUTED, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
   if (i < 2) s.addText("↓", { x: 6.4, y: y + 1.28, w: 0.4, h: 0.3, fontFace: UI, fontSize: 14, color: MUTED, align: "center", margin: 0 });
 });
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 6.42, w: 12.33, h: 0.62, fill: { color: SOFTBG }, rectRadius: 0.09 });
@@ -275,7 +262,7 @@ proof.forEach((col, i) => {
   const x = M + i * 4.18;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y: 3.14, w: 3.94, h: 3.42, fill: { color: i === 0 ? "FFFFFF" : (i === 1 ? GREENSOFT : SOFTBG) }, line: { color: i === 2 ? LINE : "#C9E9D8", width: 1 }, rectRadius: 0.1 });
   s.addText(col[0], { x: x + 0.26, y: 3.36, w: 3.45, h: 0.3, fontFace: DISP, fontSize: 13.5, bold: true, color: i === 2 ? MUTED : INK, margin: 0 });
-  s.addText(col[1].map((t, j) => ({ text: t, options: { bullet: bu(), breakLine: j < col[1].length - 1 } })), { x: x + 0.26, y: 3.72, w: 3.45, h: 2.7, fontFace: UI, fontSize: 11, color: BODY, paraSpaceAfter: 7, margin: 0, lineSpacingMultiple: 1.35 });
+  s.addText(col[1].map((t, j) => ({ text: t, options: { bullet: bu(), breakLine: j < col[1].length - 1 } })), { x: x + 0.26, y: 3.72, w: 3.45, h: 2.7, fontFace: UI, fontSize: 11, color: BODY, paraSpaceAfter: 7, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 });
 pagefoot(s, 9);
 
@@ -294,10 +281,10 @@ plan.forEach((ph, i) => {
   const x = M + i * 3.13;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y: 1.78, w: 2.93, h: 4.3, fill: { color: i === 0 ? INK : "FFFFFF" }, line: { color: LINE, width: 1 }, rectRadius: 0.1, shadow: shadow() });
   s.addText(ph[1], { x: x + 0.24, y: 2.0, w: 2.45, h: 0.26, fontFace: MONO, fontSize: 10, bold: true, color: i === 0 ? "35D08F" : GREEN, margin: 0 });
-  s.addText(ph[0], { x: x + 0.24, y: 2.3, w: 2.45, h: 0.62, fontFace: DISP, fontSize: 15.5, bold: true, color: i === 0 ? "FFFFFF" : INK, margin: 0, lineSpacingMultiple: 1.35 });
-  s.addText(ph[2].map((t, j) => ({ text: t, options: { bullet: bu(), breakLine: j < ph[2].length - 1 } })), { x: x + 0.24, y: 3.0, w: 2.5, h: 2.0, fontFace: UI, fontSize: 10.5, color: i === 0 ? "AAB9CB" : BODY, paraSpaceAfter: 7, margin: 0, lineSpacingMultiple: 1.35 });
+  s.addText(ph[0], { x: x + 0.24, y: 2.3, w: 2.45, h: 0.62, fontFace: DISP, fontSize: 15.5, bold: true, color: i === 0 ? "FFFFFF" : INK, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
+  s.addText(ph[2].map((t, j) => ({ text: t, options: { bullet: bu(), breakLine: j < ph[2].length - 1 } })), { x: x + 0.24, y: 3.0, w: 2.5, h: 2.0, fontFace: UI, fontSize: 10.5, color: i === 0 ? "AAB9CB" : BODY, paraSpaceAfter: 7, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
   s.addShape(p.shapes.LINE, { x: x + 0.24, y: 5.35, w: 2.45, h: 0, line: { color: i === 0 ? "24406B" : LINE, width: 1 } });
-  s.addText(ph[3], { x: x + 0.24, y: 5.45, w: 2.5, h: 0.55, fontFace: UI, fontSize: 10, italic: true, color: i === 0 ? "64809F" : MUTED, margin: 0, lineSpacingMultiple: 1.3 });
+  s.addText(ph[3], { x: x + 0.24, y: 5.45, w: 2.5, h: 0.55, fontFace: UI, fontSize: 10, italic: true, color: i === 0 ? "64809F" : MUTED, align: "justify", margin: 0, lineSpacingMultiple: 1.45 });
   if (i < 3) s.addText("→", { x: x + 2.93, y: 3.6, w: 0.22, h: 0.4, fontFace: UI, fontSize: 14, color: MUTED, align: "center", margin: 0 });
 });
 s.addText("Kebutuhan utama: satu KC mitra untuk pilot shadow, dengan akses data uji terbatas berizin.", { x: M, y: 6.42, w: 12.3, h: 0.28, fontFace: UI, fontSize: 10.5, color: MUTED, margin: 0 });
@@ -328,7 +315,7 @@ val.forEach((v, i) => {
   const x = M + i * 4.18;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y: 5.72, w: 3.94, h: 0.98, fill: { color: SOFTBG }, rectRadius: 0.09 });
   s.addText(v[0], { x: x + 0.24, y: 5.86, w: 3.5, h: 0.26, fontFace: UI, fontSize: 12, bold: true, color: INK, margin: 0 });
-  s.addText(v[1], { x: x + 0.24, y: 6.13, w: 3.5, h: 0.5, fontFace: UI, fontSize: 10.5, color: BODY, margin: 0, lineSpacingMultiple: 1.3 });
+  s.addText(v[1], { x: x + 0.24, y: 6.13, w: 3.5, h: 0.5, fontFace: UI, fontSize: 10.5, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.45 });
 });
 s.addText("Catatan: dampak diukur pada demo internal (150 klaim); angka lapangan divalidasi saat pilot. Waktu kurang dari 2 detik diukur dari latensi endpoint audit.", { x: M, y: 6.95, w: 12.3, h: 0.26, fontFace: UI, fontSize: 9.5, color: MUTED, margin: 0 });
 pagefoot(s, 11);
@@ -348,7 +335,7 @@ eth.forEach((c, i) => {
   const x = M + (i % 2) * 6.31, y = 1.72 + Math.floor(i / 2) * 2.42;
   s.addShape(p.shapes.ROUNDED_RECTANGLE, { x, y, w: 6.02, h: 2.24, fill: { color: c[3] === INK && i === 0 ? INK : "FFFFFF" }, line: { color: LINE, width: 1 }, rectRadius: 0.1, shadow: shadow() });
   s.addText(c[0], { x: x + 0.28, y: y + 0.2, w: 5.5, h: 0.3, fontFace: DISP, fontSize: 14.5, bold: true, color: c[4], margin: 0 });
-  s.addText(c[1], { x: x + 0.28, y: y + 0.56, w: 5.48, h: 1.55, fontFace: UI, fontSize: 11.5, color: c[3] === INK && i === 0 ? "AAB9CB" : c[5 - 1], margin: 0, lineSpacingMultiple: 1.38 });
+  s.addText(c[1], { x: x + 0.28, y: y + 0.56, w: 5.48, h: 1.55, fontFace: UI, fontSize: 11.5, color: c[3] === INK && i === 0 ? "AAB9CB" : c[5 - 1], align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 });
 s.addText("Prinsip: transparan tentang keterbatasan, tidak memakai data peserta JKN riil tanpa izin resmi, dan setiap klaim tetap dapat dibantah manusia.", { x: M, y: 6.68, w: 12.3, h: 0.28, fontFace: UI, fontSize: 10.5, color: MUTED, margin: 0 });
 pagefoot(s, 12);
@@ -363,9 +350,9 @@ s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 5.72, w: 3.1, h: 1.0, fill: { 
 s.addText([
   { text: "Decka Fadhila Tirta\n", options: { bold: true, fontSize: 14, color: "FFFFFF" } },
   { text: "deckafadhila@gmail.com · dktirta.tech", options: { fontSize: 10, color: "9DB2CC" } },
-], { x: 0.78, y: 5.86, w: 2.7, h: 0.75, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
+], { x: 0.78, y: 5.86, w: 2.7, h: 0.75, fontFace: UI, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 s.addText("Decka Fadhila Tirta, S.Si.", { x: 4.05, y: 1.72, w: 8.6, h: 0.42, fontFace: DISP, fontSize: 22, bold: true, color: INK, margin: 0 });
-s.addText("Lead Engineer & Product · S.Si. Fisika, Universitas Negeri Yogyakarta (2026)", { x: 4.05, y: 2.18, w: 8.6, h: 0.3, fontFace: UI, fontSize: 12.5, color: GREEN, bold: true, margin: 0 });
+s.addText("Lead Engineer dan Product · S.Si. Fisika, Universitas Negeri Yogyakarta (2026)", { x: 4.05, y: 2.18, w: 8.6, h: 0.3, fontFace: UI, fontSize: 12.5, color: GREEN, bold: true, margin: 0 });
 const bio = [
   ["Membangun SiKePo dari nol", "Backend FastAPI, pipeline AI (aturan, IsolationForest, LLM), dan frontend vanilla JS yang ringan."],
   ["Data & riset kuantitatif", "Analisis banjir Kabupaten Kudus dengan Python pada 10.000+ titik data; asisten lab Fisika Komputasi dan Sistem Digital UNY."],
@@ -375,13 +362,13 @@ const bio = [
 bio.forEach((b, i) => {
   const y = 2.62 + i * 0.92;
   s.addText(b[0], { x: 4.05, y, w: 8.7, h: 0.28, fontFace: UI, fontSize: 13, bold: true, color: INK, margin: 0 });
-  s.addText(b[1], { x: 4.05, y: y + 0.28, w: 8.7, h: 0.55, fontFace: UI, fontSize: 11.5, color: BODY, margin: 0, lineSpacingMultiple: 1.38 });
+  s.addText(b[1], { x: 4.05, y: y + 0.28, w: 8.7, h: 0.55, fontFace: UI, fontSize: 11.5, color: BODY, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 });
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: 4.05, y: 6.35, w: 8.7, h: 0.62, fill: { color: GREENSOFT }, rectRadius: 0.09 });
 s.addText([
   { text: "Mengapa mampu eksekusi:  ", options: { bold: true, color: "#067647".slice(1) && "067647" } },
   { text: "satu orang menguasai data, AI, backend, dan antarmuka, sehingga iterasi cepat tanpa koordinasi lintas tim.", options: { color: "4A5568" } },
-], { x: 4.35, y: 6.35, w: 8.2, h: 0.62, fontFace: UI, fontSize: 11.5, valign: "middle", margin: 0, lineSpacingMultiple: 1.38 });
+], { x: 4.35, y: 6.35, w: 8.2, h: 0.62, fontFace: UI, fontSize: 11.5, valign: "middle", align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 pagefoot(s, 13);
 
 /* ── S13b DAFTAR SINGKATAN ────────────────────────────── */
@@ -432,11 +419,11 @@ s.addShape(p.shapes.LINE, { x: M, y: 5.15, w: 6.4, h: 0, line: { color: "24406B"
 s.addText([
   { text: "Demo live tersedia\n", options: { bold: true, color: "FFFFFF", fontSize: 13 } },
   { text: "Cockpit, Portal Faskes, dan panduan integrasi dapat dicoba langsung pada sesi presentasi.", options: { color: "AAB9CB", fontSize: 11.5 } },
-], { x: M, y: 5.35, w: 6.5, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
+], { x: M, y: 5.35, w: 6.5, h: 0.85, fontFace: UI, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 s.addText([
   { text: "Coba Namanya Ini · Decka Fadhila Tirta\n", options: { bold: true, color: "FFFFFF", fontSize: 13 } },
   { text: "deckafadhila@gmail.com · dktirta.tech", options: { color: "9DB2CC", fontSize: 11.5 } },
-], { x: 7.6, y: 5.35, w: 5.2, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
+], { x: 7.6, y: 5.35, w: 5.2, h: 0.85, fontFace: UI, align: "justify", margin: 0, lineSpacingMultiple: 1.5 });
 s.addText("Disclaimer: seluruh angka dan data yang ditampilkan berasal dari dataset demo sintetis, bukan data operasional BPJS Kesehatan.", { x: M, y: 6.62, w: 12.3, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
 s.addText("Healthkathon BPJS Kesehatan 2026", { x: M, y: 6.95, w: 8, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
 
