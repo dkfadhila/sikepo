@@ -21,7 +21,7 @@
       } }
     }
   </script>
-  <link rel="stylesheet" href="/static/css/theme.css?v=13">
+  <link rel="stylesheet" href="/static/css/theme.css?v=15">
 </head>
 <body class="font-sans antialiased">
 
@@ -64,33 +64,30 @@
         <!-- Arsitektur -->
         <div class="card p-6 sm:p-8">
           <p class="eyebrow mb-6">Arsitektur sistem</p>
-          <div class="overflow-x-auto">
-            <svg viewBox="0 0 820 190" class="w-full min-w-[640px]" xmlns="http://www.w3.org/2000/svg">
-              <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#94A3B8"/></marker></defs>
-              <rect x="10" y="55" width="150" height="72" rx="12" fill="#F8FAFC" stroke="#D5DEE9"/>
-              <text x="85" y="83" fill="#6B7A90" font-size="10" font-family="Inter" font-weight="600" text-anchor="middle" letter-spacing="0.06em">INPUT</text>
-              <text x="85" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">SIMRS / Faskes</text>
-
-              <rect x="200" y="55" width="160" height="72" rx="12" fill="#E7F6EE" stroke="#009B4C"/>
-              <text x="280" y="83" fill="#007C3D" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A1 · TRIAGE</text>
-              <text x="280" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">Aturan deterministik</text>
-
-              <rect x="400" y="55" width="160" height="72" rx="12" fill="#FCF1E4" stroke="#D97706"/>
-              <text x="480" y="83" fill="#B54708" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A2 · INVESTIGATOR</text>
-              <text x="480" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">IsolationForest ML</text>
-
-              <rect x="600" y="55" width="160" height="72" rx="12" fill="#E9F0FB" stroke="#175CD3"/>
-              <text x="680" y="83" fill="#175CD3" font-size="10" font-family="Inter" font-weight="700" text-anchor="middle">A3 · ADJUDICATOR</text>
-              <text x="680" y="103" fill="#10243E" font-size="12.5" font-family="Inter" font-weight="700" text-anchor="middle">LLM + verifikator</text>
-
-              <line x1="160" y1="91" x2="196" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
-              <line x1="360" y1="91" x2="396" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
-              <line x1="560" y1="91" x2="596" y2="91" stroke="#94A3B8" stroke-width="1.5" marker-end="url(#arr)"/>
-
-              <text x="280" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Rasio tarif · LOS · e-Fornas</text>
-              <text x="480" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Skor anomali · Bukti temuan</text>
-              <text x="680" y="152" fill="#6B7A90" font-size="10.5" font-family="Inter" text-anchor="middle">Rekomendasi · Putusan akhir</text>
-            </svg>
+          <div class="flow" data-reveal>
+            <div class="flow-node">
+              <span class="fn-tag" style="background:#F1F3F6;color:#6B7A90;border-color:#E4E8EE">INPUT</span>
+              <div class="fn-name">SIMRS / Faskes</div>
+              <div class="fn-sub">Klaim masuk otomatis via API</div>
+            </div>
+            <div class="flow-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            <div class="flow-node" style="background:#F4FBF7;border-color:#BFE5D0">
+              <span class="fn-tag" style="background:#E9F7EF;color:#007C3D;border-color:#C9E9D8">A1 · TRIAGE</span>
+              <div class="fn-name">Aturan deterministik</div>
+              <div class="fn-sub">Rasio tarif · LOS · e-Fornas</div>
+            </div>
+            <div class="flow-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            <div class="flow-node" style="background:#FDF8F0;border-color:#F0DCB8">
+              <span class="fn-tag" style="background:#FCF1E4;color:#B54708;border-color:#F4DFC8">A2 · INVESTIGATOR</span>
+              <div class="fn-name">IsolationForest ML</div>
+              <div class="fn-sub">Skor anomali · bukti temuan</div>
+            </div>
+            <div class="flow-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+            <div class="flow-node" style="background:#F3F7FE;border-color:#C9DBF6">
+              <span class="fn-tag" style="background:#E9F0FB;color:#175CD3;border-color:#CCDFF7">A3 · ADJUDICATOR</span>
+              <div class="fn-name">Ling Sante + verifikator</div>
+              <div class="fn-sub">Rekomendasi · putusan akhir</div>
+            </div>
           </div>
         </div>
 
