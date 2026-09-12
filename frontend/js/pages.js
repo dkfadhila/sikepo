@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   SiKePo pages.js — data live untuk halaman informasi (theme light):
+   SiKePo pages.js, data live untuk halaman informasi (theme light):
    /pages/overview · detection-engine · public-data
    ═══════════════════════════════════════════════════════════ */
 
@@ -9,10 +9,10 @@ async function fetchOverviewStats() {
     const res = await fetch('/api/stats/overview');
     const d = await res.json();
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    set('ov-total', d.total_claims ?? '—');
-    set('ov-fraud', d.anomalous_count ?? '—');
-    set('ov-clean', d.clean_count ?? '—');
-    set('ov-faskes', d.active_faskes_count ?? '—');
+    set('ov-total', d.total_claims ?? ', ');
+    set('ov-fraud', d.anomalous_count ?? ', ');
+    set('ov-clean', d.clean_count ?? ', ');
+    set('ov-faskes', d.active_faskes_count ?? ', ');
     set('ov-savings', formatIDR(d.total_savings_idr ?? 0));
     // breakdown modus
     const wrap = document.getElementById('ov-breakdown');
@@ -60,12 +60,12 @@ async function fetchHeatmapTable() {
             <span class="font-mono font-bold text-[12px] ${riskCls}">${f.avg_risk}</span>
           </div>
         </td>
-        <td class="text-center text-[11.5px] font-semibold ${MODUS_COLOR[f.top_modus] || 'text-slate-500'}">${MODUS_LABEL[f.top_modus] || '—'}</td>
+        <td class="text-center text-[11.5px] font-semibold ${MODUS_COLOR[f.top_modus] || 'text-slate-500'}">${MODUS_LABEL[f.top_modus] || ', '}</td>
       </tr>`;
     }).join('');
   } catch (err) {
     console.error('heatmap failed', err);
-    tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-500">Backend tidak aktif — jalankan server dulu.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-slate-500">Data belum tersedia. Coba beberapa saat lagi.</td></tr>';
   }
 }
 
@@ -99,7 +99,7 @@ async function fetchPublicData() {
   } catch (err) {
     console.error('Failed to load public data:', err);
     const tbody = document.getElementById('public-tbody');
-    if (tbody) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-500 text-[12.5px]">Backend tidak aktif — data publik tidak tersedia.</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-slate-500 text-[12.5px]">Data belum tersedia. Coba beberapa saat lagi.</td></tr>';
   }
 }
 

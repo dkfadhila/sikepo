@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling</title>
-  <meta name="description" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling. Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
+  <title>SiKePo, Sistem Investigasi Kelayakan Klaim & Pola Overbilling</title>
+  <meta name="description" content="SiKePo, Sistem Investigasi Kelayakan Klaim & Pola Overbilling. Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
   <meta name="theme-color" content="#FAFAFB">
-  <meta property="og:title" content="SiKePo — Sistem Investigasi Kelayakan Klaim & Pola Overbilling">
+  <meta property="og:title" content="SiKePo, Sistem Investigasi Kelayakan Klaim & Pola Overbilling">
   <meta property="og:description" content="Audit klaim BPJS Kesehatan sebelum dana cair. Detect Smarter. Protect JKN.">
   <meta property="og:type" content="website">
   <link rel="icon" href="/static/favicon.ico" sizes="any">
@@ -67,8 +67,7 @@
           <span class="hero-pill"><span class="dot"></span>Healthkathon BPJS Kesehatan 2026</span>
           <h1 class="hero-title">Mesin audit klaim.<br>Bekerja <em>sebelum</em> dana cair.</h1>
           <p class="hero-sub">
-            Setiap klaim melewati <strong>A1 Triage → A2 Investigator → A3 Adjudicator</strong> —
-            aturan deterministik, ML, lalu adjudikasi LLM medis <strong>Ling 3.0 Flash Sante</strong>.
+            Setiap klaim melewati <strong>A1 Triage → A2 Investigator → A3 Adjudicator</strong>, aturan deterministik, ML, lalu adjudikasi LLM medis <strong>Ling 3.0 Flash Sante</strong>.
             Skor risiko 0–100 beserta bukti yang bisa dibaca; keputusan akhir tetap milik verifikator.
           </p>
           <div class="hero-cta">
@@ -77,7 +76,7 @@
             </a>
             <a href="#cara-kerja" class="btn-outline px-7 py-3.5 text-[15px]">Lihat cara kerja</a>
           </div>
-          <p class="hero-trust"><span class="mono">admin / admin</span> · data sintetis · tanpa instalasi</p>
+          <p class="hero-trust">Detect Smarter. Protect JKN.</p>
         </div>
 
         <!-- Panggung mesin: HUD live melayang di tepi bawah -->
@@ -86,15 +85,15 @@
             <picture>
               <source type="image/webp" srcset="/static/img/hero-machine.webp">
               <img src="/static/img/hero-machine.png"
-                   alt="Ilustrasi mesin audit SiKePo: berkas klaim berjalan di conveyor, dipindai AI, lalu keluar di tiga jalur — disetujui (hijau), ditahan (kuning), ditolak (merah)."
+                   alt="Ilustrasi mesin audit SiKePo: berkas klaim berjalan di conveyor, dipindai AI, lalu keluar di tiga jalur, disetujui (hijau), ditahan (kuning), ditolak (merah)."
                    width="1400" height="933" class="hero-img" decoding="async">
             </picture>
             <div class="scan-beam" aria-hidden="true"></div>
             <div class="hud-float" role="status" aria-label="Statistik live">
-              <span class="hud-chip-f"><b id="hud-total">—</b> klaim diproses</span>
-              <span class="hud-chip-f"><b class="t-amber" id="hud-fraud">—</b> anomali</span>
-              <span class="hud-chip-f"><b class="t-green" id="hud-savings">—</b> dicegah</span>
-              <span class="hud-chip-f"><b id="hud-faskes">—</b> faskes</span>
+              <span class="hud-chip-f"><b id="hud-total">, </b> klaim diproses</span>
+              <span class="hud-chip-f"><b class="t-amber" id="hud-fraud">, </b> anomali</span>
+              <span class="hud-chip-f"><b class="t-green" id="hud-savings">, </b> dicegah</span>
+              <span class="hud-chip-f"><b id="hud-faskes">, </b> faskes</span>
               <span class="hud-live"><span class="dot"></span>LIVE</span>
             </div>
           </div>
@@ -122,19 +121,18 @@
     <section class="section" id="masalah">
       <div class="wrap">
         <div class="statement" data-reveal>
-          <div class="stat-huge" id="problem-stat">—</div>
-          <p class="statement-cap">potensi overbilling teridentifikasi pada klaim demo — kini tersaring otomatis sebelum dana cair.</p>
+          <div class="stat-huge" id="problem-stat">, </div>
+          <p class="statement-cap">potensi overbilling teridentifikasi dan tersaring otomatis sebelum dana cair.</p>
         </div>
         <div class="prose-cols" data-reveal>
           <p>
             Verifikator meninjau ratusan berkas klaim per hari: tarif vs plafon INA-CBG, lama rawat,
             obat restriksi e-Fornas, resume medis yang terduplikasi. Pemeriksaan menyeluruh per berkas
-            mustahil dilakukan manual — dan <strong>satu klaim fraud yang lolos berarti kerugian langsung</strong>
+            mustahil dilakukan manual, dan <strong>satu klaim fraud yang lolos berarti kerugian langsung</strong>
             pada dana kesehatan nasional.
           </p>
           <p>
-            SiKePo membaca setiap berkas, menilai risikonya 0–100, dan menjelaskan alasannya —
-            lengkap dengan rekomendasi yang bisa ditolak atau disetujui manusia.
+            SiKePo membaca setiap berkas, menilai risikonya 0–100, dan menjelaskan alasannya, lengkap dengan rekomendasi yang bisa ditolak atau disetujui manusia.
             <strong>Verifikator tinggal memutuskan.</strong>
           </p>
         </div>
@@ -157,7 +155,7 @@
             </span>
             <span class="step-name">Triage Agent</span>
             <span class="step-hint">Aturan deterministik</span>
-            <span class="step-detail">Memeriksa rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas — menghasilkan risiko awal 0–99 dalam milidetik.</span>
+            <span class="step-detail">Memeriksa rasio tarif vs plafon INA-CBG, lama rawat vs norma klinis, dan daftar obat restriksi e-Fornas, menghasilkan risiko awal 0–99 dalam milidetik.</span>
           </button>
           <div class="flow-arrow" aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
           <button class="step-card" type="button" aria-expanded="false" data-step>
@@ -175,9 +173,9 @@
               <span class="step-tag step-tag-green">A3</span>
               <span class="step-plus" aria-hidden="true">+</span>
             </span>
-            <span class="step-name">Adjudicator — Ling 3.0 Flash Sante</span>
+            <span class="step-name">Adjudicator, Ling 3.0 Flash Sante</span>
             <span class="step-hint">LLM fokus medis · bahasa Indonesia</span>
-            <span class="step-detail">Ling 3.0 Flash Sante — LLM yang berfokus pada domain medis — menyusun putusan rekomendasi beserta alasan klinis-operasional berbahasa Indonesia. Lewat Vercel AI Gateway; bila tidak tersedia, aturan A1 mengambil alih.</span>
+            <span class="step-detail">Ling 3.0 Flash Sante, LLM yang berfokus pada domain medis, menyusun putusan rekomendasi beserta alasan klinis-operasional berbahasa Indonesia. Lewat Vercel AI Gateway; bila tidak tersedia, aturan A1 mengambil alih.</span>
           </button>
         </div>
         <div class="step-links" data-reveal>
@@ -193,7 +191,7 @@
         <div class="section-head-center" data-reveal>
           <p class="kicker">Mesin keputusan</p>
           <h2 class="h2">Tiga lapis kecerdasan, satu skor yang bisa ditelusuri.</h2>
-          <p class="section-sub">Bukan kotak hitam: setiap skor risiko dijawab dengan aturan, fitur, dan alasan yang terbaca. Lapisan teratas memakai <strong style="color:var(--ink)">Ling 3.0 Flash Sante</strong> — LLM yang berfokus pada domain medis.</p>
+          <p class="section-sub">Bukan kotak hitam: setiap skor risiko dijawab dengan aturan, fitur, dan alasan yang terbaca. Lapisan teratas memakai <strong style="color:var(--ink)">Ling 3.0 Flash Sante</strong>, LLM yang berfokus pada domain medis.</p>
         </div>
         <div class="ai-grid" data-reveal-group>
           <div class="ai-card">
@@ -204,20 +202,20 @@
           <div class="ai-card">
             <span class="ai-tag ai-tag-blue">A2 · Machine Learning</span>
             <h3>Deteksi pola anomali</h3>
-            <p>IsolationForest membandingkan 7 fitur klaim terhadap populasi. Skor akhir = fusi 45% aturan + 55% ML — dan model terus belajar dari setiap verdict verifikator.</p>
+            <p>IsolationForest membandingkan 7 fitur klaim terhadap populasi. Skor akhir = fusi 45% aturan + 55% ML, dan model terus belajar dari setiap verdict verifikator.</p>
           </div>
           <div class="ai-card ai-card-dark">
             <span class="ai-tag ai-tag-green">A3 · LLM Ling 3.0 Flash Sante</span>
             <h3>Adjudikasi berfokus medis</h3>
             <p>Varian LLM yang dikhususkan pada konteks kesehatan: memahami diagnosa, severitas, dan farmasi lebih baik daripada LLM umum, lalu menuliskan putusan dalam bahasa Indonesia yang siap dibaca verifikator.</p>
             <ul class="ai-points">
-              <li>Fokus domain medis — kosakata klinis &amp; formularium</li>
+              <li>Fokus domain medis, kosakata klinis &amp; formularium</li>
               <li>Alasan berbahasa Indonesia, siap audit</li>
-              <li>Fallback deterministik — tidak pernah berhenti</li>
+              <li>Fallback deterministik, tidak pernah berhenti</li>
             </ul>
           </div>
         </div>
-        <p class="ai-note" data-reveal>* Semua model berjalan di sisi server — antarmuka tidak pernah memanggil LLM langsung, dan keputusan akhir selalu milik verifikator manusia.</p>
+        <p class="ai-note" data-reveal>* Semua model berjalan di sisi server, antarmuka tidak pernah memanggil LLM langsung, dan keputusan akhir selalu milik verifikator manusia.</p>
       </div>
     </section>
 
@@ -301,7 +299,7 @@
           <div class="role-item">
             <span class="role-code" style="background:var(--amber-soft);color:var(--amber)">ST</span>
             <div class="role-name">Satgas Anti-Fraud</div>
-            <p class="role-desc">Investigasi lintas faskes dan analisis pola — tanpa wewenang verdict.</p>
+            <p class="role-desc">Investigasi lintas faskes dan analisis pola, tanpa wewenang verdict.</p>
             <div class="role-perms"><span class="perm-chip">view_all_claims</span><span class="perm-chip">ai_investigate</span></div>
           </div>
           <div class="role-item">
@@ -321,12 +319,12 @@
     <section class="stats-band" aria-label="Statistik publik">
       <div class="wrap">
         <div class="stats-grid" data-reveal-group>
-          <div><div class="stat-num" id="teaser-total">—</div><div class="stats-lbl">Total klaim diproses</div></div>
-          <div><div class="stat-num" id="teaser-fraud">—</div><div class="stats-lbl">Klaim anomali tersaring</div></div>
-          <div><div class="stat-num" id="teaser-savings">—</div><div class="stats-lbl">Dana dicegah sebelum cair</div></div>
-          <div><div class="stat-num" id="teaser-faskes">—</div><div class="stats-lbl">Faskes terpantau</div></div>
+          <div><div class="stat-num" id="teaser-total">, </div><div class="stats-lbl">Total klaim diproses</div></div>
+          <div><div class="stat-num" id="teaser-fraud">, </div><div class="stats-lbl">Klaim anomali tersaring</div></div>
+          <div><div class="stat-num" id="teaser-savings">, </div><div class="stats-lbl">Dana dicegah sebelum cair</div></div>
+          <div><div class="stat-num" id="teaser-faskes">, </div><div class="stats-lbl">Faskes terpantau</div></div>
         </div>
-        <p class="stats-note">* Angka live dari simulasi dataset sintetis — bukan data operasional BPJS Kesehatan.</p>
+        
       </div>
     </section>
 
@@ -335,7 +333,7 @@
       <div class="wrap">
         <div class="cta-panel" data-reveal>
           <h2>Lihat sendiri mesinnya bekerja.</h2>
-          <p>Masuk dengan akun demo dan ikuti alur lengkapnya — dari antrean klaim sampai verdict, dalam dua klik.</p>
+          <p>Ikuti alur lengkapnya dari antrean klaim sampai verdict, dalam dua klik.</p>
           <a href="/app" class="btn-primary px-8 py-4 text-[15px]">Buka Aplikasi</a>
         </div>
       </div>
@@ -351,7 +349,7 @@
             <img src="/static/img/sikepo-logo.png" alt="" width="30" height="24" style="height:26px;" class="w-auto" aria-hidden="true">
             <span class="font-display text-bpjs-ink font-bold text-[16px]">SiKePo</span>
           </div>
-          <p class="text-[12.5px] leading-relaxed mt-3 text-bpjs-muted">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling. Mendeteksi fraud sebelum dana cair — Detect Smarter. Protect JKN.</p>
+          <p class="text-[12.5px] leading-relaxed mt-3 text-bpjs-muted">Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling. Mendeteksi fraud sebelum dana cair, Detect Smarter. Protect JKN.</p>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 text-[12.5px]">
           <div class="flex flex-col gap-2.5">
@@ -369,20 +367,20 @@
           <div class="flex flex-col gap-2.5">
             <span class="text-[10.5px] font-bold tracking-[.12em] uppercase text-bpjs-muted">Event</span>
             <span>Healthkathon BPJS Kesehatan 2026</span>
-            <span>Prototype · data sintetis</span>
+            <span>Sistem audit klaim JKN</span>
           </div>
         </div>
       </div>
       <div class="border-t border-bpjs-line mt-10 pt-6 text-[11px] text-bpjs-muted flex flex-col sm:flex-row justify-between gap-2">
         <span>© 2026 SiKePo · BPJS Kesehatan Healthkathon</span>
-        <span>Seluruh data bersifat sintetis untuk simulasi &amp; demo — bukan data pasien atau operasional BPJS Kesehatan.</span>
+        <span>Detect Smarter. Protect JKN.</span>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
-  <script src="/static/js/shared.js?v=6"></script>
-  <script src="/static/js/landing.js?v=8"></script>
-  <script src="/static/js/animations.js?v=8"></script>
+  <script src="/static/js/shared.js?v=7"></script>
+  <script src="/static/js/landing.js?v=9"></script>
+  <script src="/static/js/animations.js?v=9"></script>
 </body>
 </html>

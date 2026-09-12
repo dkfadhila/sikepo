@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apa itu SiKePo? — Overview</title>
+  <title>Apa itu SiKePo?, Overview</title>
   <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="/static/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
@@ -49,11 +49,11 @@
         <p class="eyebrow">Overview</p>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-bpjs-navy tracking-tight mt-3">Apa itu SiKePo?</h1>
         <p class="text-[15.5px] text-bpjs-body mt-4 max-w-3xl leading-relaxed">
-          <strong class="text-bpjs-ink">SiKePo — Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling</strong> adalah
+          <strong class="text-bpjs-ink">SiKePo, Sistem Investigasi Kelayakan Klaim &amp; Pola Overbilling</strong> adalah
           platform audit klaim pra-pembayaran untuk BPJS Kesehatan. Sistem menggabungkan
           <strong class="text-bpjs-green">aturan audit deterministik</strong> dan
           <strong class="text-bpjs-cyan">penilaian anomali berbasis ML</strong> untuk membantu verifikator
-          menemukan klaim fraud sebelum dana cair — transparan, bukan kotak hitam.
+          menemukan klaim fraud sebelum dana cair, transparan, bukan kotak hitam.
         </p>
       </div>
     </section>
@@ -95,10 +95,10 @@
         <div>
           <p class="eyebrow mb-6">Metrik live</p>
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Total klaim</span><div class="text-2xl font-bold font-mono text-bpjs-ink mt-1.5" id="ov-total">—</div></div>
-            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Anomali terdeteksi</span><div class="text-2xl font-bold font-mono text-[#D92D20] mt-1.5" id="ov-fraud">—</div></div>
-            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Klaim bersih</span><div class="text-2xl font-bold font-mono text-bpjs-green mt-1.5" id="ov-clean">—</div></div>
-            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Faskes aktif</span><div class="text-2xl font-bold font-mono text-bpjs-cyan mt-1.5" id="ov-faskes">—</div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Total klaim</span><div class="text-2xl font-bold font-mono text-bpjs-ink mt-1.5" id="ov-total">, </div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Anomali terdeteksi</span><div class="text-2xl font-bold font-mono text-[#D92D20] mt-1.5" id="ov-fraud">, </div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Klaim bersih</span><div class="text-2xl font-bold font-mono text-bpjs-green mt-1.5" id="ov-clean">, </div></div>
+            <div class="card p-5"><span class="text-[12px] font-medium text-bpjs-muted">Faskes aktif</span><div class="text-2xl font-bold font-mono text-bpjs-cyan mt-1.5" id="ov-faskes">, </div></div>
           </div>
         </div>
 
@@ -113,14 +113,14 @@
           <p class="eyebrow mb-6">Prinsip desain</p>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="card p-6">
-              <span class="badge badge-green">Dataset</span>
-              <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">150 klaim sintetis</h3>
-              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Data realistis dari 8 faskes — bersih, upcoding, phantom, cloning, dan overpreskripsi.</p>
+              <span class="badge badge-green">DATA</span>
+              <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">Dataset klaim JKN</h3>
+              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Cakupan 8 faskes: bersih, upcoding, phantom, cloning, dan overpreskripsi.</p>
             </div>
             <div class="card p-6">
               <span class="badge badge-amber">Agentic</span>
               <h3 class="text-[15.5px] font-bold text-bpjs-ink mt-3">3 agen AI terisolasi</h3>
-              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Triage, Investigator (ML), dan Adjudicator (LLM) — masing-masing dengan peran terbatas.</p>
+              <p class="text-[13px] text-bpjs-body leading-relaxed mt-1.5">Triage, Investigator (ML), dan Adjudicator (LLM), masing-masing dengan peran terbatas.</p>
             </div>
             <div class="card p-6">
               <span class="badge badge-blue">Explainable</span>
@@ -143,15 +143,15 @@
         </div>
       </div>
       <div class="text-[12px] text-[#9FB8D4] sm:text-right">
-        <div>Healthkathon BPJS Kesehatan 2026 · Prototype</div>
+        <div>Healthkathon BPJS Kesehatan 2026</div>
         <div class="mt-1">Detect Smarter. Protect JKN.</div>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
-  <script src="/static/js/shared.js?v=6"></script>
-  <script src="/static/js/pages.js?v=5"></script>
-  <script src="/static/js/animations.js?v=8"></script>
+  <script src="/static/js/shared.js?v=7"></script>
+  <script src="/static/js/pages.js?v=6"></script>
+  <script src="/static/js/animations.js?v=9"></script>
 </body>
 </html>

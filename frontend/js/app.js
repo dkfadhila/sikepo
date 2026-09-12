@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════
-   SiKePo app.js — Cockpit v3 (dense ops console)
+   SiKePo app.js, Cockpit v3 (dense ops console)
    - Klaim: filters compose (status, fraud_type, faskes, risk
      min/max, debounced search), dense table w/ risk ramp,
      inspector drawer/sheet, keyboard shortcuts, verdict toast
-   - Charts: destroyed on tab leave — no Chart.js duplicates
+   - Charts: destroyed on tab leave, no Chart.js duplicates
    - Data tab: timeline + heatmap
    - Auth/RBAC/SIMRS/Users: preserved from v2
    ═══════════════════════════════════════════════════════════ */
@@ -12,7 +12,7 @@ let activeTab = 'dashboard', selectedClaim = null, claimsData = [], filteredClai
 let authToken = localStorage.getItem('sikepo_token') || null, currentUser = null;
 let focusedRow = -1; // keyboard cursor in claims table
 
-/* ── Motion (motion.dev) — progressive enhancement ──────── */
+/* ── Motion (motion.dev), progressive enhancement ──────── */
 const motionOK = () => !!window.Motion && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function motionSwap(el) {
   if (!motionOK() || !el) return false;
@@ -47,7 +47,7 @@ async function attemptLogin(e) {
     const d = await r.json();
     if (r.ok && d.token) { err.style.display = 'none'; authToken = d.token; currentUser = d; localStorage.setItem('sikepo_token', authToken); showCockpit(); }
     else { err.textContent = d.detail || 'Username atau password salah.'; err.style.display = 'block'; document.getElementById('login-pass').value = ''; document.getElementById('login-pass').focus(); }
-  } catch { err.textContent = 'Server tidak aktif. Jalankan backend dulu.'; err.style.display = 'block'; }
+  } catch { err.textContent = 'Tidak dapat menghubungi server. Coba lagi beberapa saat.'; err.style.display = 'block'; }
 }
 
 function showCockpit() {
@@ -82,7 +82,7 @@ function applyPerms() {
   if (!currentUser) return;
   const p = currentUser.permissions || [];
   // Tombol nav Users: toggle class .hidden (style.display saja tidak
-  // menembus .hidden !important — bug versi lama).
+  // menembus .hidden !important, bug versi lama).
   document.querySelectorAll('#nav-users, #mt-users, .mobile-tabs [data-tab="users"]').forEach(el => {
     el.classList.toggle('hidden', !p.includes('manage_users'));
   });
@@ -107,7 +107,7 @@ function switchTab(tab) {
   if (active) { active.classList.remove('hidden'); if (!motionSwap(active)) active.classList.add('fade-in'); }
   // Desktop nav
   document.querySelectorAll('.topbar-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
-  // Mobile tabs (termasuk tombol periode .mt tanpa data-tab — tetap utuh)
+  // Mobile tabs (termasuk tombol periode .mt tanpa data-tab, tetap utuh)
   document.querySelectorAll('.mt').forEach(b => { if (b.dataset.tab) b.classList.toggle('active', b.dataset.tab === tab); });
   if (tab === 'dashboard') { fetchStats(); initCharts(); motionStagger(document.getElementById('kpi-row')); simrsRefresh(); }
   if (tab === 'claims') fetchClaims();
@@ -221,7 +221,7 @@ async function loadTimeline(period) {
       </tr>`).join('');
     }
 
-    // Chart (destroy previous instance — no duplicate canvas)
+    // Chart (destroy previous instance, no duplicate canvas)
     if (cTimeline) cTimeline.destroy();
     cTimeline = new Chart(document.getElementById('chart-timeline'), {
       type: 'bar',
@@ -267,7 +267,7 @@ async function loadHeatmap() {
         <td style="text-align:right" class="mono-num">${f.total}</td>
         <td style="text-align:right;color:#D92D20;font-weight:600" class="mono-num">${f.fraud}</td>
         <td style="text-align:center"><div style="display:flex;align-items:center;gap:8px;justify-content:center"><span class="hm-bar"><span style="display:block;width:${bar}%;background:${barC}"></span></span><span class="risk-badge ${cls}">${f.avg_risk}</span></div></td>
-        <td style="text-align:center">${f.top_modus ? `<span class="fraud-chip ${FC[f.top_modus] || ''}">${FL[f.top_modus] || f.top_modus}</span>` : '<span style="color:var(--muted)">—</span>'}</td>
+        <td style="text-align:center">${f.top_modus ? `<span class="fraud-chip ${FC[f.top_modus] || ''}">${FL[f.top_modus] || f.top_modus}</span>` : '<span style="color:var(--muted)">, </span>'}</td>
       </tr>`;
     }).join('');
   } catch {
@@ -277,7 +277,7 @@ async function loadHeatmap() {
 
 /* ── Stats ───────────────────────────────────────────────── */
 async function fetchStats() {
-  try { const r = await af('/api/stats/overview'); if (!r) return; const d = await r.json(); document.getElementById('cp-savings').textContent = formatCompactIDR(d.total_savings_idr); document.getElementById('cp-total').textContent = d.total_claims; document.getElementById('cp-fraud').textContent = d.anomalous_count; document.getElementById('cp-clean').textContent = d.clean_count; document.getElementById('cp-faskes').textContent = d.active_faskes_count ?? '—'; } catch {}
+  try { const r = await af('/api/stats/overview'); if (!r) return; const d = await r.json(); document.getElementById('cp-savings').textContent = formatCompactIDR(d.total_savings_idr); document.getElementById('cp-total').textContent = d.total_claims; document.getElementById('cp-fraud').textContent = d.anomalous_count; document.getElementById('cp-clean').textContent = d.clean_count; document.getElementById('cp-faskes').textContent = d.active_faskes_count ?? ', '; } catch {}
 }
 
 /* ── Claims: fetch + filter compose ──────────────────────── */
@@ -306,14 +306,14 @@ async function fetchClaims() {
     focusedRow = -1;
     applyClientFilters();
   } catch {
-    document.getElementById('claims-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:#6B7A90">Gagal memuat — cek koneksi server.</td></tr>';
+    document.getElementById('claims-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:#6B7A90">Gagal memuat, cek koneksi server.</td></tr>';
     document.getElementById('table-count-label').textContent = '--';
   }
 }
 function debounceSearch() { clearTimeout(debounceTimer); debounceTimer = setTimeout(applyClientFilters, 250); }
 
 // Client-side filters: text search (SEP/ID, faskes, pasien, diagnosa, ICD-10),
-// faskes dropdown, risk min/max — the API only exposes status/fraud_type/search
+// faskes dropdown, risk min/max, the API only exposes status/fraud_type/search
 function applyClientFilters() {
   const q = (document.getElementById('filter-search')?.value || '').trim().toLowerCase();
   const faskes = document.getElementById('filter-faskes')?.value || 'ALL';
@@ -401,11 +401,11 @@ function pipelineStripHtml(c) {
        <div class="pipe-stage-sub">${sub}</div>
      </div>`;
   return `<div class="pipe-strip">
-    ${stage('A1', !!a1, a1 ? a1.preliminary_risk : '—', 'Triage aturan')}
+    ${stage('A1', !!a1, a1 ? a1.preliminary_risk : ', ', 'Triage aturan')}
     <div class="pipe-arrow">→</div>
-    ${stage('A2', !!a2, a2 ? a2.fused_risk : '—', 'ML IsolationForest')}
+    ${stage('A2', !!a2, a2 ? a2.fused_risk : ', ', 'ML IsolationForest')}
     <div class="pipe-arrow">→</div>
-    ${stage('A3', !!a3, a3 ? a3.status : '—', a3 ? (a3.llm?.fallback ? 'Fallback aturan' : 'LLM adjudicator') : 'Adjudicator')}
+    ${stage('A3', !!a3, a3 ? a3.status : ', ', a3 ? (a3.llm?.fallback ? 'Fallback aturan' : 'LLM adjudicator') : 'Adjudicator')}
   </div>`;
 }
 
@@ -529,7 +529,7 @@ async function runSandboxAudit(e) {
     det.innerHTML = sandboxMode === 'single' ? sandboxSingleHtml(res) : agentResultHtml(res);
     const badge = document.getElementById('sb-res-badge'); badge.textContent = `RISIKO ${res.risk_score}`; badge.className = `b ${res.risk_score >= 70 ? 'b-r' : res.risk_score >= 30 ? 'b-y' : 'b-g'}`;
     motionStagger(det);
-  } catch { document.getElementById('sandbox-result').textContent = 'Gagal menjalankan simulasi.'; }
+  } catch { document.getElementById('sandbox-result').textContent = 'Gagal menjalankan audit.'; }
 }
 
 function sandboxSingleHtml(r) {
@@ -640,7 +640,7 @@ function renderUsers(users) {
   }).join('');
 }
 
-// Inline edit row (PUT /api/admin/users/{id}) — no modal maze (PRD §10)
+// Inline edit row (PUT /api/admin/users/{id}), no modal maze (PRD §10)
 function userEditRowHtml(u) {
   const roleOpts = Object.keys(RL).map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${RL[r]}</option>`).join('');
   return `<tr>
@@ -705,7 +705,7 @@ async function fetchApiKeys() {
 function renderApiKeys(keys) {
   const tb = document.getElementById('apikeys-tbody');
   if (!tb) return;
-  if (!keys.length) { tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px;color:#7C8BA1">Belum ada kunci — generate di atas.</td></tr>'; return; }
+  if (!keys.length) { tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px;color:#7C8BA1">Belum ada kunci, generate di atas.</td></tr>'; return; }
   tb.innerHTML = keys.map(k => `<tr>
     <td class="mono-id">${k.faskes_kode}</td>
     <td style="font-size:12.5px;color:#10243E">${k.nama || '-'}</td>
@@ -722,7 +722,7 @@ async function createApiKey(e) {
     const d = await r.json();
     if (d.success && d.key) {
       note.style.display = 'block';
-      note.innerHTML = `Kunci baru untuk <b>${d.faskes_kode}</b> (tampil sekali — salin sekarang): <code class="mono-id" style="font-size:12px">${d.key}</code>`;
+      note.innerHTML = `Kunci baru untuk <b>${d.faskes_kode}</b> (tampil sekali, salin sekarang): <code class="mono-id" style="font-size:12px">${d.key}</code>`;
       document.getElementById('ak-nama').value = '';
       fetchApiKeys();
     } else {

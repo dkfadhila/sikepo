@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   SiKePo shared.js — util lintas halaman (landing, pages, app)
+   SiKePo shared.js, util lintas halaman (landing, pages, app)
    Number count-up & text scramble: vanilla-JS adaptations of
    21st.dev components, MIT-licensed.
    ═══════════════════════════════════════════════════════════ */

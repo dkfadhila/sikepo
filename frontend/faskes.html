@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Faskes — SiKePo</title>
+  <title>Portal Faskes, SiKePo</title>
   <meta name="description" content="Portal SIMRS faskes: kirim klaim ke mesin audit SiKePo (pipeline A1→A2→A3) via API terautentikasi.">
   <meta name="theme-color" content="#0A1B33">
   <link rel="icon" href="/static/favicon.ico" sizes="any">
@@ -65,17 +65,17 @@
 <body>
   <header class="top">
     <img src="/static/img/sikepo-logo.png" alt="SiKePo">
-    <b>SiKePo</b><span class="sep"></span><span class="sub">Portal Faskes · Simulasi sisi SIMRS</span>
+    <b>SiKePo</b><span class="sep"></span><span class="sub">Portal Faskes · Integrasi SIMRS</span>
     <a href="/app">Buka Cockpit ↗</a>
   </header>
 
   <main class="wrap">
     <h1>Kirim klaim ke mesin audit</h1>
     <p class="lead">
-      Halaman ini memodelkan sisi rumah sakit: SIMRS faskes mendorong klaim baru ke SiKePo lewat
+      Sisi rumah sakit: SIMRS faskes mendorong klaim baru ke SiKePo lewat
       <code>POST /api/ingest/claims</code> dengan header <code>X-API-Key</code>. Klaim langsung
       diaudit pipeline <b>A1 Triage → A2 Investigator → A3 Adjudicator (Ling 3.0 Flash Sante)</b>
-      begitu diterima — skor risiko dan rekomendasi kembali dalam hitungan detik.
+      begitu diterima, skor risiko dan rekomendasi kembali dalam hitungan detik.
     </p>
 
     <div class="grid">
@@ -120,7 +120,7 @@
             <button class="btn btn-s" type="button" onclick="prefill('clean')">Contoh: klaim bersih</button>
             <button class="btn btn-s" type="button" onclick="prefill('fishy')">Contoh: mencurigakan</button>
           </div>
-          <p class="hint">API key dikelola Super Admin di Cockpit › Users › API Ingest Faskes. Key terikat satu faskes — klaim untuk faskes lain akan ditolak 403.</p>
+          <p class="hint">API key dikelola Super Admin di Cockpit › Users › API Ingest Faskes. Key terikat satu faskes, klaim untuk faskes lain akan ditolak 403.</p>
           <div class="err" id="f-err"></div>
         </div>
       </div>
@@ -128,21 +128,21 @@
       <!-- HASIL -->
       <div>
         <div class="card">
-          <div class="card-h"><span class="card-t">Hasil audit mesin</span><span class="card-s" id="r-id">—</span></div>
+          <div class="card-h"><span class="card-t">Hasil audit mesin</span><span class="card-s" id="r-id">, </span></div>
           <div class="card-b">
             <div id="r-empty" style="text-align:center;padding:28px 8px;color:var(--muted);font-size:13px">
               Hasil skor risiko &amp; rekomendasi mesin akan tampil di sini setelah klaim dikirim.
             </div>
             <div class="res" id="r-box">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
-                <span class="badge b-y" id="r-status">—</span>
-                <span class="mono" style="font-size:12px;color:var(--ink);font-weight:700" id="r-risk">—</span>
+                <span class="badge b-y" id="r-status">, </span>
+                <span class="mono" style="font-size:12px;color:var(--ink);font-weight:700" id="r-risk">, </span>
               </div>
-              <div class="res-row"><span class="res-l">Modus terdeteksi</span><span class="res-v" id="r-fraud">—</span></div>
-              <div class="res-row"><span class="res-l">Rekomendasi mesin</span><span class="res-v" id="r-rek" style="font-family:'Inter';text-align:right">—</span></div>
-              <div class="res-row"><span class="res-l">Selisih di atas plafon</span><span class="res-v" id="r-selisih">—</span></div>
+              <div class="res-row"><span class="res-l">Modus terdeteksi</span><span class="res-v" id="r-fraud">, </span></div>
+              <div class="res-row"><span class="res-l">Rekomendasi mesin</span><span class="res-v" id="r-rek" style="font-family:'Inter';text-align:right">, </span></div>
+              <div class="res-row"><span class="res-l">Selisih di atas plafon</span><span class="res-v" id="r-selisih">, </span></div>
               <div style="margin-top:10px;font-size:12px;color:var(--body);line-height:1.6" id="r-reasons"></div>
-              <div class="ok-note" id="r-note">Klaim sudah masuk antrean Cockpit — verifikator tinggal memutuskan.</div>
+              <div class="ok-note" id="r-note">Klaim sudah masuk antrean Cockpit, verifikator tinggal memutuskan.</div>
               <a href="/app" style="display:inline-flex;margin-top:10px;font-size:12.5px;font-weight:600;text-decoration:none">Lihat di Cockpit →</a>
             </div>
           </div>
@@ -197,13 +197,13 @@ async function kirimKlaim() {
     const r = await fetch('/api/ingest/claims', { method: 'POST', headers: { 'X-API-Key': key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const d = await r.json();
     if (r.status === 401 || r.status === 403) { showErr(d.detail || 'API key ditolak server.'); return; }
-    if (!r.ok) { showErr(d.detail ? (typeof d.detail === 'string' ? d.detail : 'Payload tidak valid — periksa isian.') : 'Gagal mengirim klaim.'); return; }
+    if (!r.ok) { showErr(d.detail ? (typeof d.detail === 'string' ? d.detail : 'Payload tidak valid, periksa isian.') : 'Gagal mengirim klaim.'); return; }
     $('r-empty').style.display = 'none'; $('r-box').style.display = 'block';
     $('r-id').textContent = d.id;
     if (d.status === 'already_ingested') {
       $('r-status').textContent = 'SUDAH PERNAH DITERIMA'; $('r-status').className = 'badge b-y';
-      $('r-risk').textContent = '—'; $('r-fraud').textContent = '—'; $('r-rek').textContent = d.message || 'Idempoten.';
-      $('r-reasons').textContent = ''; $('r-selisih').textContent = '—'; $('r-note').style.display = 'none';
+      $('r-risk').textContent = ', '; $('r-fraud').textContent = ', '; $('r-rek').textContent = d.message || 'Idempoten.';
+      $('r-reasons').textContent = ''; $('r-selisih').textContent = ', '; $('r-note').style.display = 'none';
       return;
     }
     const st = d.claim_status || 'PENDING_AUDIT';
@@ -216,7 +216,7 @@ async function kirimKlaim() {
     $('r-selisih').textContent = 'Rp ' + selisih.toLocaleString('id-ID');
     $('r-reasons').textContent = ''; $('r-note').style.display = 'block';
   } catch (e2) {
-    showErr('Server tidak aktif — jalankan backend SiKePo terlebih dahulu.');
+    showErr('Tidak dapat menghubungi server. Coba beberapa saat lagi.');
   } finally {
     btn.disabled = false; btn.textContent = 'Kirim ke mesin audit →';
   }

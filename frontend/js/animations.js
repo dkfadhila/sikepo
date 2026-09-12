@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   SiKePo animations.js — Motion (motion.dev) progressive
+   SiKePo animations.js, Motion (motion.dev) progressive
    enhancement untuk landing + halaman publik.
 
    Atribut yang dikenali:
@@ -12,8 +12,7 @@
      - Parallax panggung mesin mengikuti kursor (.hero-stage)
      - Nav pill auto-hide saat scroll turun, muncul saat naik
 
-   Mekanisme reveal: scroll-listener + cek viewport (rAF throttle) —
-   TIDAK memakai IntersectionObserver karena tidak konsisten di
+   Mekanisme reveal: scroll-listener + cek viewport (rAF throttle), TIDAK memakai IntersectionObserver karena tidak konsisten di
    beberapa guest browser. Tanpa Motion (CDN gagal) / reduced-motion
    → kelas `anim-ready` tak dipasang, halaman tampil normal.
    ═══════════════════════════════════════════════════════════ */
@@ -36,7 +35,7 @@
 
   /* ── Reveal berbasis posisi viewport ─────────────────────
      PENTING: memakai polling scrollY, bukan event scroll /
-     IntersectionObserver — event scroll tidak konsisten di
+     IntersectionObserver, event scroll tidak konsisten di
      beberapa guest browser (pernah 0 event saat scrollY pindah).
      Polling 180ms untuk ~15 elemen = biaya dapat diabaikan. */
   const pending = []; // { el, group }
@@ -65,7 +64,7 @@
   }
 
   function init() {
-    // Entrance hero (landing) — langsung saat init
+    // Entrance hero (landing), langsung saat init
     const heroIntro = document.querySelector('[data-hero-intro]');
     if (heroIntro) {
       Array.from(heroIntro.children).forEach((el, i) => reveal(el, 0.05 + i * 0.09));
@@ -120,8 +119,7 @@
     });
   }
 
-  // PENTING: init baru jalan setelah CSS Tailwind (CDN) aktif —
-  // kalau lebih awal, posisi elemen dihitung pada layout
+  // PENTING: init baru jalan setelah CSS Tailwind (CDN) aktif, // kalau lebih awal, posisi elemen dihitung pada layout
   // "telanjang" dan semua reveal ter-trigger sekaligus di awal.
   function whenStyled(cb, tries = 0) {
     const probe = document.createElement('div');

@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   SiKePo landing.js — HUD hero + stats teaser + problem stat.
+   SiKePo landing.js, HUD hero + stats teaser + problem stat.
    Semua angka live dari GET /api/stats/overview.
    Count-up idempotent: fetch kapan pun selesai, angka selalu
-   benar — tidak pernah mentok "Rp 0" (bug lama §9.1).
+   benar, tidak pernah mentok "Rp 0" (bug lama §9.1).
    ═══════════════════════════════════════════════════════════ */
 
 /* Count-up idempotent per elemen: animasi lama dibatalkan,
@@ -50,7 +50,7 @@ async function fetchLandingStats() {
     landingCount(document.getElementById('teaser-savings'), d.total_savings_idr ?? 0, formatCompactIDR);
     landingCount(document.getElementById('teaser-faskes'), d.active_faskes_count ?? 0);
   } catch (err) {
-    // Backend tidak aktif: HUD tetap "—", tanpa error di console happy path
+    // Backend tidak aktif: HUD tetap ", ", tanpa error di console happy path
     console.info('Landing stats: backend belum aktif.');
   }
 }
