@@ -62,12 +62,12 @@ s.addText([
   { text: "Efisiensi Risiko Fasilitas Kesehatan", options: { bold: true, color: "067647" } },
   { text: "      Fokus SiKePo: klaim rawat inap FKRTL yang dinilai sebelum dana cair", options: { color: "4A5568" } },
 ], { x: 0.85, y: 1.62, w: 11.7, h: 0.92, fontFace: UI, fontSize: 14, valign: "middle", margin: 0 });
-s.addText("Empat sub-kategori fokus, semuanya dideteksi otomatis oleh SiKePo:", { x: M, y: 2.85, w: 11, h: 0.32, fontFace: UI, fontSize: 13.5, color: BODY, margin: 0 });
+s.addText("Sub-kategori fokus (nomor sesuai daftar resmi panitia), dideteksi otomatis oleh SiKePo:", { x: M, y: 2.85, w: 11, h: 0.32, fontFace: UI, fontSize: 13.5, color: BODY, margin: 0 });
 const subs = [
-  ["Upcoding & Unbundling", "Diagnosa digelembungkan agar tarif masuk kelas INA-CBG yang lebih mahal, atau paket dipecah.", "24 kasus pada dataset 150 klaim"],
-  ["Phantom & Repeat Billing", "Penagihan atas layanan yang tidak pernah diberikan atau episode yang diklaim ulang.", "18 kasus · fingerprint rawat absen"],
-  ["Inflated Bills & Cloning", "Obat di luar formularium dengan harga tinggi; resume medis dijiplak antar pasien.", "19 kasus · kemiripan resume tinggi"],
-  ["Prolonged Stay & Readmisi", "Hari rawat diperpanjang di luar indikasi medis atau episode diklaim berulang.", "LOS vs norma klinis dipantau per klaim"],
+  ["No. 4 · Upcoding", "Manipulasi diagnosis dan/atau tindakan untuk meningkatkan besaran klaim.", "24 kasus pada dataset 150 klaim"],
+  ["No. 6 · Phantom billing", "Klaim atas layanan yang tidak pernah diberikan kepada pasien.", "18 kasus · fingerprint rawat absen"],
+  ["No. 7 · Inflated bills", "Biaya obat/alkes ditagih lebih besar dari biaya sebenarnya.", "19 kasus · obat di luar e-Fornas"],
+  ["No. 5 · Cloning", "Klaim dibuat dengan menyalin klaim atau rekam medis pasien lain.", "8 kasus · kemiripan resume tinggi"],
 ];
 subs.forEach((it, i) => {
   const x = M + (i % 2) * 6.31, y = 3.32 + Math.floor(i / 2) * 1.72;
@@ -76,7 +76,7 @@ subs.forEach((it, i) => {
   s.addText(it[1], { x: x + 0.28, y: y + 0.5, w: 5.5, h: 0.55, fontFace: UI, fontSize: 11.5, color: BODY, margin: 0, lineSpacingMultiple: 1.38 });
   s.addText(it[2], { x: x + 0.28, y: y + 1.13, w: 5.5, h: 0.28, fontFace: MONO, fontSize: 10, color: GREEN, margin: 0 });
 });
-s.addText("Kasus = sebaran modus pada dataset 150 klaim yang dipakai membangun dan menguji SiKePo.", { x: M, y: 6.85, w: 11, h: 0.26, fontFace: UI, fontSize: 9.5, color: MUTED, margin: 0 });
+s.addText("Cakupan lanjutan: prolonged length of stay (No. 12), readmisi (No. 16), repeat billing (No. 11), dan unbundling/fragmentasi (No. 9) dipantau melalui pemeriksaan LOS dan pola episode. Kasus = sebaran modus pada dataset 150 klaim uji.", { x: M, y: 6.85, w: 11, h: 0.26, fontFace: UI, fontSize: 9.5, color: MUTED, margin: 0 });
 pagefoot(s, 2);
 
 /* ── S3 B1 IDENTITAS & POSITIONING ────────────────────── */
@@ -233,7 +233,7 @@ kicker(s, "Bagian 4 · Pendekatan teknis & data");
 title(s, "Dari input SIMRS sampai keputusan verifikator");
 const arch = [
   ["1 · INPUT", "Data klaim rawat inap: SEP, ICD-10, tarif INA-CBG, biaya, LOS, farmasi", "Sumber: SIMRS faskes (API berkunci), Portal Faskes, dataset uji 150 klaim", BLUE],
-  ["2 · AUDIT PIPELINE", "A1 rules (risiko awal 0-99) → A2 IsolationForest (fusi 45:55) → A3 LLM medis + fallback aturan", "Setiap tahap menghasilkan bukti yang disimpan per klaim", AMBER],
+  ["2 · AUDIT PIPELINE", "A1 rules (risiko awal 0-99) → A2 IsolationForest (fusi 45:55) → A3 LLM medis Ling 3.0 Flash Sante + fallback aturan", "Setiap tahap menghasilkan bukti yang disimpan per klaim", AMBER],
   ["3 · KEPUTUSAN", "Rekomendasi status + antrean Cockpit + verdict verifikator dengan jejak audit", "Label verdict menjadi data latih retrain berkala", GREEN],
 ];
 arch.forEach((a, i) => {
@@ -362,7 +362,7 @@ s.addImage({ path: AST + "decka.jpg", x: M, y: 1.7, w: 3.1, h: 3.875, sizing: { 
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: M, y: 5.72, w: 3.1, h: 1.0, fill: { color: INK }, rectRadius: 0.1 });
 s.addText([
   { text: "Decka Fadhila Tirta\n", options: { bold: true, fontSize: 14, color: "FFFFFF" } },
-  { text: "deckafadhila@gmail.com · decka.xyz", options: { fontSize: 10, color: "9DB2CC" } },
+  { text: "deckafadhila@gmail.com · dktirta.tech", options: { fontSize: 10, color: "9DB2CC" } },
 ], { x: 0.78, y: 5.86, w: 2.7, h: 0.75, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
 s.addText("Decka Fadhila Tirta, S.Si.", { x: 4.05, y: 1.72, w: 8.6, h: 0.42, fontFace: DISP, fontSize: 22, bold: true, color: INK, margin: 0 });
 s.addText("Lead Engineer & Product · S.Si. Fisika, Universitas Negeri Yogyakarta (2026)", { x: 4.05, y: 2.18, w: 8.6, h: 0.3, fontFace: UI, fontSize: 12.5, color: GREEN, bold: true, margin: 0 });
@@ -384,6 +384,41 @@ s.addText([
 ], { x: 4.35, y: 6.35, w: 8.2, h: 0.62, fontFace: UI, fontSize: 11.5, valign: "middle", margin: 0, lineSpacingMultiple: 1.38 });
 pagefoot(s, 13);
 
+/* ── S13b DAFTAR SINGKATAN ────────────────────────────── */
+s = p.addSlide();
+s.background = { color: "FFFFFF" };
+kicker(s, "Daftar singkatan");
+title(s, "Istilah dan singkatan yang dipakai");
+const abbrL = [
+  ["JKN", "Jaminan Kesehatan Nasional"],
+  ["BPJS", "Badan Penyelenggara Jaminan Sosial"],
+  ["INA-CBG", "Indonesian Case Based Groups (tarif paket klaim)"],
+  ["SEP", "Surat Eligibilitas Peserta"],
+  ["ICD-10", "Klasifikasi Penyakit Internasional edisi 10"],
+  ["LOS", "Length of Stay (lama rawat)"],
+  ["e-Fornas", "Formularium Nasional elektronik"],
+  ["FKRTL", "Fasilitas Kesehatan Rujukan Tingkat Lanjut"],
+];
+const abbrR = [
+  ["FKTP", "Fasilitas Kesehatan Tingkat Pertama"],
+  ["SIMRS", "Sistem Informasi Manajemen Rumah Sakit"],
+  ["ML", "Machine Learning (pembelajaran mesin)"],
+  ["LLM", "Large Language Model"],
+  ["API", "Application Programming Interface"],
+  ["RBAC", "Role-Based Access Control (hak akses per peran)"],
+  ["UU PDP", "Undang-Undang Pelindungan Data Pribadi"],
+  ["KC/PC", "Kantor Cabang / Kantor Cabang Pembantu"],
+];
+[[abbrL, M], [abbrR, 6.83]].forEach(([rows, x]) => {
+  const rowsData = rows.map(([k, v]) => [
+    { text: k, options: { bold: true, color: INK, fill: { color: SOFTBG }, fontFace: MONO, fontSize: 10.5 } },
+    { text: v, options: { color: BODY, fontSize: 11 } },
+  ]);
+  s.addTable(rowsData, { x, y: 1.78, w: 5.9, colW: [1.35, 4.55], rowH: 0.5, fontFace: UI, border: { pt: 1, color: LINE }, valign: "middle", margin: 0.08 });
+});
+s.addText("Pipeline A1, A2, A3 adalah tiga agen audit SiKePo: aturan deterministik, machine learning, dan adjudikasi LLM.", { x: M, y: 6.6, w: 12.3, h: 0.28, fontFace: UI, fontSize: 10.5, color: MUTED, margin: 0 });
+pagefoot(s, 14);
+
 /* ── S14 CLOSING (gelap) ──────────────────────────────── */
 s = p.addSlide();
 s.background = { color: INK };
@@ -400,8 +435,9 @@ s.addText([
 ], { x: M, y: 5.35, w: 6.5, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
 s.addText([
   { text: "Coba Namanya Ini · Decka Fadhila Tirta\n", options: { bold: true, color: "FFFFFF", fontSize: 13 } },
-  { text: "deckafadhila@gmail.com · decka.xyz", options: { color: "9DB2CC", fontSize: 11.5 } },
+  { text: "deckafadhila@gmail.com · dktirta.tech", options: { color: "9DB2CC", fontSize: 11.5 } },
 ], { x: 7.6, y: 5.35, w: 5.2, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
-s.addText("Healthkathon BPJS Kesehatan 2026", { x: M, y: 6.85, w: 8, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
+s.addText("Disclaimer: seluruh angka dan data yang ditampilkan berasal dari dataset demo sintetis, bukan data operasional BPJS Kesehatan.", { x: M, y: 6.62, w: 12.3, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
+s.addText("Healthkathon BPJS Kesehatan 2026", { x: M, y: 6.95, w: 8, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
 
 p.writeFile({ fileName: "C:/Users/Administrator/Downloads/Proposal_SiKePo_Healthkathon2026.pptx" }).then(() => console.log("PPTX selesai"));
