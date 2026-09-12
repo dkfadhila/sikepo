@@ -95,7 +95,7 @@ s.addText([
   { text: "Setiap skor disertai alasan yang dapat dibaca dan diaudit.", options: { bullet: bu(), breakLine: true } },
   { text: "AI memberi rekomendasi; verifikator yang memutuskan.", options: { bullet: bu() } },
 ], { x: M, y: 4.4, w: 12.33, h: 1.0, fontFace: UI, fontSize: 13.5, color: BODY, paraSpaceAfter: 12, margin: 0, align: "justify", align: "justify", lineSpacingMultiple: 1.45 });
-s.addImage({ path: A + "shot-claims.png", x: M, y: 5.62, w: 12.33, h: 1.5, sizing: { type: "cover", w: 12.33, h: 1.5 } });
+s.addImage({ path: A + "shot-claims-strip.png", x: M, y: 5.55, w: 12.33, h: 1.6, sizing: { type: "cover", w: 12.33, h: 1.5 } });
 pagefoot(s, 3);
 
 /* ── S4 B2 MASALAH & URGENSI ──────────────────────────── */
