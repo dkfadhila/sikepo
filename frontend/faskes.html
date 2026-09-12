@@ -3,156 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Faskes, SiKePo</title>
-  <meta name="description" content="Portal SIMRS faskes: kirim klaim ke mesin audit SiKePo (pipeline A1→A2→A3) via API terautentikasi.">
-  <meta name="theme-color" content="#0A1B33">
+  <title>Portal Faskes SiKePo</title>
+  <meta name="description" content="Portal Faskes SiKePo: kirim klaim untuk diaudit mesin sebelum keputusan verifikator.">
+  <meta name="theme-color" content="#FAFAFB">
   <link rel="icon" href="/static/favicon.ico" sizes="any">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#F6F7F9;--surface:#fff;--line:#E6E8EE;--line-soft:#EEF0F4;--ink:#0C1B2E;--navy:#0A2540;--body:#44546A;--muted:#7C8BA1;--green:#009B4C;--green-dark:#007C3D;--green-soft:#E7F6EE;--red:#D92D20;--red-soft:#FDECEA;--amber:#B54708;--amber-soft:#FCF1E4;--cyan:#0284A8;--cyan-soft:#E3F5FA;--blue:#175CD3;--blue-soft:#E9F0FB}
+    :root{--bg:#FAFAFB;--surface:#fff;--line:#ECEEF2;--line-soft:#F2F4F7;--ink:#0B1526;--navy:#0A2540;--body:#4A5568;--muted:#8291A6;--green:#009B4C;--green-dark:#007C3D;--green-soft:#E9F7EF;--red:#D92D20;--red-soft:#FDECEA;--amber:#B54708;--amber-soft:#FCF1E4;--cyan:#0284A8;--blue:#175CD3}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:var(--bg);color:var(--body);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh}
+    body{background:radial-gradient(56% 46% at 50% -6%,rgba(2,132,168,.06) 0%,transparent 60%),radial-gradient(40% 36% at 88% 104%,rgba(0,155,76,.05) 0%,transparent 58%),var(--bg);color:var(--body);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh}
     :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:6px}
-    .top{background:var(--navy);color:#fff;padding:0 20px;height:56px;display:flex;align-items:center;gap:12px}
-    .top img{height:26px}
-    .top b{font-family:'Space Grotesk',sans-serif;font-size:16px}
-    .top .sep{width:1px;height:18px;background:#24406B}
-    .top .sub{font-size:11.5px;color:#9DB2CC}
-    .top a{margin-left:auto;font-size:12.5px;font-weight:600;color:#D7E2F0;text-decoration:none;border:1px solid #24406B;padding:6px 12px;border-radius:8px}
-    .top a:hover{color:#fff;border-color:#3A5A8C}
-    .wrap{max-width:1060px;margin:0 auto;padding:32px 20px 60px}
-    h1{font-family:'Space Grotesk',sans-serif;font-size:24px;color:var(--ink);letter-spacing:-.02em}
-    .lead{font-size:14px;color:var(--body);margin-top:6px;max-width:640px;line-height:1.6}
-    .lead code{font-family:'JetBrains Mono',monospace;font-size:12px;background:#EDF0F4;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
-    @media(min-width:920px){.grid{grid-template-columns:7fr 5fr}}
-    .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-    .card-h{padding:12px 16px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;gap:8px}
-    .card-t{font-size:13px;font-weight:700;color:var(--ink)}
-    .card-s{font-size:11.5px;color:var(--muted)}
-    .card-b{padding:16px}
-    label{display:block;font-size:12px;font-weight:600;color:var(--ink);margin:0 0 4px}
-    .fg{margin-bottom:10px}
+    a{color:var(--green);text-decoration:none}
+    .top{max-width:560px;margin:0 auto;padding:28px 20px 0;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:9px}
+    .brand img{height:26px}
+    .brand b{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px;color:var(--navy);letter-spacing:-.02em}
+    .top-links{display:flex;gap:14px;font-size:12px;font-weight:600}
+    .top-links a{color:var(--muted)}
+    .top-links a:hover{color:var(--ink)}
+    .wrap{max-width:560px;margin:0 auto;padding:18px 20px 72px}
+    h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.025em;margin-top:22px}
+    .sub{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.55}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;margin-top:20px;box-shadow:0 1px 2px rgba(11,21,38,.04),0 16px 40px rgba(11,21,38,.06)}
+    label{display:block;font-size:11.5px;font-weight:600;color:var(--ink);margin:0 0 5px}
+    .fg{margin-bottom:12px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    input,select,textarea{width:100%;padding:8px 11px;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13.5px;font-family:inherit}
-    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,155,76,.12)}
-    input::placeholder,textarea::placeholder{color:#9AA8B9}
+    input,select{width:100%;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;color:var(--ink);font-size:13.5px;font-family:inherit}
+    input:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,155,76,.12)}
+    input::placeholder{color:#9AA8B9}
     .mono{font-family:'JetBrains Mono',monospace}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit}
-    .btn-p{background:var(--green);color:#fff}.btn-p:hover{background:var(--green-dark)}
-    .btn-p:disabled{background:#9AA8B9;cursor:not-allowed}
-    .btn-s{background:#fff;color:var(--ink);border:1px solid var(--line);padding:7px 12px;font-size:12px}.btn-s:hover{border-color:#C7CFDA;background:#FBFCFD}
-    .hint{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
-    .badge{display:inline-flex;padding:2px 9px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid transparent;font-family:'JetBrains Mono',monospace}
-    .b-g{background:var(--green-soft);color:#067647;border-color:#C6E8D5}
-    .b-r{background:var(--red-soft);color:#B42318;border-color:#F4CFCB}
-    .b-y{background:var(--amber-soft);color:var(--amber);border-color:#F2DCC2}
-    .res{margin-top:14px;display:none}
-    .res-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
-    .res-row:last-child{border:none}
-    .res-l{color:var(--muted)}
-    .res-v{color:var(--ink);font-weight:600;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px}
-    .err{display:none;margin-top:12px;background:var(--red-soft);border:1px solid #F4CFCB;color:#B42318;border-radius:9px;padding:10px 12px;font-size:12.5px}
-    .ok-note{display:none;margin-top:12px;background:var(--green-soft);border:1px solid #C6E8D5;color:#067647;border-radius:9px;padding:10px 12px;font-size:12.5px}
-    .flow{margin-top:10px;padding:12px 14px;background:var(--navy);border-radius:10px;color:#9DB2CC;font-size:11.5px;line-height:1.7}
-    .flow b{color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px}
-    a{color:var(--green)}
+    .sect{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+    .sect::after{content:'';flex:1;height:1px;background:var(--line-soft)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;border-radius:999px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:inherit;background:var(--green);color:#fff;box-shadow:0 1px 2px rgba(0,124,61,.3),0 8px 24px rgba(0,155,76,.18);transition:background .15s}
+    .btn:hover{background:var(--green-dark)}
+    .btn:disabled{background:#9AA8B9;cursor:not-allowed;box-shadow:none}
+    .tiny{font-size:11px;color:var(--muted);text-align:center;margin-top:12px}
+    .tiny a{font-weight:600}
+    .err{display:none;margin-top:14px;background:var(--red-soft);border:1px solid #F6D3CF;color:#B42318;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.5}
+    .res{display:none;margin-top:16px;border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}
+    .res-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .badge{display:inline-flex;padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:700;border:1px solid transparent}
+    .b-g{background:var(--green-soft);color:#067647;border-color:#C9E9D8}
+    .b-r{background:var(--red-soft);color:#B42318;border-color:#F6D3CF}
+    .b-y{background:var(--amber-soft);color:var(--amber);border-color:#F4DFC8}
+    .rrow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
+    .rrow:last-of-type{border:none}
+    .rl{color:var(--muted)}
+    .rv{color:var(--ink);font-weight:600;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px}
+    .rv-plain{font-family:'Inter',sans-serif;text-align:right}
+    .note{display:none;margin-top:12px;background:var(--green-soft);border:1px solid #C9E9D8;color:#067647;border-radius:12px;padding:10px 13px;font-size:12.5px}
+    .note a{font-weight:700}
   </style>
 </head>
 <body>
-  <header class="top">
-    <img src="/static/img/sikepo-logo.png" alt="SiKePo">
-    <b>SiKePo</b><span class="sep"></span><span class="sub">Portal Faskes · Integrasi SIMRS</span>
-    <a href="/app">Buka Cockpit ↗</a>
-  </header>
+  <div class="top">
+    <div class="brand">
+      <img src="/static/img/sikepo-logo.png" alt="SiKePo">
+      <b>SiKePo</b>
+    </div>
+    <nav class="top-links">
+      <a href="/pages/faskes-panduan.html">Panduan</a>
+      <a href="/app">Cockpit</a>
+    </nav>
+  </div>
 
   <main class="wrap">
-    <h1>Kirim klaim ke mesin audit</h1>
-    <p class="lead">
-      Sisi rumah sakit: SIMRS faskes mendorong klaim baru ke SiKePo lewat
-      <code>POST /api/ingest/claims</code> dengan header <code>X-API-Key</code>. Klaim langsung
-      diaudit pipeline <b>A1 Triage → A2 Investigator → A3 Adjudicator (Ling 3.0 Flash Sante)</b>
-      begitu diterima, skor risiko dan rekomendasi kembali dalam hitungan detik.
-    </p>
+    <h1>Kirim Klaim</h1>
+    <p class="sub">Klaim yang dikirim langsung dinilai mesin audit, hasilnya tampil seketika.</p>
 
-    <div class="grid">
-      <!-- FORM -->
-      <div class="card">
-        <div class="card-h"><span class="card-t">Formulir pengiriman klaim</span><span class="card-s">idempoten per SEP</span></div>
-        <div class="card-b">
-          <div class="row">
-            <div class="fg"><label>Kode faskes</label>
-              <select id="f-faskes">
-                <option value="FKRTL-001">FKRTL-001 · RSUP Dr. Sardjito</option>
-                <option value="FKRTL-002">FKRTL-002 · RSUD Tarakan</option>
-                <option value="FKRTL-003">FKRTL-003 · RS Hermina Kemayoran</option>
-                <option value="FKRTL-004">FKRTL-004 · RS Siloam Kebon Jeruk</option>
-                <option value="FKRTL-005">FKRTL-005 · RSUD Dr. Soetomo</option>
-                <option value="FKRTL-006">FKRTL-006 · RS Bhayangkara Sartika Asih</option>
-                <option value="FKRTL-007">FKRTL-007 · RS Sentra Medika Cikarang</option>
-                <option value="FKRTL-008">FKRTL-008 · RSUD Al-Ihsan</option>
-              </select>
-            </div>
-            <div class="fg"><label>SEP / ID klaim (opsional)</label><input id="f-sep" class="mono" placeholder="kosongkan = auto-generate"></div>
-          </div>
-          <div class="fg"><label>API key faskes</label><input id="f-key" class="mono" placeholder="sk_… (minta ke Super Admin SiKePo)" autocomplete="off"></div>
-          <div class="row3">
-            <div class="fg"><label>Nama pasien</label><input id="f-nama" placeholder="Nama pasien"></div>
-            <div class="fg"><label>Gender</label><select id="f-gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
-            <div class="fg"><label>Usia</label><input id="f-usia" type="number" min="0" max="120" value="45"></div>
-          </div>
-          <div class="row3">
-            <div class="fg"><label>ICD-10</label><input id="f-icd" class="mono" value="J18.9"></div>
-            <div class="fg" style="grid-column:span 2"><label>Diagnosa</label><input id="f-diag" value="Pneumonia Akut"></div>
-          </div>
-          <div class="row3">
-            <div class="fg"><label>Norma LOS (hari)</label><input id="f-losnorm" type="number" min="1" value="5"></div>
-            <div class="fg"><label>Lama rawat (hari)</label><input id="f-los" type="number" min="1" value="7"></div>
-            <div class="fg"><label>Tarif INA-CBG (Rp)</label><input id="f-tarif" type="number" class="mono" value="5900000"></div>
-          </div>
-          <div class="fg"><label>Biaya diajukan (Rp)</label><input id="f-biaya" type="number" class="mono" value="8300000"></div>
-          <div class="fg"><label>Obat (pisahkan koma)</label><input id="f-obat" value="Azithromycin, Ambroxol, Ceftriaxone"></div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-            <button class="btn btn-p" id="btn-kirim" style="flex:1" onclick="kirimKlaim()">Kirim ke mesin audit →</button>
-            <button class="btn btn-s" type="button" onclick="prefill('clean')">Contoh: klaim bersih</button>
-            <button class="btn btn-s" type="button" onclick="prefill('fishy')">Contoh: mencurigakan</button>
-          </div>
-          <p class="hint">API key dikelola Super Admin di Cockpit › Users › API Ingest Faskes. Key terikat satu faskes, klaim untuk faskes lain akan ditolak 403.</p>
-          <div class="err" id="f-err"></div>
-        </div>
+    <div class="card">
+      <div class="fg">
+        <label>Faskes</label>
+        <select id="f-faskes">
+          <option value="FKRTL-001">RSUP Dr. Sardjito</option>
+          <option value="FKRTL-002">RSUD Tarakan</option>
+          <option value="FKRTL-003">RS Hermina Kemayoran</option>
+          <option value="FKRTL-004">RS Siloam Kebon Jeruk</option>
+          <option value="FKRTL-005">RSUD Dr. Soetomo</option>
+          <option value="FKRTL-006">RS Bhayangkara Sartika Asih</option>
+          <option value="FKRTL-007">RS Sentra Medika Cikarang</option>
+          <option value="FKRTL-008">RSUD Al-Ihsan</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Kunci API</label>
+        <input id="f-key" class="mono" placeholder="Kunci dari admin SiKePo" autocomplete="off">
       </div>
 
-      <!-- HASIL -->
-      <div>
-        <div class="card">
-          <div class="card-h"><span class="card-t">Hasil audit mesin</span><span class="card-s" id="r-id">, </span></div>
-          <div class="card-b">
-            <div id="r-empty" style="text-align:center;padding:28px 8px;color:var(--muted);font-size:13px">
-              Hasil skor risiko &amp; rekomendasi mesin akan tampil di sini setelah klaim dikirim.
-            </div>
-            <div class="res" id="r-box">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px">
-                <span class="badge b-y" id="r-status">, </span>
-                <span class="mono" style="font-size:12px;color:var(--ink);font-weight:700" id="r-risk">, </span>
-              </div>
-              <div class="res-row"><span class="res-l">Modus terdeteksi</span><span class="res-v" id="r-fraud">, </span></div>
-              <div class="res-row"><span class="res-l">Rekomendasi mesin</span><span class="res-v" id="r-rek" style="font-family:'Inter';text-align:right">, </span></div>
-              <div class="res-row"><span class="res-l">Selisih di atas plafon</span><span class="res-v" id="r-selisih">, </span></div>
-              <div style="margin-top:10px;font-size:12px;color:var(--body);line-height:1.6" id="r-reasons"></div>
-              <div class="ok-note" id="r-note">Klaim sudah masuk antrean Cockpit, verifikator tinggal memutuskan.</div>
-              <a href="/app" style="display:inline-flex;margin-top:10px;font-size:12.5px;font-weight:600;text-decoration:none">Lihat di Cockpit →</a>
-            </div>
-          </div>
-        </div>
-        <div class="flow">
-          Alur produksi: <b>SIMRS</b> → POST /api/ingest/claims (X-API-Key) → <b>A1</b> rules →
-          <b>A2</b> IsolationForest → <b>A3</b> Ling 3.0 Flash Sante → <b>antrean verifier</b> →
-          verdict manusia. Idempoten: SEP yang sama tidak pernah diproses dua kali.
-        </div>
+      <div class="sect">Pasien</div>
+      <div class="row">
+        <div class="fg" style="grid-column:span 2"><label>Nama pasien</label><input id="f-nama" placeholder="Nama lengkap"></div>
+        <div class="fg"><label>Usia</label><input id="f-usia" type="number" min="0" max="120" value="45"></div>
       </div>
+      <div class="fg"><label>Gender</label>
+        <select id="f-gender"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>
+      </div>
+
+      <div class="sect">Rawat inap</div>
+      <div class="row">
+        <div class="fg"><label>ICD-10</label><input id="f-icd" class="mono" value="J18.9"></div>
+        <div class="fg"><label>Diagnosa</label><input id="f-diag" value="Pneumonia Akut"></div>
+      </div>
+      <div class="row3">
+        <div class="fg"><label>Norma LOS</label><input id="f-losnorm" type="number" min="1" value="5"></div>
+        <div class="fg"><label>Lama rawat</label><input id="f-los" type="number" min="1" value="7"></div>
+        <div class="fg"><label>Plafon CBG</label><input id="f-tarif" type="number" class="mono" value="5900000"></div>
+      </div>
+      <div class="fg"><label>Biaya diajukan (Rp)</label><input id="f-biaya" type="number" class="mono" value="8300000"></div>
+      <div class="fg"><label>Obat (pisahkan koma)</label><input id="f-obat" value="Azithromycin, Ambroxol, Ceftriaxone"></div>
+
+      <button class="btn" id="btn-kirim" onclick="kirimKlaim()">Kirim untuk diaudit</button>
+      <p class="tiny">Butuh kunci API? Hubungi admin SiKePo. <a href="/pages/faskes-panduan.html">Panduan lengkap</a></p>
+      <div class="err" id="f-err"></div>
+    </div>
+
+    <div class="res" id="r-box">
+      <div class="res-top">
+        <span class="badge b-y" id="r-status">.</span>
+        <span class="rv" id="r-risk">.</span>
+      </div>
+      <div class="rrow"><span class="rl">Nomor SEP</span><span class="rv" id="r-sep">.</span></div>
+      <div class="rrow"><span class="rl">Modus terdeteksi</span><span class="rv" id="r-fraud">.</span></div>
+      <div class="rrow"><span class="rl">Rekomendasi mesin</span><span class="rv rv-plain" id="r-rek">.</span></div>
+      <div class="rrow"><span class="rl">Selisih di atas plafon</span><span class="rv" id="r-selisih">.</span></div>
+      <div class="note" id="r-note">Masuk antrean Cockpit, verifikator tinggal memutuskan. <a href="/app">Buka Cockpit →</a></div>
     </div>
   </main>
 
@@ -161,21 +138,8 @@ const $ = (id) => document.getElementById(id);
 const FASKES_NAMA = { 'FKRTL-001': 'RSUP Dr. Sardjito', 'FKRTL-002': 'RSUD Tarakan', 'FKRTL-003': 'RS Hermina Kemayoran', 'FKRTL-004': 'RS Siloam Kebon Jeruk', 'FKRTL-005': 'RSUD Dr. Soetomo', 'FKRTL-006': 'RS Bhayangkara Sartika Asih', 'FKRTL-007': 'RS Sentra Medika Cikarang', 'FKRTL-008': 'RSUD Al-Ihsan' };
 const KOTA = { 'FKRTL-001': 'Yogyakarta', 'FKRTL-002': 'Jakarta Pusat', 'FKRTL-003': 'Jakarta Pusat', 'FKRTL-004': 'Jakarta Barat', 'FKRTL-005': 'Surabaya', 'FKRTL-006': 'Bandung', 'FKRTL-007': 'Bekasi', 'FKRTL-008': 'Bandung' };
 
-// API key terakhir dipakai: simpan lokal agar operator tidak mengetik ulang
 $('f-key').value = localStorage.getItem('sikepo_faskes_key') || '';
 $('f-key').addEventListener('change', () => localStorage.setItem('sikepo_faskes_key', $('f-key').value.trim()));
-
-function prefill(kind) {
-  if (kind === 'clean') {
-    $('f-icd').value = 'A01.0'; $('f-diag').value = 'Demam Tifoid'; $('f-losnorm').value = 4;
-    $('f-los').value = 4; $('f-tarif').value = 3800000; $('f-biaya').value = 3790000;
-    $('f-obat').value = 'Ceftriaxone, Paracetamol';
-  } else {
-    $('f-icd').value = 'J18.9'; $('f-diag').value = 'Pneumonia Akut'; $('f-losnorm').value = 5;
-    $('f-los').value = 11; $('f-tarif').value = 5900000; $('f-biaya').value = 15800000;
-    $('f-obat').value = 'Azithromycin, Meropenem Inj 1g, Human Albumin 20%, Imunoglobulin';
-  }
-}
 
 function showErr(msg) { const e = $('f-err'); e.style.display = 'block'; e.textContent = msg; }
 
@@ -183,8 +147,8 @@ async function kirimKlaim() {
   const key = $('f-key').value.trim();
   const kode = $('f-faskes').value;
   const err = $('f-err'); err.style.display = 'none';
-  if (!key) { showErr('Isi API key faskes terlebih dahulu (minta ke Super Admin).'); return; }
-  const btn = $('btn-kirim'); btn.disabled = true; btn.textContent = 'Mengaudit A1 → A2 → A3…';
+  if (!key) { showErr('Isi kunci API terlebih dahulu. Hubungi admin SiKePo bila belum memilikinya.'); return; }
+  const btn = $('btn-kirim'); btn.disabled = true; btn.textContent = 'Mengaudit…';
   const body = {
     faskes_kode: kode, faskes_nama: FASKES_NAMA[kode], faskes_kota: KOTA[kode] || '-',
     pasien: { nama: $('f-nama').value.trim() || 'Tanpa Nama', gender: $('f-gender').value, usia: +$('f-usia').value || 40 },
@@ -192,33 +156,32 @@ async function kirimKlaim() {
     los: +$('f-los').value || 1, biaya_diajukan: +$('f-biaya').value || 0, tarif_ina_cbg: +$('f-tarif').value || 0,
     obat: $('f-obat').value.split(/[,\n]/).map(s => s.trim()).filter(Boolean)
   };
-  const sep = $('f-sep').value.trim(); if (sep) body.id = sep;
   try {
     const r = await fetch('/api/ingest/claims', { method: 'POST', headers: { 'X-API-Key': key, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const d = await r.json();
-    if (r.status === 401 || r.status === 403) { showErr(d.detail || 'API key ditolak server.'); return; }
-    if (!r.ok) { showErr(d.detail ? (typeof d.detail === 'string' ? d.detail : 'Payload tidak valid, periksa isian.') : 'Gagal mengirim klaim.'); return; }
-    $('r-empty').style.display = 'none'; $('r-box').style.display = 'block';
-    $('r-id').textContent = d.id;
+    if (r.status === 401 || r.status === 403) { showErr(d.detail || 'Kunci API ditolak server.'); return; }
+    if (!r.ok) { showErr(d.detail ? (typeof d.detail === 'string' ? d.detail : 'Periksa kembali isian formulir.') : 'Gagal mengirim klaim.'); return; }
+    $('r-box').style.display = 'block';
+    $('r-sep').textContent = d.id;
     if (d.status === 'already_ingested') {
-      $('r-status').textContent = 'SUDAH PERNAH DITERIMA'; $('r-status').className = 'badge b-y';
-      $('r-risk').textContent = ', '; $('r-fraud').textContent = ', '; $('r-rek').textContent = d.message || 'Idempoten.';
-      $('r-reasons').textContent = ''; $('r-selisih').textContent = ', '; $('r-note').style.display = 'none';
+      $('r-status').textContent = 'SUDAH TERDAFTAR'; $('r-status').className = 'badge b-y';
+      $('r-risk').textContent = '.'; $('r-fraud').textContent = '.'; $('r-rek').textContent = d.message || 'Idempoten.';
+      $('r-selisih').textContent = '.'; $('r-note').style.display = 'none';
       return;
     }
     const st = d.claim_status || 'PENDING_AUDIT';
-    $('r-status').textContent = st === 'APPROVED' ? 'SIAP BAYAR' : st === 'REJECTED' ? 'DITOLAK · ESKALASI' : 'TAHAN · AUDIT RM';
+    $('r-status').textContent = st === 'APPROVED' ? 'SIAP BAYAR' : st === 'REJECTED' ? 'DITOLAK, ESKALASI' : 'TAHAN, AUDIT RM';
     $('r-status').className = 'badge ' + (st === 'APPROVED' ? 'b-g' : st === 'REJECTED' ? 'b-r' : 'b-y');
     $('r-risk').textContent = 'RISIKO ' + d.risk_score;
     $('r-fraud').textContent = d.fraud_type;
     $('r-rek').textContent = d.rekomendasi || '-';
     const selisih = Math.max(0, (+$('f-biaya').value || 0) - (+$('f-tarif').value || 0));
     $('r-selisih').textContent = 'Rp ' + selisih.toLocaleString('id-ID');
-    $('r-reasons').textContent = ''; $('r-note').style.display = 'block';
+    $('r-note').style.display = 'block';
   } catch (e2) {
     showErr('Tidak dapat menghubungi server. Coba beberapa saat lagi.');
   } finally {
-    btn.disabled = false; btn.textContent = 'Kirim ke mesin audit →';
+    btn.disabled = false; btn.textContent = 'Kirim untuk diaudit';
   }
 }
 </script>

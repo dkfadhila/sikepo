@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Portal Faskes — SiKePo</title>
+  <meta name="description" content="Panduan integrasi SIMRS faskes dengan mesin audit SiKePo: kunci API, pengiriman klaim, dan hasil audit.">
+  <meta name="theme-color" content="#FAFAFB">
+  <link rel="icon" href="/static/favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors: { bpjs: { navy: '#0A2540', green: '#009B4C', greendark: '#007C3D', greensoft: '#E9F7EF', cyan: '#0284A8', ink: '#0B1526', body: '#4A5568', muted: '#8291A6', line: '#ECEEF2', bg: '#FAFAFB' } },
+      fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'], display: ['Plus Jakarta Sans','Inter','sans-serif'] }
+    } } }
+  </script>
+  <link rel="stylesheet" href="/static/css/theme.css?v=15">
+</head>
+<body class="font-sans antialiased">
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <img src="/static/img/sikepo-logo.png" alt="Logo SiKePo" class="h-7 w-auto">
+        <b>SiKePo</b>
+      </a>
+      <div class="nav-links hidden md:flex">
+        <a href="/faskes" class="nav-link active">Portal Faskes</a>
+        <a href="/pages/overview.html" class="nav-link">Overview</a>
+        <a href="/pages/how-it-works.html" class="nav-link">Cara Kerja</a>
+        <a href="/app" class="nav-link">Cockpit</a>
+      </div>
+      <a href="/faskes" class="nav-cta-mini">Kirim Klaim</a>
+      <!-- Hamburger mobile di-inject oleh shared.js (initMobileNav) -->
+    </div>
+  </nav>
+
+  <main class="fade-in" style="padding-top:104px">
+    <section class="py-12 lg:py-16 bg-white border-b border-bpjs-line">
+      <div class="max-w-[820px] mx-auto px-5 lg:px-8">
+        <p class="eyebrow">Panduan integrasi</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-bpjs-ink tracking-tight mt-3" style="font-family:'Plus Jakarta Sans',sans-serif">Portal Faskes</h1>
+        <p class="text-[15.5px] text-bpjs-body mt-4 leading-relaxed">
+          Portal Faskes adalah kanal resmi bagi sistem informasi rumah sakit (SIMRS) untuk
+          <strong class="text-bpjs-ink">mengirim klaim baru ke mesin audit SiKePo</strong>. Setiap klaim
+          yang masuk langsung dinilai pipeline A1, A2, dan A3, kemudian diteruskan ke antrean
+          verifikator di Cockpit. Tidak ada klaim yang dibayar sebelum melewati jalur ini.
+        </p>
+      </div>
+    </section>
+
+    <section class="py-12 lg:py-16">
+      <div class="max-w-[820px] mx-auto px-5 lg:px-8 space-y-6">
+
+        <div class="card p-6 sm:p-8" data-reveal>
+          <p class="eyebrow mb-5">Langkah memulai</p>
+          <div class="space-y-5">
+            <div class="flex gap-4">
+              <span class="step-num">1</span>
+              <div>
+                <div class="text-[14px] font-bold text-bpjs-ink">Minta kunci API</div>
+                <p class="text-[13px] text-bpjs-body leading-relaxed mt-1">Setiap faskes mendapat satu kunci API dari Super Admin SiKePo. Kunci berlaku khusus untuk faskes anda dan dapat dinonaktifkan sewaktu-waktu.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="step-num">2</span>
+              <div>
+                <div class="text-[14px] font-bold text-bpjs-ink">Kirim klaim</div>
+                <p class="text-[13px] text-bpjs-body leading-relaxed mt-1">Buka <a href="/faskes" class="text-bpjs-green font-semibold">Portal Faskes</a>, lengkapi data pasien, rawat inap, dan farmasi, lalu tekan kirim. Sistem menolak nomor SEP yang sama bila dikirim dua kali.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="step-num">3</span>
+              <div>
+                <div class="text-[14px] font-bold text-bpjs-ink">Terima hasil audit</div>
+                <p class="text-[13px] text-bpjs-body leading-relaxed mt-1">Skor risiko, modus yang terdeteksi, dan rekomendasi mesin tampil seketika. Klaim otomatis masuk antrean Cockpit untuk keputusan verifikator.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card p-6 sm:p-8" data-reveal>
+          <p class="eyebrow mb-5">Integrasi sistem (untuk pengelola SIMRS)</p>
+          <p class="text-[13.5px] text-bpjs-body leading-relaxed mb-5">SIMRS dapat mengirim klaim langsung tanpa formulir, melalui satu endpoint berikut.</p>
+          <div class="overflow-x-auto">
+            <table class="tbl-light">
+              <thead><tr><th>Bagian</th><th>Nilai</th></tr></thead>
+              <tbody>
+                <tr class="row-hover"><td class="font-semibold text-bpjs-ink">Endpoint</td><td><code class="text-[12px] text-bpjs-ink">POST /api/ingest/claims</code></td></tr>
+                <tr class="row-hover"><td class="font-semibold text-bpjs-ink">Header</td><td><code class="text-[12px] text-bpjs-ink">X-API-Key: &lt;kunci faskes&gt;</code></td></tr>
+                <tr class="row-hover"><td class="font-semibold text-bpjs-ink">Format</td><td class="text-[12.5px]">JSON: faskes_kode, faskes_nama, pasien (nama, gender, usia), diagnosa (icd10, nama, los_norm), los, biaya_diajukan, tarif_ina_cbg, obat</td></tr>
+                <tr class="row-hover"><td class="font-semibold text-bpjs-ink">Respons</td><td class="text-[12.5px]">id (SEP), risk_score, fraud_type, claim_status, rekomendasi</td></tr>
+                <tr class="row-hover"><td class="font-semibold text-bpjs-ink">Idempoten</td><td class="text-[12.5px]">SEP identik hanya diproses sekali</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-[12.5px] text-bpjs-body leading-relaxed mt-5 mb-3">Contoh pengiriman lewat terminal:</p>
+          <pre class="text-[11.5px] leading-relaxed text-bpjs-ink bg-bpjs-bg border border-bpjs-line rounded-xl p-4 overflow-x-auto">curl -X POST https://host-anda/api/ingest/claims \
+  -H "X-API-Key: sk_kunci_faskes" \
+  -H "Content-Type: application/json" \
+  -d '{"faskes_kode":"FKRTL-001","faskes_nama":"RSUP Dr. Sardjito",
+       "pasien":{"nama":"Budi Santoso","gender":"L","usia":55},
+       "diagnosa":{"icd10":"J18.9","nama":"Pneumonia Akut","los_norm":5},
+       "los":7,"biaya_diajukan":8300000,"tarif_ina_cbg":5900000,
+       "obat":["Azithromycin","Ceftriaxone"]}'</pre>
+        </div>
+
+        <div class="card p-6 sm:p-8" data-reveal>
+          <p class="eyebrow mb-5">Aturan penting</p>
+          <ul class="space-y-3 text-[13.5px] text-bpjs-body leading-relaxed">
+            <li class="flex gap-3"><span class="text-bpjs-green font-bold">✓</span>Satu kunci API berlaku untuk satu faskes. Pengiriman atas nama faskes lain akan ditolak.</li>
+            <li class="flex gap-3"><span class="text-bpjs-green font-bold">✓</span>Kunci hilang atau terkirim ke pihak lain? Minta Super Admin membuat pengganti, kunci lama langsung nonaktif.</li>
+            <li class="flex gap-3"><span class="text-bpjs-green font-bold">✓</span>Skor risiko bersifat rekomendasi. Keputusan akhir tetap di tangan verifikator BPJS Kesehatan.</li>
+          </ul>
+        </div>
+
+        <div class="text-center pt-2" data-reveal>
+          <a href="/faskes" class="btn-primary px-7 py-3.5 text-[15px]">Buka Portal Faskes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="background:#fff;border-top:1px solid var(--line);color:var(--body)">
+    <div class="max-w-[820px] mx-auto px-5 lg:px-8 py-8 text-[11.5px] text-bpjs-muted flex flex-col sm:flex-row justify-between gap-2">
+      <span>© 2026 SiKePo · BPJS Kesehatan Healthkathon</span>
+      <span>Detect Smarter. Protect JKN.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
+  <script src="/static/js/shared.js?v=7"></script>
+  <script src="/static/js/animations.js?v=9"></script>
+</body>
+</html>

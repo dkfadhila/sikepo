@@ -733,6 +733,39 @@ async function createApiKey(e) {
   } catch { note.style.display = 'block'; note.textContent = 'Gagal menghubungi server.'; }
 }
 
+/* ── Sinkronisasi otomatis (audit control) ─────────────────
+   Saat Cockpit terbuka: klaim baru dari Portal Faskes muncul
+   sendiri di antrean (plus toast), dan KPI dashboard terbarui
+   tanpa reload. Polling ringan 8 detik, berhenti saat tab hidden. */
+let syncBusy = false;
+async function silentSyncClaims() {
+  if (syncBusy) return;
+  syncBusy = true;
+  try {
+    const status = document.getElementById('filter-status')?.value || 'ALL';
+    const ft = document.getElementById('filter-fraud-type')?.value || 'ALL';
+    let url = '/api/claims?limit=200';
+    if (status !== 'ALL') url += `&status=${status}`;
+    if (ft !== 'ALL') url += `&fraud_type=${ft}`;
+    const r = await af(url); if (!r) return;
+    const items = (await r.json()).items || [];
+    const prevFirst = claimsData[0]?.id;
+    const incoming = items[0]?.id;
+    if (prevFirst && incoming && incoming !== prevFirst && !claimsData.some(c => c.id === incoming)) {
+      showToast('Klaim baru masuk: ' + incoming, 'info');
+    }
+    claimsData = items;
+    populateFaskesFilter();
+    applyClientFilters();
+  } catch {} finally { syncBusy = false; }
+}
+
+setInterval(() => {
+  if (document.hidden || !currentUser) return;
+  if (activeTab === 'claims') silentSyncClaims();
+  if (activeTab === 'dashboard') fetchStats();
+}, 8000);
+
 /* ── SIMRS Intake Simulator ──────────────────────────────── */
 let simrsState = { auto_enabled: false, interval_sec: 30, pushed_count: 0, last_sep: null, last_push_at: null };
 
