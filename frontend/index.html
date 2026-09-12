@@ -88,8 +88,6 @@
                    width="1400" height="933" class="hero-img" decoding="async">
             </picture>
             <div class="scan-beam" aria-hidden="true"></div>
-            <div class="stage-chip stage-chip-l" aria-hidden="true"><span class="sc-dot sc-green"></span>SEP-…0151 · Disetujui</div>
-            <div class="stage-chip stage-chip-r" aria-hidden="true"><span class="sc-dot sc-red"></span>Risiko 99 · Eskalasi</div>
             <div class="hud-float" role="status" aria-label="Statistik live">
               <span class="hud-chip-f"><b id="hud-total">—</b> klaim diproses</span>
               <span class="hud-chip-f"><b class="t-amber" id="hud-fraud">—</b> anomali</span>
@@ -98,6 +96,9 @@
               <span class="hud-live"><span class="dot"></span>LIVE</span>
             </div>
           </div>
+          <!-- Chips di LUAR panel: overflow:hidden panel (untuk scan-beam) memotong chip yang menempel di tepinya -->
+          <div class="stage-chip stage-chip-l" aria-hidden="true"><span class="sc-dot sc-green"></span>SEP-…0151 · Disetujui</div>
+          <div class="stage-chip stage-chip-r" aria-hidden="true"><span class="sc-dot sc-red"></span>Risiko 99 · Eskalasi</div>
         </div>
       </div>
     </header>
