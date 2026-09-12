@@ -62,7 +62,10 @@ function showCockpit() {
     bb.classList.add('show');
   }
   applyPerms();
-  switchTab('dashboard');
+  // Deep-link tab via hash (#claims, #sandbox, #data, #users) agar
+  // antrean/fitur tertentu bisa dibagikan sebagai URL langsung.
+  const hashTab = location.hash.replace('#', '');
+  switchTab(['claims', 'sandbox', 'data', 'users'].includes(hashTab) ? hashTab : 'dashboard');
 }
 
 function logoutUser() {
