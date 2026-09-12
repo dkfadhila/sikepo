@@ -48,7 +48,7 @@ s.addText([
   { text: "Coba Namanya Ini", options: { bold: true, color: "FFFFFF" } },
   { text: "   Decka Fadhila Tirta", options: { color: "AAB9CB" } },
 ], { x: M, y: 6.22, w: 6.5, h: 0.32, fontFace: UI, fontSize: 13, margin: 0 });
-s.addText("Healthkathon BPJS Kesehatan 2026 · Efisiensi00A0Risiko", { x: M, y: 6.58, w: 6.5, h: 0.3, fontFace: UI, fontSize: 11, color: "64809F", margin: 0 });
+s.addText("Healthkathon BPJS Kesehatan 2026 · Efisiensi Risiko", { x: M, y: 6.58, w: 6.5, h: 0.3, fontFace: UI, fontSize: 11, color: "64809F", margin: 0 });
 s.addText("Detect Smarter. Protect JKN.", { x: 7.6, y: 6.75, w: 5.2, h: 0.4, fontFace: DISP, fontSize: 15, bold: true, color: "35D08F", align: "right", margin: 0 });
 
 /* ── S2 KATEGORI & SUB-KATEGORI ───────────────────────── */
