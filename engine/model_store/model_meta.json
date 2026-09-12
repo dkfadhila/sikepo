@@ -1,9 +1,9 @@
 {
   "trained": true,
-  "trained_at": "2026-09-07 22:01:23",
+  "trained_at": "2026-09-12 12:44:18",
   "n_samples": 150,
   "n_fraud_samples": 61,
-  "model_version": "IF-200-202609072201",
+  "model_version": "IF-200-202609121244",
   "algorithm": "IsolationForest",
   "features": [
     "ratio_cbg",
