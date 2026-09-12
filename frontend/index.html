@@ -33,7 +33,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="/static/css/theme.css?v=12">
+  <link rel="stylesheet" href="/static/css/theme.css?v=13">
 </head>
 <body class="font-sans antialiased">
 
@@ -60,6 +60,8 @@
 
     <!-- ── HERO: terpusat, mesin sebagai panggung ──────────── -->
     <header class="hero">
+      <div class="blob blob-1" aria-hidden="true"></div>
+      <div class="blob blob-2" aria-hidden="true"></div>
       <div class="wrap">
         <div class="hero-inner" data-hero-intro>
           <span class="hero-pill"><span class="dot"></span>Healthkathon BPJS Kesehatan 2026</span>
@@ -103,17 +105,16 @@
       </div>
     </header>
 
-    <!-- ── STRIP KOSAKATA DOMAIN ───────────────────────────── -->
+    <!-- ── STRIP KOSAKATA DOMAIN (marquee) ─────────────────── -->
     <section class="domain-strip" aria-label="Ekosistem klaim JKN">
       <div class="wrap">
         <span class="d-label">Ekosistem</span>
-        <span class="d-item">INA-CBG</span>
-        <span class="d-item">ICD-10</span>
-        <span class="d-item">e-Fornas</span>
-        <span class="d-item">SEP</span>
-        <span class="d-item">SIMRS</span>
-        <span class="d-item">Faskes KC/PC</span>
-        <span class="d-item">Antrean Verifikator</span>
+        <div class="d-marquee">
+          <div class="d-track">
+            <span>INA-CBG</span><span>ICD-10</span><span>e-Fornas</span><span>SEP</span><span>SIMRS</span><span>Faskes KC/PC</span><span>Antrean Verifikator</span><span>Verdict Terpandu AI</span>
+            <span aria-hidden="true">INA-CBG</span><span aria-hidden="true">ICD-10</span><span aria-hidden="true">e-Fornas</span><span aria-hidden="true">SEP</span><span aria-hidden="true">SIMRS</span><span aria-hidden="true">Faskes KC/PC</span><span aria-hidden="true">Antrean Verifikator</span><span aria-hidden="true">Verdict Terpandu AI</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -380,6 +381,6 @@
   <script src="https://cdn.jsdelivr.net/npm/motion@11/dist/motion.js"></script>
   <script src="/static/js/shared.js?v=6"></script>
   <script src="/static/js/landing.js?v=8"></script>
-  <script src="/static/js/animations.js?v=5"></script>
+  <script src="/static/js/animations.js?v=8"></script>
 </body>
 </html>
