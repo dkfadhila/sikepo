@@ -3,7 +3,7 @@ const pptxgen = require("pptxgenjs");
 
 const p = new pptxgen();
 p.layout = "LAYOUT_WIDE";
-p.author = "Tim KePo";
+p.author = "Coba Namanya Ini";
 p.title = "SiKePo — Proposal Healthkathon 2026";
 
 const W = 13.33, H = 7.5, M = 0.5;
@@ -45,7 +45,7 @@ s.addText([
 s.addText("Pipeline audit A1 Triage, A2 Investigator, dan A3 Adjudicator bertumpu pada LLM medis Ling 3.0 Flash Sante. Skor risiko 0-100 dengan bukti terbaca, keputusan akhir tetap milik verifikator.", { x: M, y: 4.72, w: 6.9, h: 0.95, fontFace: UI, fontSize: 13.5, color: "AAB9CB", margin: 0, lineSpacingMultiple: 1.4 });
 s.addShape(p.shapes.LINE, { x: M, y: 6.05, w: 6.4, h: 0, line: { color: "24406B", width: 1 } });
 s.addText([
-  { text: "Tim KePo", options: { bold: true, color: "FFFFFF" } },
+  { text: "Coba Namanya Ini", options: { bold: true, color: "FFFFFF" } },
   { text: "   Decka Fadhila Tirta", options: { color: "AAB9CB" } },
 ], { x: M, y: 6.22, w: 6.5, h: 0.32, fontFace: UI, fontSize: 13, margin: 0 });
 s.addText("Healthkathon BPJS Kesehatan 2026 · Efisiensi00A0Risiko", { x: M, y: 6.58, w: 6.5, h: 0.3, fontFace: UI, fontSize: 11, color: "64809F", margin: 0 });
@@ -97,8 +97,8 @@ s.addText([
 ], { x: M, y: 4.9, w: 7.3, h: 1.7, fontFace: UI, fontSize: 13, color: BODY, paraSpaceAfter: 8, margin: 0 });
 s.addShape(p.shapes.ROUNDED_RECTANGLE, { x: 8.35, y: 1.72, w: 4.48, h: 4.88, fill: { color: INK }, rectRadius: 0.12 });
 s.addText("TIM", { x: 8.7, y: 2.0, w: 3, h: 0.28, fontFace: UI, fontSize: 10, bold: true, color: "35D08F", charSpacing: 3, margin: 0 });
-s.addText("Tim KePo", { x: 8.7, y: 2.3, w: 3.8, h: 0.45, fontFace: DISP, fontSize: 22, bold: true, color: "FFFFFF", margin: 0 });
-s.addText("Kami memang kepo, makanya fraud ketahuan.", { x: 8.7, y: 2.82, w: 3.8, h: 0.6, fontFace: UI, fontSize: 12, italic: true, color: "9DB2CC", margin: 0, lineSpacingMultiple: 1.4 });
+s.addText("Coba Namanya Ini", { x: 8.7, y: 2.3, w: 3.8, h: 0.45, fontFace: DISP, fontSize: 22, bold: true, color: "FFFFFF", margin: 0 });
+s.addText("Namanya konyol, kerjaannya serius.", { x: 8.7, y: 2.82, w: 3.8, h: 0.6, fontFace: UI, fontSize: 12, italic: true, color: "9DB2CC", margin: 0, lineSpacingMultiple: 1.4 });
 s.addShape(p.shapes.LINE, { x: 8.7, y: 3.62, w: 3.75, h: 0, line: { color: "24406B", width: 1 } });
 s.addText("Decka Fadhila Tirta", { x: 8.7, y: 3.8, w: 3.8, h: 0.32, fontFace: DISP, fontSize: 15, bold: true, color: "FFFFFF", margin: 0 });
 s.addText("Lead Engineer & Product\nS.Si. Fisika, Universitas Negeri Yogyakarta", { x: 8.7, y: 4.14, w: 3.8, h: 0.55, fontFace: UI, fontSize: 11.5, color: "AAB9CB", margin: 0, lineSpacingMultiple: 1.38 });
@@ -399,7 +399,7 @@ s.addText([
   { text: "Cockpit, Portal Faskes, dan panduan integrasi dapat dicoba langsung pada sesi presentasi.", options: { color: "AAB9CB", fontSize: 11.5 } },
 ], { x: M, y: 5.35, w: 6.5, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
 s.addText([
-  { text: "Tim KePo · Decka Fadhila Tirta\n", options: { bold: true, color: "FFFFFF", fontSize: 13 } },
+  { text: "Coba Namanya Ini · Decka Fadhila Tirta\n", options: { bold: true, color: "FFFFFF", fontSize: 13 } },
   { text: "deckafadhila@gmail.com · decka.xyz", options: { color: "9DB2CC", fontSize: 11.5 } },
 ], { x: 7.6, y: 5.35, w: 5.2, h: 0.85, fontFace: UI, margin: 0, lineSpacingMultiple: 1.4 });
 s.addText("Healthkathon BPJS Kesehatan 2026", { x: M, y: 6.85, w: 8, h: 0.3, fontFace: UI, fontSize: 10.5, color: "64809F", margin: 0 });
